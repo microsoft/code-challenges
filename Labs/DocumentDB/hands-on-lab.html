@@ -1,0 +1,241 @@
+<h1 id="azure-documentdb-lab">Azure DocumentDB Lab</h1>
+<h2 id="overview">Overview</h2>
+<p>Azure DocumentDB is a NoSQL, JSON document database built for big data solutions that require scaling and high availability.</p>
+<p>This hands-on lab will step you through the following features:</p>
+<ol>
+<li><strong>Querying</strong> - Connect to a DocumentDB database and execute a simple query</li>
+<li><strong>Filtering</strong> - Execute ad-hoc queries on schemaless JSON data.</li>
+</ol>
+<h3 id="about-the-code">About the code</h3>
+<p>This lab uses a simple ASP.NET MVC website as a test application. This application allows you to
+write arbitrary query commands and execute them against our test databases. Any result set will be
+rendered automatically into the JSON response panel. There are arrows to navigate left and right through the results. </p>
+<p>To begin, open the <code>Azure DocumentDB Lab.sln</code> solution in Visual Studio 2015 and press <code>F5</code> to 
+compile and launch the web app on the local machine.</p>
+<blockquote>
+<p><strong>Note:</strong> The DocumentDB that we will be querying was created via the Azure Portal.
+For more information on the Azure Portal refer to the <strong>Appendix</strong> at the end of this lab.</p>
+</blockquote>
+<hr>
+<h2 id="scenario-1">Scenario 1</h2>
+<p>In this scenario. We will change the MVC application to send a query to the DocumentDB server.</p>
+<h3 id="part-one">Part One</h3>
+<p>To begin, open the <code>Azure DocumentDB Lab.sln</code> solution in Visual Studio 2015 and press <code>F5</code> to 
+compile and launch the web app on the local machine.</p>
+<p>You should be presented with an application that looks like this:</p>
+<p><img src="images/home_page.png" alt=""></p>
+<p>This page is designed to take the query that the user writes and pass it to a DocumentDB server that
+we have set up for the purposes of this demo. </p>
+<p>Type this query into the query editor:</p>
+<pre><code class="lang-SQL">SELECT *
+FROM c
+</code></pre>
+<p>...and click on <strong>Run It!</strong></p>
+<p><img src="images/no_results.png" alt=""></p>
+<p>Currently there are no results - we need to finish implementing the DocumentDB call first.</p>
+<h3 id="part-two">Part Two</h3>
+<p>In the visual studio solution navigate to the <code>HomeController</code> class in the <code>LabWeb</code> project.</p>
+<p><img src="images/home_controller.png" alt=""></p>
+<p>Find the <code>Query</code> action method. There is a line of code that looks like this:</p>
+<pre><code class="lang-csharp">IDocumentQuery&lt;dynamic&gt; docQuery = null;
+</code></pre>
+<p>We will modify it to create and send a DocumentDB query. </p>
+<p>The query text from the page is passed into the action via the <code>query</code> variable. Change it to the following:</p>
+<pre><code class="lang-csharp">var collectionUri = UriFactory.CreateDocumentCollectionUri(ConfigurationManager.AppSettings[&quot;DocumentDBName&quot;], ConfigurationManager.AppSettings[&quot;DocumentDBCollectionName&quot;]);
+IDocumentQuery&lt;dynamic&gt; docQuery = ReadOnlyClient.CreateDocumentQuery(
+    collectionUri,
+    query,
+    new FeedOptions
+    {
+        MaxItemCount = 10,
+        EnableScanInQuery = true
+    }
+).AsDocumentQuery();
+</code></pre>
+<p>Notice in the FeedOptions, we are setting <code>MaxItemCount = 10</code>. This means we will get up to 10 results per execution of the query. The DocumentDB API has 
+support for paging built in (We will see an example of this shortly).</p>
+<p>Let&#39;s quickly inspect the rest of the Query Action:</p>
+<pre><code class="lang-csharp">var results = await docQuery.ExecuteNextAsync();
+</code></pre>
+<p>This part is what actually uses the Azure DocumentDB SDK to call DocumentDB and retrieve the results for
+our query. Notice this will only return up to <code>MaxItemCount</code> results as above (In our case 10 items). 
+This can also be set to -1 for dynamic sizing of the resulting set to the maximum response size.</p>
+<p>If we wanted to get the next set of results we would have to call <code>docQuery.ExecuteNextAsync()</code> again.</p>
+<p>In the interests of this demo, we are only retrieving the first ten results. However if this was a real-world application
+where we need ALL of the results for a query. We would set the MaxItemCount to -1 and do something like the following:</p>
+<pre><code class="lang-csharp">while (docQuery.HasMoreResults)
+{
+    //Can use strongly typed objects by using &lt;T&gt; on docQuery.ExecuteNextAsync&lt;T&gt;()
+    var results = await docQuery.ExecuteNextAsync();
+
+    //dynamic can also be T
+    foreach (dynamic result in results)
+    {
+        //Do something with results
+    }
+}
+</code></pre>
+<p><strong>Note:</strong> We are deserializing the JSON string and serializing it back again so that we can format the JSON into human readable string.</p>
+<p>Press <code>F5</code> to compile and launch the web app on the local machine.</p>
+<p>Type this query into the query box:</p>
+<pre><code class="lang-SQL">SELECT *
+FROM c
+</code></pre>
+<p>...and click on <strong>Run It!</strong></p>
+<p><img src="images/50_results.png" alt=""></p>
+<p>Progress! We have successfully returned results from DocumentDB.</p>
+<h2 id="scenario-2">Scenario 2</h2>
+<p>From now on, we will be working directly in the web browser.</p>
+<p>In this scenario we will introduce the SQL-like syntax of DocumentDB and show how we can use it to manipulate our results.</p>
+<p>The dataset we are querying was extracted from the performance counters on various computers running windows 10.</p>
+<p>The performance counters are:</p>
+<ul>
+<li>LogicalDisk</li>
+<li>PhysicalDisk</li>
+<li>HTTP Service</li>
+<li>ASP.NET v4.0.30319</li>
+<li>Power Meter</li>
+<li>Processor</li>
+<li>Energy Meter</li>
+</ul>
+<h3 id="part-one">Part One</h3>
+<p>In the query, the <code>FROM</code> name is simply an alias to the entire collection for the user to refer to in the query. It is not actually a table like in traditional SQL.</p>
+<p>For example:</p>
+<pre><code class="lang-SQL">SELECT *
+FROM collection
+</code></pre>
+<p>...is exactly the same as:</p>
+<pre><code class="lang-SQL">SELECT *
+FROM logs
+</code></pre>
+<p>Give it a try!</p>
+<p><img src="images/select_from_collection.png" alt=""></p>
+<p><img src="images/select_from_logs.png" alt=""></p>
+<p>When refering to fields you must use the alias you define in the <code>FROM</code> clause.</p>
+<p>Execute this query:</p>
+<pre><code class="lang-SQL">SELECT id
+FROM logs
+</code></pre>
+<p><img src="images/id_error.png" alt=""></p>
+<p>As you can see this resulted in an error.</p>
+<p>To fix this error we have to provide the full &quot;path&quot; to the properties of the objects within the database.</p>
+<p>Execute this query instead:</p>
+<pre><code class="lang-SQL">SELECT logs.id
+FROM logs
+</code></pre>
+<p><img src="images/id_results.png" alt=""></p>
+<h3 id="part-two">Part Two</h3>
+<p>Now that we know how to select a certain field, we can filter on them.</p>
+<p>Write a query to select a specific record by its ID:</p>
+<pre><code class="lang-SQL">SELECT *
+FROM logs
+WHERE logs.id = &quot;ef811f1d-d271-4e1f-baf7-4d5ac0b6c840&quot;
+</code></pre>
+<p><img src="images/id_filter.png" alt=""></p>
+<h3 id="part-three">Part Three</h3>
+<p>Let&#39;s use a real-world scenario and filter the results to logs for a certain machine.</p>
+<p>Execute this query:</p>
+<pre><code class="lang-SQL">SELECT *
+FROM logs
+WHERE logs.machineName = &quot;WKS-1604&quot;
+</code></pre>
+<p><img src="images/filter1.png" alt=""></p>
+<p>The results are limited to logs from the machine <code>WKS-1604</code>.</p>
+<h2 id="scenario-3">Scenario 3</h2>
+<p>In this scenario we are going to see how we can use joins to inspect child objects / arrays.</p>
+<h3 id="part-one">Part One</h3>
+<p>We have been using DocumentDB to inspect all the logs of a certain machine.
+What if we only wanted to see logs of a certain type. We can use the <code>JOIN</code> keyword to join to our logs array. We can also give it an alias and inspect its properties.</p>
+<p>Let&#39;s see the <code>JOIN</code> in action. Try this query:</p>
+<pre><code class="lang-SQL">SELECT perfLog
+FROM machinelogs
+JOIN perfLog IN machinelogs.logs
+</code></pre>
+<p>Inspect the results and you will see for each log object in the array of each document has been returned as a seperate result set:</p>
+<p><img src="images/join.png" alt=""></p>
+<p><img src="images/join2.png" alt=""></p>
+<p>Now that we know how to join to our child array we can use it for filtering. Lets find all &quot;Power Meter&quot; logs:</p>
+<pre><code class="lang-SQL">SELECT perfLog
+FROM machinelogs
+JOIN perfLog IN machinelogs.logs
+WHERE perfLog.counterType = &quot;Power Meter&quot;
+</code></pre>
+<p><img src="images/filter2.png" alt=""></p>
+<p>Because we are refering to objects / documents, we can filter our result set by seeing if a property exists on the object.</p>
+<p>For example:</p>
+<pre><code class="lang-SQL">SELECT perfLog
+FROM machinelogs
+JOIN perfLog IN machinelogs.logs
+WHERE perfLog.Power != null
+</code></pre>
+<p><img src="images/filter3.png" alt=""></p>
+<p>Imagine that we want to see both LogicalDisk and PhysicalDisk results. There two ways we can achieve this.</p>
+<p>Using an <code>OR</code> predicate:</p>
+<pre><code class="lang-SQL">SELECT perfLog
+FROM machinelogs
+JOIN perfLog IN machinelogs.logs
+WHERE (perfLog.counterType = &quot;LogicalDisk&quot; OR perfLog.counterType = &quot;PhysicalDisk&quot;)
+</code></pre>
+<p>...or using an <code>IN</code> predicate: </p>
+<pre><code class="lang-SQL">SELECT perfLog
+FROM machinelogs
+JOIN perfLog IN machinelogs.logs
+WHERE perfLog.counterType IN (&quot;LogicalDisk&quot;, &quot;PhysicalDisk&quot;)
+</code></pre>
+<p><img src="images/filter4.png" alt=""></p>
+<p><img src="images/filter5.png" alt=""></p>
+<p>We can filter these results by the &quot;% Disk Time&quot; property.Because this property name contains white space, we must use special index to address it:</p>
+<pre><code class="lang-SQL">WHERE perfLog[&quot;% Disk Time&quot;] ...
+</code></pre>
+<p>This syntax will be familiar to users of JavaScript, or C# dictionary accessor syntax.</p>
+<p>We can use the <code>BETWEEN</code> keyword to filter by a range of values.</p>
+<p>Try this query:</p>
+<pre><code class="lang-SQL">SELECT perfLog
+FROM machinelogs
+JOIN perfLog IN machinelogs.logs
+WHERE perfLog[&quot;% Disk Time&quot;] BETWEEN 42247790840000 AND 42247790860000
+</code></pre>
+<p><img src="images/between_filter.png" alt=""></p>
+<p>We have used the <code>MaxItemCount</code> in the code to limit our results to 10 items. We can also restrict the amount 
+of results returned by using a <code>TOP</code> clause in our query. </p>
+<p>Lets adjust our query to find the top result. Give this a try:</p>
+<pre><code class="lang-SQL">SELECT TOP 1 perfLog
+FROM machinelogs
+JOIN perfLog IN machinelogs.logs
+WHERE perfLog[&quot;% Disk Time&quot;] BETWEEN 42247790840000 AND 42247790860000
+</code></pre>
+<p><img src="images/top_1.png" alt=""></p>
+<h2 id="part-two">Part Two</h2>
+<p>We can use a feature called <strong>Projection</strong> to create an entirely new result set. We could use this to create a common structure or to make it match a structure we already have.</p>
+<p>Try this query:</p>
+<pre><code class="lang-SQL">SELECT {
+    &quot;FreeSpacePercent&quot;: perfLog[&quot;% Free Space&quot;],
+    &quot;FreeMegabytes&quot;: perfLog[&quot;Free Megabytes&quot;],
+    &quot;CurrentDiskQueueLength&quot;: perfLog[&quot;Current Disk Queue Length&quot;],
+    &quot;Power&quot; : perfLog[&quot;Power&quot;],
+    &quot;PowerBudget&quot; : perfLog[&quot;Power Budget&quot;]
+} AS SummaryLogs
+FROM machinelogs
+JOIN perfLog IN machinelogs.logs
+</code></pre>
+<p><img src="images/projection.png" alt=""></p>
+<p>This query allowed us to combine all logs into one well-known structure which could be useful, for example, when binding to a strongly typed dataset.</p>
+<h3 id="further-reading">Further Reading</h3>
+<p><a href="http://aka.ms/docdbstart">Get Started with DocumentDB - http://aka.ms/docdbstart</a></p>
+<p><a href="http://aka.ms/docdbdocs">Documentation and Videos - http://aka.ms/docdbdocs</a></p>
+<p><a href="http://aka.ms/docdbpricing">How does pricing work? - http://aka.ms/docdbpricing</a></p>
+<p><a href="http://aka.ms/docdbforum">Get help on the forums - http://aka.ms/docdbforum</a></p>
+<p><a href="https://azure.microsoft.com/en-us/documentation/articles/documentdb-sql-query">DocumentDB SQL Query Syntax</a></p>
+<p><a href="https://www.documentdb.com/sql/demo">DocumentDB Query Playground</a></p>
+<h2 id="appendix">Appendix</h2>
+<p>The Azure Portal was used to create the DocumentDB server. The Azure Portal can be found at <a href="https://portal.azure.com/">https://portal.azure.com/</a>.</p>
+<p>Some features that you can use in Azure Portal with DocumentDB include:</p>
+<h4 id="document-explorer">Document Explorer</h4>
+<p>View the JSON  documents inside your collections.</p>
+<p><img src="images/DocumentExplorer.png" alt=""></p>
+<h4 id="query-explorer">Query Explorer</h4>
+<p>Test your queries and view the results.</p>
+<p><img src="images/QueryExplorer.png" alt=""></p>
+<h4 id="script-explorer">Script Explorer</h4>
+<p>View, add and modify stored procedures, user functions and triggers.</p>
+<p><img src="images/ScriptExplorer.png" alt=""></p>

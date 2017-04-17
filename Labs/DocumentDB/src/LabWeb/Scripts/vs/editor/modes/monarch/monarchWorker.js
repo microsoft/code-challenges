@@ -1,0 +1,4 @@
+/*---------------------------------------------------------
+ * Copyright (C) Microsoft Corporation. All rights reserved.
+ *--------------------------------------------------------*/
+"use strict";var __extends=this.__extends||function(e,t){function n(){this.constructor=e}for(var i in t)t.hasOwnProperty(i)&&(e[i]=t[i]);n.prototype=t.prototype,e.prototype=new n};define("vs/editor/modes/monarch/monarchWorker",["require","exports","vs/editor/worker/modesWorker"],function(e,t,n){var i=function(e){function t(){e.apply(this,arguments)}return __extends(t,e),t}(n.AbstractWorkerMode);t.MonarchNullWorker=i});
