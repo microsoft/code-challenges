@@ -87,8 +87,9 @@ namespace JobSearch.ViewModels
             try
             {
                 var results = await _searchService.ExecuteSearch(SearchQuery, SearchFacets.ToList());
-                await UpdateSearchResults(results);
-                UpdateFacets(results, true);
+                var synonymMap = await GetSynonymMap(SearchQuery);
+                await UpdateSearchResults(results.JobResults, synonymMap);
+                UpdateFacets(results.Facets, true);
             }
             finally
             {
@@ -102,8 +103,9 @@ namespace JobSearch.ViewModels
             try
             {
                 var results = await _searchService.ExecuteSearch(SearchQuery, SearchFacets.ToList(), new PositionDistanceSearch() { GeoPoint = _searchLocationIcon.GeoPoint, Radius = KilometersSelected });
-                await UpdateSearchResults(results);
-                UpdateFacets(results, true);
+                var synonymMap = await GetSynonymMap(SearchQuery);
+                await UpdateSearchResults(results.JobResults, synonymMap);
+                UpdateFacets(results.Facets, true);
             }
             finally
             {
@@ -124,8 +126,9 @@ namespace JobSearch.ViewModels
             try
             {
                 var results = await _searchService.ExecuteSearch(SearchQuery, null);
-                await UpdateSearchResults(results);
-                UpdateFacets(results);
+                var synonymMap = await GetSynonymMap(SearchQuery);
+                await UpdateSearchResults(results.JobResults, synonymMap);
+                UpdateFacets(results.Facets);
             }
             finally
             {
@@ -133,14 +136,38 @@ namespace JobSearch.ViewModels
             }
         }
 
-        private async Task UpdateSearchResults(DocumentSearchResult<JobResult> results)
+        private List<string> SynonymMap { get; set; }
+        private async Task<List<string>> GetSynonymMap(string queryString)
         {
-            if (results.Results != null)
+            try
+            {
+                if (SynonymMap == null)
+                {
+                    var synonymMap = await _searchService.GetSynonymMap();
+                    SynonymMap = synonymMap;
+                }
+
+                if (SynonymMap.Any(x => x.Equals(queryString, StringComparison.OrdinalIgnoreCase)))
+                {
+                    return SynonymMap;
+                }
+            }
+            catch (Exception Ex)
+            {
+            }
+            return new List<string>();
+        }
+
+        private async Task UpdateSearchResults(IList<JobResult> results, List<string> synonymMap)
+        {
+            if (results != null)
             {
                 SearchResults.Clear();
-                foreach (var result in results.Results)
+                foreach (var result in results)
                 {
-                    SearchResults.Add(result.Document);
+                    var doc = result;
+                    doc.HighlighWords = synonymMap.ToArray();
+                    SearchResults.Add(doc);
                 }
                 _map.Children.Clear();
                 var locations = new List<Geopoint>();
@@ -156,9 +183,9 @@ namespace JobSearch.ViewModels
             }
         }
 
-        private void UpdateFacets(DocumentSearchResult<JobResult> results, bool bindExistingFacets = false)
+        private void UpdateFacets(FacetResults facets, bool bindExistingFacets = false)
         {
-            if (results.Facets != null)
+            if (facets != null)
             {
                 var existingSelectedFacets =
                     SearchFacets.Select(e => new FacetGroup()
@@ -168,7 +195,7 @@ namespace JobSearch.ViewModels
                     }).ToList();
 
                 SearchFacets.Clear();
-                foreach (var result in results.Facets)
+                foreach (var result in facets)
                 {
                     SearchFacets.Add(new FacetGroup()
                     {
