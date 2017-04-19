@@ -131,7 +131,7 @@ namespace LabWeb.Controllers
                         }
                         else
                         {
-                            newModel.Error = e.Message.Substring(0, e.Message.IndexOf(Environment.NewLine));
+                            newModel.Error = e.Message.Substring(0, e.Message.IndexOf(Environment.NewLine, StringComparison.OrdinalIgnoreCase));
                         }
                     }
                 } while (numRetries < 1);

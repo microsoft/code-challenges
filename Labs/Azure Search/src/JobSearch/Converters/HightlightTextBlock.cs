@@ -15,6 +15,12 @@ namespace JobSearch.Converters
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             var descObj = value as HighlightControl;
+            int fontSize;
+            if (!int.TryParse(parameter as string, out fontSize))
+            {
+                // set Default
+                fontSize = 10;
+            }
             if (descObj != null)
             {
                 string input = descObj.Value;
@@ -26,7 +32,7 @@ namespace JobSearch.Converters
                     var textBlock = new TextBlock()
                     {
                         TextWrapping = TextWrapping.Wrap,
-                        FontSize = 10
+                        FontSize = fontSize
                     };
                     if (highlights != null && highlights.Length > 0)
                     {
