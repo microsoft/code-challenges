@@ -53,7 +53,7 @@ namespace JobSearch.Views
 
         private void SearchBox_OnSuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
-            sender.Text = $"\"{args.SelectedItem}\"";
+            sender.Text = $"{args.SelectedItem}";
             Searcher.ExecuteSearch();
         }
 

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Azure.Search.Models;
 using Microsoft.Spatial;
 using Newtonsoft.Json;
@@ -63,5 +59,52 @@ namespace JobSearch.SearchModels
         public DateTime? ProcessDate { get; set; }
         [JsonProperty("geo_location")]
         public GeographyPoint GeoLocation { get; set; }
+
+        [JsonIgnore]
+        public string[] HighlighWords { get; set; }
+        [JsonIgnore]
+        public HighlightControl BusinessTitleDisplay
+        {
+            get
+            {
+                return new HighlightControl(BusinessTitle, HighlighWords);
+            }
+        }
+        [JsonIgnore]
+        public HighlightControl AgencyDisplay
+        {
+            get
+            {
+                return new HighlightControl(Agency, HighlighWords);
+            }
+        }
+        [JsonIgnore]
+        public HighlightControl DivisionWorkUnitDisplay
+        {
+            get
+            {
+                return new HighlightControl(DivisionWorkUnit, HighlighWords);
+            }
+        }
+        [JsonIgnore]
+        public HighlightControl JobDescriptionDisplay
+        {
+            get
+            {
+                return new HighlightControl(JobDescription, HighlighWords);
+            }
+        }
+    }
+
+    public class HighlightControl
+    {
+        public string[] HighlightWords { get; set; }
+        public string Value { get; set; }
+
+        public HighlightControl(string value, string[] highlighWords)
+        {
+            HighlightWords = highlighWords;
+            Value = value;
+        }
     }
 }

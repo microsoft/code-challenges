@@ -80,6 +80,7 @@
     <Compile Include="Controls\LocationSearchIcon.xaml.cs">
       <DependentUpon>LocationSearchIcon.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\HightlightTextBlock.cs" />
     <Compile Include="Extensions\GeopointExtensions.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -87,6 +88,7 @@
     <Compile Include="SearchModels\FacetSelection.cs" />
     <Compile Include="SearchModels\JobResult.cs" />
     <Compile Include="SearchModels\PositionDistanceSearch.cs" />
+    <Compile Include="SearchModels\SearchResponse.cs" />
     <Compile Include="Services\JobSearchService.cs" />
     <Compile Include="ViewModels\SearchViewModel.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
