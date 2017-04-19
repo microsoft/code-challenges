@@ -56,11 +56,8 @@ namespace JobSearch.Services
                     UseFuzzyMatching = true,
                     Top = 8
                 };
-                //var results = await indexClient.Documents.SuggestAsync(query, "sg", sp);
-                //return results.Results.Select(e => e.Text).Distinct().ToList();
 
                 var results = await SuggestAutocomplete(query, "sg", ap);
-                // Extract the query plus autocomplete from the result set
                 return results.Results.Select(e => e.QueryPlusText).Distinct().ToList();
             }
 

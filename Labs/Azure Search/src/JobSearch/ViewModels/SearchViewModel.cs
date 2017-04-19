@@ -130,6 +130,12 @@ namespace JobSearch.ViewModels
                 await UpdateSearchResults(results.JobResults, synonymMap);
                 UpdateFacets(results.Facets);
             }
+            catch
+            {
+                //Ignore
+                await UpdateSearchResults(null, null);
+                UpdateFacets(null, false);
+            }
             finally
             {
                 IsBusy = false;
@@ -160,16 +166,17 @@ namespace JobSearch.ViewModels
 
         private async Task UpdateSearchResults(IList<JobResult> results, List<string> synonymMap)
         {
+            SearchResults.Clear();
+            _map.Children.Clear();
+
             if (results != null)
             {
-                SearchResults.Clear();
                 foreach (var result in results)
                 {
                     var doc = result;
                     doc.HighlighWords = synonymMap.ToArray();
                     SearchResults.Add(doc);
                 }
-                _map.Children.Clear();
                 var locations = new List<Geopoint>();
 
                 foreach (var result in SearchResults)
@@ -185,16 +192,17 @@ namespace JobSearch.ViewModels
 
         private void UpdateFacets(FacetResults facets, bool bindExistingFacets = false)
         {
-            if (facets != null)
-            {
-                var existingSelectedFacets =
+            var existingSelectedFacets =
                     SearchFacets.Select(e => new FacetGroup()
                     {
                         FacetName = e.FacetName,
                         FacetValues = e.FacetValues.Where(f => f.IsSelected.HasValue && f.IsSelected.Value).ToList()
                     }).ToList();
 
-                SearchFacets.Clear();
+            SearchFacets.Clear();
+
+            if (facets != null)
+            {
                 foreach (var result in facets)
                 {
                     SearchFacets.Add(new FacetGroup()
