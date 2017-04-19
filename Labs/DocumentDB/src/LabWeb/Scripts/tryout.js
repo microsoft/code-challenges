@@ -177,10 +177,12 @@ $(".btn-run").on("click", function () {
         setErrorPaneWithAnimation(JSON.stringify({ "errors": [{ "severity": "Error", "location": { "start": 0, "end": 0 }, "code": "SC1002", "message": "Syntax error, unexpected end-of-file." }] }, null, 2));
     } else {
         showLoading();
+        var locationName = $('#region-select').find(":selected").text();
         $.ajax({
             url: "/sql/demo/Home/Query",
             data: {
-                query: query
+                query: query,
+                locationName: locationName
             },
             dataType: "json"
         }).done(function (msg, textStatus, jqXhr) {
@@ -188,6 +190,8 @@ $(".btn-run").on("click", function () {
             if (msg.Error === null) {
                 error = null;
                 $("#results-pane .monaco-editor").removeClass("error-pane");
+                $("#region-query-repsonse-time").text(msg.ResponseTime);
+                $("#region-query-repsonse-block").show();
                 if (msg.Documents.length > 0) {
                     $(".left-arrow").removeClass("disabled-arrow");
                     $(".right-arrow").removeClass("disabled-arrow");

@@ -28,5 +28,8 @@ namespace LabWeb.Models
         [Display(Name = "StatusCode")]
         public int StatusCode { get; set; }
 
+        [Display(Name = "ResponseTime")]
+        public long ResponseTime { get; set; }
+
     }
 }

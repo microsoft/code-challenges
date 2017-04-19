@@ -550,6 +550,18 @@ a.usda-dataset, a.link-community {
             color: #606060 !important;
         }
 
+.btn {
+    background-color: #89c402;
+    border: 1px solid #89c402;
+    border-radius: 0;
+    color: #fff;
+    padding: 2px 15px;
+    height: 38px;
+    margin-top: 0;
+    font-size: 18px;
+    font-family: "Segoe UI Light","Segoe UI",Tahoma,Arial,sans-serif;
+    line-height: 33px;
+}
 .btn-run, .btn-comments, .btn-share {
     width: 40%;
 }
@@ -693,4 +705,12 @@ img.img-select-all {
 .geospatial-inactive {
     color: #48a0b8;
     cursor: pointer;
+}
+.region-select {
+    border-radius: 0;
+    height: 38px;
+}
+.region-select-label {
+    padding: 8px 10px;
+    font-family: "Segoe UI Light","Segoe UI",Tahoma,Arial,sans-serif;
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using LabWeb.Models;
@@ -14,34 +14,64 @@ namespace LabWeb.Controllers
 {
     public class HomeController : Controller
     {
-        private object obj = new object();
-        private Dictionary<string, DocumentClient> _readonlyClients;
-
-        public ActionResult Index()
+        private static readonly string[] _availableRegions = { LocationNames.WestUS, LocationNames.CentralUS, LocationNames.NorthEurope, LocationNames.SoutheastAsia };
+        
+        private static Dictionary<string, DocumentClient> _readonlyClients;
+        
+        public async Task<ActionResult> Index()
         {
-            return View();
+            // this is initializing the client connections.
+            await GetReadOnlyClient();
+            return View(new HomeViewModel(_availableRegions));
         }
 
-        public DocumentClient GetReadOnlyClient(string locationName)
+        private async Task<DocumentClient> GetReadOnlyClient(string locationName = null)
         {
             if (_readonlyClients == null)
             {
-                lock (obj)
+                var dbEndpoint = new Uri(ConfigurationManager.AppSettings["DocumentDBEndpoint"]);
+                var dbKey = ConfigurationManager.AppSettings["DocumentDBPrimaryReadonlyKey"];
+
+                var clients = new Dictionary<string, DocumentClient>();
+                var tasks = new List<Task>();
+                foreach (var region in _availableRegions)
                 {
-                    _readonlyClients = new[]
+                    var policy = new ConnectionPolicy()
                     {
-                            LocationNames.WestUS,
-                            LocationNames.CentralUS,
-                            LocationNames.NorthEurope,
-                            LocationNames.SoutheastAsia
-                    }.ToDictionary(location => location,
-                                location => new DocumentClient(new Uri(ConfigurationManager.AppSettings["DocumentDBEndpoint"]),
-                                                                ConfigurationManager.AppSettings["DocumentDBPrimaryReadonlyKey"],
-                                                                new ConnectionPolicy() { PreferredLocations = { location } }));
+                        ConnectionMode = ConnectionMode.Direct,
+                        ConnectionProtocol = Protocol.Tcp,
+                        PreferredLocations = { region }
+                    };
+                    var client = new DocumentClient(dbEndpoint, dbKey, policy);
+                    tasks.Add(Task.Run(async () =>
+                    {
+                         await client.OpenAsync();
+                         await WarmupConnection(client);
+                     }));
+                    
+                    clients.Add(region, client);
                 }
+                _readonlyClients = clients;
+                await Task.WhenAll(tasks);
             }
 
+            if (locationName == null)
+            {
+                return null;
+            }
             return _readonlyClients[locationName];
+        }
+
+        private const string WarmupQueryOne = "SELECT * FROM c";
+        private const string WarmupQueryTwo = "SELECT COUNT(1) FROM c";
+        private static readonly FeedOptions _feedOptions = new FeedOptions { MaxItemCount = 10, EnableScanInQuery = true };
+        private async Task WarmupConnection(IDocumentClient client)
+        {
+            var collectionUri = UriFactory.CreateDocumentCollectionUri(ConfigurationManager.AppSettings["DocumentDBName"], ConfigurationManager.AppSettings["DocumentDBCollectionName"]);
+            var query = client.CreateDocumentQuery(collectionUri, WarmupQueryOne, _feedOptions).AsDocumentQuery();
+            await query.ExecuteNextAsync();
+            query = client.CreateDocumentQuery(collectionUri, WarmupQueryTwo, _feedOptions).AsDocumentQuery();
+            await query.ExecuteNextAsync();
         }
 
         public async Task<ActionResult> Query(string query, string locationName)
@@ -53,15 +83,8 @@ namespace LabWeb.Controllers
             };
             int numRetries = 0;
             var collectionUri = UriFactory.CreateDocumentCollectionUri(ConfigurationManager.AppSettings["DocumentDBName"], ConfigurationManager.AppSettings["DocumentDBCollectionName"]);
-            IDocumentQuery<dynamic> docQuery = GetReadOnlyClient(LocationNames.SoutheastAsia).CreateDocumentQuery(
-                collectionUri,
-                query,
-                new FeedOptions
-                {
-                    MaxItemCount = 10,
-                    EnableScanInQuery = true
-                }
-            ).AsDocumentQuery();
+            var client = await GetReadOnlyClient(locationName);
+            IDocumentQuery<dynamic> docQuery = client.CreateDocumentQuery(collectionUri, query, _feedOptions).AsDocumentQuery();
 
             if (docQuery != null)
             {
@@ -69,7 +92,10 @@ namespace LabWeb.Controllers
                 {
                     try
                     {
+                        var sw = Stopwatch.StartNew();
                         var results = await docQuery.ExecuteNextAsync();
+                        sw.Stop();
+                        newModel.ResponseTime = sw.ElapsedMilliseconds;
 
                         foreach (dynamic result in results)
                         {
