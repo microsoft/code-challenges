@@ -215,7 +215,7 @@ $(".btn-run").on("click", function () {
                 // Hide display, show error
                 docs = null;
                 $(".result-pager").addClass("hidden");
-                error = JSON.stringify(JSON.parse(('{' + msg.Error.substring(0, msg.Error.lastIndexOf('}') + 1) + '}').replace('Message', '"Message"')), null, 2);
+                error = (JSON.stringify(JSON.parse(msg.Error), null, 2));
                 setErrorPaneWithAnimation(error);
             }
         }).fail(function (msg) {
