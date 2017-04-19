@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -14,30 +15,27 @@ namespace LabWeb.Controllers
 {
     public class HomeController : Controller
     {
+        private static readonly string[] _availableRegions = { LocationNames.WestUS, LocationNames.CentralUS, LocationNames.NorthEurope, LocationNames.SoutheastAsia };
+
         private object obj = new object();
         private Dictionary<string, DocumentClient> _readonlyClients;
 
         public ActionResult Index()
         {
-            return View();
+            return View(new HomeViewModel(_availableRegions));
         }
-
+        
         public DocumentClient GetReadOnlyClient(string locationName)
         {
             if (_readonlyClients == null)
             {
                 lock (obj)
                 {
-                    _readonlyClients = new[]
-                    {
-                            LocationNames.WestUS,
-                            LocationNames.CentralUS,
-                            LocationNames.NorthEurope,
-                            LocationNames.SoutheastAsia
-                    }.ToDictionary(location => location,
-                                location => new DocumentClient(new Uri(ConfigurationManager.AppSettings["DocumentDBEndpoint"]),
-                                                                ConfigurationManager.AppSettings["DocumentDBPrimaryReadonlyKey"],
-                                                                new ConnectionPolicy() { PreferredLocations = { location } }));
+                    var dbEndpoint = new Uri(ConfigurationManager.AppSettings["DocumentDBEndpoint"]);
+                    var dbKey = ConfigurationManager.AppSettings["DocumentDBPrimaryReadonlyKey"];
+
+                    _readonlyClients = _availableRegions.ToDictionary(location => location,
+                                location => new DocumentClient(dbEndpoint, dbKey, new ConnectionPolicy() { ConnectionMode = ConnectionMode.Direct, PreferredLocations = { location } }));
                 }
             }
 
@@ -69,7 +67,10 @@ namespace LabWeb.Controllers
                 {
                     try
                     {
+                        var sw = Stopwatch.StartNew();
                         var results = await docQuery.ExecuteNextAsync();
+                        sw.Stop();
+                        newModel.ResponseTime = sw.ElapsedMilliseconds;
 
                         foreach (dynamic result in results)
                         {

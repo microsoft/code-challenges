@@ -1,4 +1,5 @@
-﻿@{
+﻿@model LabWeb.Models.HomeViewModel
+@{
     ViewBag.Title = "DocumentDB Lab";
 }
 
@@ -35,11 +36,21 @@
             </div>
             <div class="clearfix"></div>
             <div class="left-pane">
-                <input class="">Run it!</input>
                 <div class="btn btn-run">Run it!</div>
                 <div class="btn btn-reset" title="Reset to default query">
                     <span class="glyphicon glyphicon-repeat"></span>
                 </div>
+            </div>
+            <div class="right-pane">
+                <select class="form-control pull-right region-select" id="region-select">
+                    @foreach (var region in Model.AvailableRegions)
+                    {
+                        <option>@region</option>
+                    }
+                </select>
+                <label for="region-select" class="pull-right region-select-label">Query region: </label>
+                <div class="clearfix"></div>
+                <div id="region-query-repsonse-block" class="pull-right italic-p" style="display: none">response time: <span id="region-query-repsonse-time">100</span> ms</div>
             </div>
         </div>
     </div>
