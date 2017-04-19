@@ -171,6 +171,7 @@ var docs = null;
 var error = null;
 $(".btn-run").on("click", function () {
     var query = editor.getValue();
+
     if (query === "") {
         $(".result-pager").addClass("hidden");
         setErrorPaneWithAnimation(JSON.stringify({ "errors": [{ "severity": "Error", "location": { "start": 0, "end": 0 }, "code": "SC1002", "message": "Syntax error, unexpected end-of-file." }] }, null, 2));

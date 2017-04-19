@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using LabWeb.Models;
@@ -14,32 +15,36 @@ namespace LabWeb.Controllers
     public class HomeController : Controller
     {
         private object obj = new object();
-        private DocumentClient _readonlyClient;
+        private Dictionary<string, DocumentClient> _readonlyClients;
 
         public ActionResult Index()
         {
             return View();
         }
 
-        public DocumentClient ReadOnlyClient
+        public DocumentClient GetReadOnlyClient(string locationName)
         {
-            get
+            if (_readonlyClients == null)
             {
-                if (_readonlyClient == null)
+                lock (obj)
                 {
-                    lock (obj)
+                    _readonlyClients = new[]
                     {
-                        _readonlyClient = new DocumentClient(new Uri(
-                            ConfigurationManager.AppSettings["DocumentDBEndpoint"]),
-                            ConfigurationManager.AppSettings["DocumentDBPrimaryReadonlyKey"]);
-                    }
+                            LocationNames.WestUS,
+                            LocationNames.CentralUS,
+                            LocationNames.NorthEurope,
+                            LocationNames.SoutheastAsia
+                    }.ToDictionary(location => location,
+                                location => new DocumentClient(new Uri(ConfigurationManager.AppSettings["DocumentDBEndpoint"]),
+                                                                ConfigurationManager.AppSettings["DocumentDBPrimaryReadonlyKey"],
+                                                                new ConnectionPolicy() { PreferredLocations = { location } }));
                 }
-
-                return _readonlyClient;
             }
+
+            return _readonlyClients[locationName];
         }
 
-        public async Task<ActionResult> Query(string query)
+        public async Task<ActionResult> Query(string query, string locationName)
         {
             var newModel = new QueryModel
             {
@@ -47,7 +52,16 @@ namespace LabWeb.Controllers
                 Query = query
             };
             int numRetries = 0;
-            IDocumentQuery<dynamic> docQuery = null;
+            var collectionUri = UriFactory.CreateDocumentCollectionUri(ConfigurationManager.AppSettings["DocumentDBName"], ConfigurationManager.AppSettings["DocumentDBCollectionName"]);
+            IDocumentQuery<dynamic> docQuery = GetReadOnlyClient(LocationNames.SoutheastAsia).CreateDocumentQuery(
+                collectionUri,
+                query,
+                new FeedOptions
+                {
+                    MaxItemCount = 10,
+                    EnableScanInQuery = true
+                }
+            ).AsDocumentQuery();
 
             if (docQuery != null)
             {
@@ -78,7 +92,7 @@ namespace LabWeb.Controllers
                         var exception = e.InnerException as DocumentClientException;
                         if (exception != null)
                         {
-                            if (exception.StatusCode != null && (int) exception.StatusCode == 429)
+                            if (exception.StatusCode != null && (int)exception.StatusCode == 429)
                             {
                                 numRetries--;
                             }
@@ -87,7 +101,7 @@ namespace LabWeb.Controllers
                             newModel.Error = (startIndex < 0 || endIndex < 0)
                                 ? exception.Message
                                 : exception.Message.Substring(startIndex, endIndex - startIndex);
-                            if (exception.StatusCode != null) newModel.StatusCode = (int) exception.StatusCode;
+                            if (exception.StatusCode != null) newModel.StatusCode = (int)exception.StatusCode;
                         }
                         else
                         {
