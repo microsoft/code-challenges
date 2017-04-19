@@ -50,11 +50,16 @@ namespace JobSearch.Views
                 }
             }
         }
-
+        private void SearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            if (args.ChosenSuggestion != null)
+            {
+                Searcher.ExecuteSearch();
+            }
+        }
         private void SearchBox_OnSuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
             sender.Text = $"{args.SelectedItem}";
-            Searcher.ExecuteSearch();
         }
 
         private void SearchBox_OnKeyUp(object sender, KeyRoutedEventArgs e)
@@ -62,6 +67,7 @@ namespace JobSearch.Views
             if (e.Key == VirtualKey.Enter)
             {
                 Searcher.ExecuteSearch();
+                SearchBox.IsSuggestionListOpen = false;
             }
         }
 

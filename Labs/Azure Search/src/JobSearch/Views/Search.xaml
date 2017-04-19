@@ -35,7 +35,7 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <AutoSuggestBox KeyUp="SearchBox_OnKeyUp"  x:Name="SearchBox" Grid.Column="0" Text="{x:Bind Searcher.SearchQuery, Mode=TwoWay}" TextChanged="SearchBox_OnTextChanged" SuggestionChosen="SearchBox_OnSuggestionChosen" Margin="2"/>
+                <AutoSuggestBox KeyUp="SearchBox_OnKeyUp" QuerySubmitted="SearchBox_QuerySubmitted" x:Name="SearchBox" Grid.Column="0" Text="{x:Bind Searcher.SearchQuery, Mode=TwoWay}" TextChanged="SearchBox_OnTextChanged"  SuggestionChosen="SearchBox_OnSuggestionChosen" Margin="2"/>
 
                 <Button Grid.Column="1" Name="searchButton" Content="Search" Click="{x:Bind Searcher.ExecuteSearch}" VerticalAlignment="Bottom" Margin="2"></Button>
 
