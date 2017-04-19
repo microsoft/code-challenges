@@ -57,7 +57,7 @@ namespace JobSearch.Services
                     Top = 8
                 };
 
-                var results = await SuggestAutocomplete(query, "sg", ap); ;
+                var results = await SuggestAutocomplete(query, "sg", ap);
                 return results.Results.Select(e => e.QueryPlusText).Distinct().ToList();
             }
 
