@@ -21,7 +21,6 @@ using JobSearch.SearchModels;
 using JobSearch.ViewModels;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace JobSearch.Views
 {
     /// <summary>
@@ -87,7 +86,7 @@ namespace JobSearch.Views
             Searcher.UpdateSearchRadius();
         }
 
-        private void ToggleButton_OnChecked(object sender, RoutedEventArgs e)
+        private async void ToggleButton_OnChecked(object sender, RoutedEventArgs e)
         {
             if (!_stopBinding)
             {
@@ -96,12 +95,12 @@ namespace JobSearch.Views
                 if (facet != null)
                 {
                     facet.IsSelected = true;
-                    Searcher.ExecuteFilter();
+                    await Searcher.ExecuteFilter();
                 }
             }
         }
 
-        private void ToggleButton_OnUnchecked(object sender, RoutedEventArgs e)
+        private async void ToggleButton_OnUnchecked(object sender, RoutedEventArgs e)
         {
             if (!_stopBinding)
             {
@@ -110,7 +109,7 @@ namespace JobSearch.Views
                 if (facet != null)
                 {
                     facet.IsSelected = false;
-                    Searcher.ExecuteFilter();
+                    await Searcher.ExecuteFilter();
                 }
             }
         }

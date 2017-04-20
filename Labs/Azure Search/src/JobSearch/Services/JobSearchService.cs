@@ -48,44 +48,14 @@ namespace JobSearch.Services
         }
         public async Task<List<string>> ExecuteSuggest(string query)
         {
-            using (var indexClient = GetClient())
-            {
-                // Query the Azure Search index for search suggestions
-                var ap = new AutocompleteParameters()
-                {
-                    UseFuzzyMatching = true,
-                    Top = 8
-                };
-
-                var results = await SuggestAutocomplete(query, "sg", ap);
-                return results.Results.Select(e => e.QueryPlusText).Distinct().ToList();
-            }
-
+            //TO DO - Place holder for suggest
+            return new List<string>();
         }
 
         
         public async Task<SearchResponse> ExecuteSearch(string query, List<FacetGroup> facets = null, PositionDistanceSearch geoSearch = null)
         {
-            // To remove as part of lab,
-            var searchParameters = new SearchParameters()
-            {
-                QueryType = QueryType.Full,
-                SearchMode = SearchMode.All,
-                Facets = FacetDefinitions.Select(e => e.Key).ToList(), 
-                Filter = CreateFilter(facets, geoSearch)
-            };
-            using (var indexClient = GetClient())
-            {
-                var queryResult = await indexClient.Documents.SearchAsync<JobResult>(query, searchParameters);
-                return new SearchResponse
-                {
-                    JobResults = queryResult.Results.Select(x => x.Document).ToList(),
-                    Facets = queryResult.Facets
-                };
-            }
-            // To remove as part of lab,
-
-            //return new SearchResponse();
+            return new SearchResponse();
         }
 
 
@@ -121,18 +91,7 @@ namespace JobSearch.Services
                         groupCounter++;
                     }
                 }
-                // To remove as part of lab
-                if (geoSearch != null)
-                {
-                    if (query.Length > 0)
-                    {
-                        query.Append(" and ");
-                    }
-                    var lat = geoSearch.GeoPoint.Position.Latitude;
-                    var lon = geoSearch.GeoPoint.Position.Longitude;
-                    query.Append($"geo.distance(geo_location, geography'POINT({lon} {lat})') le {geoSearch.Radius}");
-                }
-                // To remove as part of lab
+
                 return query.ToString();
             }
 
@@ -142,7 +101,7 @@ namespace JobSearch.Services
         /// <summary>
         /// As the current .NET client lib for azure search does not support autocomplete at this time we manually have to call the rest endpoint
         /// </summary>
-        private async Task<AutocompleteResults> SuggestAutocomplete(string query, string suggestorName, AutocompleteParameters ap)
+        private async Task<AutocompleteResults> SuggestAutocompleteAsync(string query, string suggestorName, AutocompleteParameters ap)
         {
             using (var client = new HttpClient())
             {
