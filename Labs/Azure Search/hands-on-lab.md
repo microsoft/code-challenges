@@ -48,7 +48,7 @@ You will notice that you did not get any results - let's fix this.
 
 Navigate to the `JobSearchService.cs` file.
 
-![](images/azure_search_service.png)
+![](./images/azure_search_service.png)
 
 Locate the following method:
 
@@ -81,7 +81,7 @@ Press `F5` to run the application, and type "engineer" into the search box. Pres
 
 E.g.
 
-![Search Results for engineer](images/first_engineer_search.png)
+![Search Results for engineer](./images/first_engineer_search.png)
 
 ### Part Two
 
@@ -148,7 +148,7 @@ Press `F5` to run the application. Type "eng" into the search box. As you type y
 
 E.g.
 
-![Auto Suggest Results for Eng](images/auto_complete.png)
+![Auto Suggest Results for Eng](./images/auto_complete.png)
 
 The function that was just enabled will now call the following rest endpoint to retrieve a list of words that match your partial search query.
 
@@ -175,7 +175,7 @@ To see this in action we have attached the synonym map above to our index. When 
 
 Try typing the synonym 'Creator' into the searh box and press enter. You will notice that the results are more vairied as creator is not as used much in the result. 
 
-![Synonym Match](.\images\synonym_match.png)
+![Synonym Match](./images/synonym_match.png)
 
 > For more information on how to create and manage Azure Search Synonyms and attach them to your search index the documentation can be found [here](https://docs.microsoft.com/en-us/azure/search/search-synonyms-tutorial-sdk).
 
@@ -248,7 +248,7 @@ Press `F5` to start the application. Type "engineer" into the search box and pre
 
 E.g.
 
-![Auto Suggest Results for Eng](images/engineer_with_facets.png)
+![Auto Suggest Results for Eng](./images/engineer_with_facets.png)
 
 Azure Search now returns a collection of _facets_ which the user can use to refine their query. We're rendering them on the UI as a list of checkboxes. 
 
@@ -318,7 +318,7 @@ Next click on **Map Results** and you should see all the search results plotted 
 
 E.g
 
-![Map Results](images/map_results.png)
+![Map Results](./images/map_results.png)
 
 
 ### Part Two
@@ -356,13 +356,13 @@ Double click on the map to drop a "pin" and select a search radius from the drop
 
 E.g.
 
-![Map Radius](images/map_results_raduis.png)
+![Map Radius](./images/map_results_raduis.png)
 
 Click on **Filter Results**. You will see that the results have been filtered based on their geographical location!
 
 E.g.
 
-![Map Filter](images/map_filter.png)
+![Map Filter](./images/map_filter.png)
 
 ### Final Notes
 
@@ -396,18 +396,18 @@ Some features that you can use in Azure Portal with Azure Search include:
 
 Allows you to view database settings and document/collection counts for your server.
 
-![](images/jobs_lab_azure_search1.png)
+![](./images/jobs_lab_azure_search1.png)
 
 
 #### Index Viewer
 
 Allows you to view your indexes and the fields they include. You can also modify them from here.
 
-![](images/jobs_lab_azure_search2.png)
+![](./images/jobs_lab_azure_search2.png)
 
 
 #### Search Explorer
 
 Test out your search and filter strings, and view the results.
 
-![](images/jobs_lab_azure_search3.png)
+![](./images/jobs_lab_azure_search3.png)
