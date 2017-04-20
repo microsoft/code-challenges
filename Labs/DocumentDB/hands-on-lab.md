@@ -16,9 +16,6 @@ This lab uses a simple ASP.NET MVC website as a test application. This applicati
 write arbitrary query commands and execute them against our test databases. Any result set will be
 rendered automatically into the JSON response panel. There are arrows to navigate left and right through the results. 
 
-To begin, open the `Azure DocumentDB Lab.sln` solution in Visual Studio 2015 and press `F5` to 
-compile and launch the web app on the local machine.
-
 > **Note:** The DocumentDB that we will be querying was created via the Azure Portal.
 > For more information on the Azure Portal refer to the **Appendix** at the end of this lab.
 
@@ -30,12 +27,12 @@ In this scenario. We will change the MVC application to send a query to the Docu
 
 ### Part One
 
-To begin, open the `Azure DocumentDB Lab.sln` solution in Visual Studio 2015 and press `F5` to 
+To begin, open the `Azure DocumentDB Lab.sln` solution in Visual Studio 2017 and press `F5` to 
 compile and launch the web app on the local machine.
 
 You should be presented with an application that looks like this:
 
-![](images/home_page.png)
+![](./images/home_page.png)
 
 This page is designed to take the query that the user writes and pass it to a DocumentDB server that
 we have set up for the purposes of this demo. 
@@ -49,7 +46,7 @@ FROM c
 
 ...and click on **Run It!**
 
-![](images/no_results.png)
+![](./images/no_results.png)
 
 Currently there are no results - we need to finish implementing the DocumentDB call first.
 
@@ -57,7 +54,7 @@ Currently there are no results - we need to finish implementing the DocumentDB c
 
 In the visual studio solution navigate to the `HomeController` class in the `LabWeb` project.
 
-![](images/home_controller.png)
+![](./images/home_controller.png)
 
 Find the `Query` action method. There is a line of code that looks like this:
 
@@ -70,16 +67,9 @@ We will modify it to create and send a DocumentDB query.
 The query text from the page is passed into the action via the `query` variable. Change it to the following:
 
 ```csharp
-var collectionUri = UriFactory.CreateDocumentCollectionUri(ConfigurationManager.AppSettings["DocumentDBName"], ConfigurationManager.AppSettings["DocumentDBCollectionName"]);
-IDocumentQuery<dynamic> docQuery = ReadOnlyClient.CreateDocumentQuery(
-    collectionUri,
-    query,
-    new FeedOptions
-    {
-        MaxItemCount = 10,
-        EnableScanInQuery = true
-    }
-).AsDocumentQuery();
+var collectionUri = GetDocumentCollectionUri();
+var client = await GetReadOnlyClient(locationName);
+var docQuery = client.CreateDocumentQuery(collectionUri, query, _feedOptions).AsDocumentQuery();
 ```
 
 Notice in the FeedOptions, we are setting `MaxItemCount = 10`. This means we will get up to 10 results per execution of the query. The DocumentDB API has 
@@ -127,7 +117,7 @@ FROM c
 
 ...and click on **Run It!**
 
-![](images/50_results.png)
+![](./images/50_results.png)
 
 Progress! We have successfully returned results from DocumentDB.
 
@@ -138,18 +128,7 @@ From now on, we will be working directly in the web browser.
 
 In this scenario we will introduce the SQL-like syntax of DocumentDB and show how we can use it to manipulate our results.
 
-The dataset we are querying was extracted from the performance counters on various computers running windows 10.
-
-The performance counters are:
-
- - LogicalDisk
- - PhysicalDisk
- - HTTP Service
- - ASP.NET v4.0.30319
- - Power Meter
- - Processor
- - Energy Meter
-
+The dataset we are querying is a live stream of tweets from twitter with hashtags relating to //build/.
 
 ### Part One
 
@@ -159,32 +138,57 @@ For example:
 
 ```SQL
 SELECT *
-FROM collection
+FROM t
 ```
 
 ...is exactly the same as:
 
 ```SQL
 SELECT *
-FROM logs
+FROM tweets
 ```
 
 Give it a try!
 
-![](images/select_from_collection.png)
+![](./images/select_from_logs.png)
 
-![](images/select_from_logs.png)
+![](./images/select_from_collection.png)
+
+## Part Two
+
+Now that we know how to select some records, lets see how the different data centres affect our latency!
+
+This project has been configured to allow the user to select which region to execute their DocumentDB query against. By default the Azure DocumentDB SDK will chose the most optiomal endpoint to perform read and write operations, however client applications can specify the ordered preference list of regions to be used to perform document operations. (We are using this so you can see the differences between regions)
+
+Exceute this query and select a different region each time. Notice how the response time changes due to the location of the data center?
+
+```SQL
+SELECT *
+FROM tweets
+```
+
+![](./images/west_us.png)
+
+![](./images/central_us.png)
+
+![](./images/north_europe.png)
+
+![](./images/southeast_asia.png)
+
+Try this out with the difference queries going forward!
+
+## Part Three
 
 When refering to fields you must use the alias you define in the `FROM` clause.
 
 Execute this query:
 
 ```SQL
-SELECT id
-FROM logs
+SELECT CreatedBy
+FROM tweets
 ```
 
-![](images/id_error.png)
+![](./images/id_error.png)
 
 As you can see this resulted in an error.
 
@@ -193,43 +197,48 @@ To fix this error we have to provide the full "path" to the properties of the ob
 Execute this query instead:
 
 ```SQL
-SELECT logs.id
-FROM logs
+SELECT tweets.CreatedBy
+FROM tweets
 ```
 
-![](images/id_results.png)
+![](./images/id_results.png)
 
 
-### Part Two
+### Part Four
 
 Now that we know how to select a certain field, we can filter on them.
 
-Write a query to select a specific record by its ID:
+Send a tweet now on twitter using #MSBuild or #DocumentDB. Lets see if we can find your tweet!
+
+Write a query to select a specific tweet by its user by username (replace windowsdev with your username):
 
 ```SQL
 SELECT *
-FROM logs
-WHERE logs.id = "ef811f1d-d271-4e1f-baf7-4d5ac0b6c840"
+FROM tweets
+WHERE tweets.CreatedBy.ScreenName = "windowsdev"
 ```
 
-![](images/id_filter.png)
-
-
-### Part Three
-
-Let's use a real-world scenario and filter the results to logs for a certain machine.
-
-Execute this query:
+Or to find a tweet by the users name (replace "Windows Developer" with your own name)
 
 ```SQL
 SELECT *
-FROM logs
-WHERE logs.machineName = "WKS-1604"
+FROM tweets
+WHERE tweets.CreatedBy.Name = "Windows Developer"
 ```
 
-![](images/filter1.png)
+![](./images/id_filter.png)
 
-The results are limited to logs from the machine `WKS-1604`.
+Because we are refering to objects / documents, we can filter our result set by seeing if a property exists on the object.
+
+For example:
+
+```SQL
+SELECT *
+FROM tweets
+WHERE tweets.CreatedBy.UserIdentifier.url != null
+```
+
+![](./images/filter3.png)
 
 
 ## Scenario 3
@@ -238,94 +247,93 @@ In this scenario we are going to see how we can use joins to inspect child objec
 
 ### Part One
 
-We have been using DocumentDB to inspect all the logs of a certain machine.
-What if we only wanted to see logs of a certain type. We can use the `JOIN` keyword to join to our logs array. We can also give it an alias and inspect its properties.
+We have been using DocumentDB to inspect all the tweets in the database and for certain users.
+
+Lets see how we can find out the hashtags that have been used in all the tweets. We can use the `JOIN` keyword to join to our hashtags array in each tweet. We can also give it an alias and inspect its properties.
 
 Let's see the `JOIN` in action. Try this query:
 
 ```SQL
-SELECT perfLog
-FROM machinelogs
-JOIN perfLog IN machinelogs.logs
+SELECT hashtags
+FROM tweets
+JOIN hashtags IN tweets.Hashtags
 ```
 
-Inspect the results and you will see for each log object in the array of each document has been returned as a seperate result set:
+Inspect the results and you will see for each hashtag object in the array of each tweet/document has been returned as a seperate result set:
 
-![](images/join.png)
+![](./images/join.png)
 
-![](images/join2.png)
+![](./images/join2.png)
 
 
-Now that we know how to join to our child array we can use it for filtering. Lets find all "Power Meter" logs:
+Now that we know how to join to our child array we can use it for filtering. Lets find all other hashtags that have been used along with the build hashtags (#MSBuild, #Azure, #DocumentDB):
 
 ```SQL
-SELECT perfLog
-FROM machinelogs
-JOIN perfLog IN machinelogs.logs
-WHERE perfLog.counterType = "Power Meter"
+SELECT hashtags
+FROM tweets
+JOIN hashtags IN tweets.Hashtags
+WHERE hashtags.text NOT IN ("MSBuild", "MsBuild", "DocumentDb", "DocumentDB", "Azure")
 ```
 
-![](images/filter2.png)
-
-Because we are refering to objects / documents, we can filter our result set by seeing if a property exists on the object.
-
-For example:
-
-```SQL
-SELECT perfLog
-FROM machinelogs
-JOIN perfLog IN machinelogs.logs
-WHERE perfLog.Power != null
-```
-
-![](images/filter3.png)
+![](./images/filter2.png)
 
 
-Imagine that we want to see both LogicalDisk and PhysicalDisk results. There two ways we can achieve this.
+Imagine that we want to see hashtags where "#Tech" and "#Question" used. There two ways we can achieve this.
 
 Using an `OR` predicate:
 
 ```SQL
-SELECT perfLog
-FROM machinelogs
-JOIN perfLog IN machinelogs.logs
-WHERE (perfLog.counterType = "LogicalDisk" OR perfLog.counterType = "PhysicalDisk")
+SELECT hashtags
+FROM tweets
+JOIN hashtags IN tweets.Hashtags
+WHERE (hashtags.text = "Tech" OR hashtags.text = "Question")
 ```
 
 ...or using an `IN` predicate: 
 
 ```SQL
-SELECT perfLog
-FROM machinelogs
-JOIN perfLog IN machinelogs.logs
-WHERE perfLog.counterType IN ("LogicalDisk", "PhysicalDisk")
+SELECT hashtags
+FROM tweets
+JOIN hashtags IN tweets.Hashtags
+WHERE hashtags.text IN ("Tech", "Question")
 ```
 
-![](images/filter4.png)
-
-![](images/filter5.png)
+![](./images/filter5.png)
 
 
-We can filter these results by the "% Disk Time" property.Because this property name contains white space, we must use special index to address it:
+If there are properties that have whitespace, you can filter these results by the special index to address it:
 
 ```SQL
-WHERE perfLog["% Disk Time"] ...
+WHERE hashtags["Property With Spaces"] ...
 ```
 
 This syntax will be familiar to users of JavaScript, or C# dictionary accessor syntax.
 
-We can use the `BETWEEN` keyword to filter by a range of values.
+We can use the `BETWEEN` keyword to filter by a range of values. We are doing this on the indices property.
 
 Try this query:
 
 ```SQL
-SELECT perfLog
-FROM machinelogs
-JOIN perfLog IN machinelogs.logs
-WHERE perfLog["% Disk Time"] BETWEEN 42247790840000 AND 42247790860000
+SELECT indices
+FROM tweets
+JOIN hashtags IN tweets.Hashtags
+JOIN indices IN hashtags.indices
+WHERE indices BETWEEN 21 AND 28
 ```
 
-![](images/between_filter.png)
+![](./images/between_filter.png)
+
+Note that you can actually return the entire tweet where the indices of the hashtag is between 21 and 28 simply by selecting the tweets rather than the indices
+
+e.g. :
+
+```SQL
+SELECT tweets
+FROM tweets
+JOIN hashtags IN tweets.Hashtags
+JOIN indices IN hashtags.indices
+WHERE indices BETWEEN 21 AND 28
+```
 
 We have used the `MaxItemCount` in the code to limit our results to 10 items. We can also restrict the amount 
 of results returned by using a `TOP` clause in our query. 
@@ -333,13 +341,25 @@ of results returned by using a `TOP` clause in our query.
 Lets adjust our query to find the top result. Give this a try:
 
 ```SQL
-SELECT TOP 1 perfLog
-FROM machinelogs
-JOIN perfLog IN machinelogs.logs
-WHERE perfLog["% Disk Time"] BETWEEN 42247790840000 AND 42247790860000
+SELECT TOP 1 tweets
+FROM tweets
+JOIN hashtags IN tweets.Hashtags
+JOIN indices IN hashtags.indices
+WHERE indices BETWEEN 21 AND 28
 ```
 
-![](images/top_1.png)
+![](./images/top_1.png)
+
+We can also order our query so we can find the most recent tweet(s). (use ASC for ascending and DESC for Descending) :
+
+```SQL
+SELECT TOP 5 tweets
+FROM tweets
+JOIN hashtags IN tweets.Hashtags
+JOIN indices IN hashtags.indices
+WHERE indices BETWEEN 21 AND 28
+ORDER BY tweets.CreatedAt DESC
+```
 
 ## Part Two
 
@@ -348,20 +368,28 @@ We can use a feature called **Projection** to create an entirely new result set.
 Try this query:
 
 ```SQL
-SELECT {
-	"FreeSpacePercent": perfLog["% Free Space"],
-	"FreeMegabytes": perfLog["Free Megabytes"],
-	"CurrentDiskQueueLength": perfLog["Current Disk Queue Length"],
-	"Power" : perfLog["Power"],
-	"PowerBudget" : perfLog["Power Budget"]
-} AS SummaryLogs
-FROM machinelogs
-JOIN perfLog IN machinelogs.logs
+SELECT tweets.CreatedBy.Name,
+		tweets.FullText,
+		tweets.CreatedAt,
+        tweets.TweetDTO.metadata.iso_language_code
+FROM tweets
 ```
 
-![](images/projection.png)
+![](./images/projection.png)
 
-This query allowed us to combine all logs into one well-known structure which could be useful, for example, when binding to a strongly typed dataset.
+This query allowed us to combine all tweets into a flattened structure which could be useful, for example, when binding to a strongly typed dataset.
+
+You can take this one step further by defining property names :
+
+```SQL
+SELECT tweets.CreatedBy.Name AS Name,
+		tweets.FullText AS Text,
+		tweets.CreatedAt AS CreatedTime,
+        tweets.TweetDTO.metadata.iso_language_code AS LanguageCode
+FROM tweets
+```
+![](./images/projection2.png)
+
 
 ### Further Reading 
 
@@ -388,21 +416,21 @@ Some features that you can use in Azure Portal with DocumentDB include:
 
 View the JSON  documents inside your collections.
 
-![](images/DocumentExplorer.png)
+![](./images/DocumentExplorer.png)
 
 
 #### Query Explorer
 
 Test your queries and view the results.
 
-![](images/QueryExplorer.png)
+![](./images/QueryExplorer.png)
 
 
 #### Script Explorer
 
 View, add and modify stored procedures, user functions and triggers.
 
-![](images/ScriptExplorer.png)
+![](./images/ScriptExplorer.png)
 
 
 
