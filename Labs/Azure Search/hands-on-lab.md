@@ -11,9 +11,11 @@ This hands-on lab will step you through the following features:
 
 1. **Text Search** Using Azure Search to search through a collection of documents.
 2. **Spell Corrected Search** Using Azure Search to automatically correct spelling mistakes.
-3. **Phonetic Search** Using Azure Search to use "sounds like" searching.
-4. **Filtering** Using Azure Search faceting features which make filtering simple.
-5. **Geospatial** Using the built-in geospatial filtering makes it simple to do distance or perimeter searches.
+3. **Autocomplete Search** Using Azure Search to complete partial query terms from a existing index. (Preview)
+4. **Phonetic Search** Using Azure Search to use "sounds like" searching.
+5. **Synonym Search** Using Synonyms in Azure Search (Preview)
+6. **Filtering** Using Azure Search faceting features which make filtering simple.
+7. **Geospatial** Using the built-in geospatial filtering makes it simple to do distance or perimeter searches.
 
 ### Scenario Overview
 
@@ -35,8 +37,7 @@ The lab is broken into three **Scenarios**.
 
 ## Scenario 1
 
-In this scenario we will introduce **Text Searching** and explain how to use **Spell Corrected Search** and 
-**Phonetic Search**.
+In this scenario we will introduce **Text Searching** and explain how to use **Spell Corrected Search** and **Phonetic Search**.
 
 ### Part One
 
@@ -82,13 +83,15 @@ E.g.
 
 ![Search Results for engineer](images/first_engineer_search.png)
 
+### Part Two
+
 Clear the textbox and type "enginer" (**note** the spelling mistake). Press `enter` to search. 
 
 Notice that the results are identical - Azure Search has automatically detected the spelling mistake and has included this corrected search term along with the original misspelled word.
 
 E.g.
 
-![Search Results for enginer](images/second_enginer_search.png)
+![Search Results for enginer](./images/second_enginer_search.png)
 
 Clear the textbox and type "kownsil". Press `enter` to search. You will see results related to "counsel".
 
@@ -98,11 +101,14 @@ You can learn more about how Azure Search enables phoenetic and spelling mistake
 
 E.g.
 
-![Search Results for kownsil](images/kownsil_search.png)
+![Search Results for kownsil](./images/kownsil_search.png)
 
-### Part Two
 
-A common app feature is the "auto-complete" textbox. Azure Search supports auto-complete suggestions out of the box - let's see how it's done.
+## Scenario 2
+In this scenario we will introduce **Synonym Search** and **Autocomplete Search**.
+
+### Part One
+A common app feature is the "auto-complete" textbox. Azure Search auto-complete is currently in preview - let's see how it's done.
 
 Stop running the application. Return to Visual Studio and navigate to `JobSearchService.cs`.
 
@@ -121,35 +127,59 @@ Modify the method to look like this:
 ```csharp
 public async Task<List<string>> ExecuteSuggest(string query)
 {
-    using (var indexClient = GetClient())
-    {
-        // Query the Azure Search index for search suggestions
-        SuggestParameters sp = new SuggestParameters()
+        // Query the Azure Search index for autocomplete suggestions
+        var ap = new AutocompleteParameters()
         {
             UseFuzzyMatching = true,
             Top = 8
         };
-        var results = await indexClient.Documents.SuggestAsync<JobResult>(query, "sg", sp);
-        
-        // Extract the text suggestions from the result set
-        return results.Results.Select(e => e.Text).Distinct().ToList();
-    }
+        var results = await SuggestAutocompleteAsync(query, "sg", ap);
+        // Extract the query plus autocomplete from the result set
+        return results.Results.Select(e => e.QueryPlusText).Distinct().ToList();
 }
 ```
 
-You will notice that we are passing `sg` as the second parameter to the `SuggestAsync` method. This parameter names a "suggestor" that has been pre-created on the Azure Search 
-index that defines which fields should be used to return a set of "suggestions" based on a query.
+You will notice that we are passing `sg` as the second parameter to the `SuggestAutocompleteAsync` method. This parameter names a "suggestor" that has been pre-created on the Azure Search 
+index. A suggester determines which fields are scanned for suggested query terms. See [Suggesters](https://docs.microsoft.com/en-us/rest/api/searchservice/Suggesters) for more information.
 
-If you would like to learn more about how Azure Search enables search suggestions, please visit the [Azure Blog](https://azure.microsoft.com/en-us/blog/azure-search-how-to-add-suggestions-auto-complete-to-your-search-applications/)
+As the autocomplete function is still in preview, the .Net Azure Search client does not yet support calls. The `SuggestAutocompleteAsync` function will call the azure rest enpoint directly.
 
 Press `F5` to run the application. Type "eng" into the search box. As you type you should now see the auto complete list appear and suggest search terms to you.
 
 E.g.
 
-![Auto Suggest Results for Eng](images/auto_suggest.png)
+![Auto Suggest Results for Eng](images/auto_complete.png)
 
+The function that was just enabled will now call the following rest endpoint to retrieve a list of words that match your partial search query.
 
-## Scenario 2
+```http
+GET https://[service name].search.windows.net/indexes/[index name]/docs/autocomplete?[query parameters]  
+api-key: [admin key]  
+```
+
+### Part Two
+
+As part of the index we have uploaded the following set of synonyms to our Azure Search instance.
+
+```Json
+{  
+   "name":"mysynonymmap",
+   "format":"solr",
+   "synonyms": "engineer, designer, planner, builder, architect, producer, fabricator, developer, creator"
+}
+```
+
+The synonym map is then attached to the related fields in the search index. Queries against these fields will then begin returning results that are related to the synonyms in the map. 
+
+To see this in action we have attached the synonym map above to our index. When you type 'Engineer' into the search box and press enter. The results should all show Engineer. This is because there are a overwleming amount of results in the index for Engineer.
+
+Try typing the synonym 'Creator' into the searh box and press enter. You will notice that the results are more vairied as creator is not as used much in the result. 
+
+![Synonym Match](.\images\synonym_match.png)
+
+> For more information on how to create and manage Azure Search Synonyms and attach them to your search index the documentation can be found [here](https://docs.microsoft.com/en-us/azure/search/search-synonyms-tutorial-sdk).
+
+## Scenario 3
 
 In this scenario we will introduce **Filtering / Faceting**.
 
@@ -270,7 +300,7 @@ Some examples of filters created by this method:
 Press `F5` to run the application, then execute a search and try out filtering the results by selecting _facets_.
 
 
-## Scenario 3
+## Scenario 4
 
 In this scenario we will introduce **Geospatial** filtering.
 
@@ -343,7 +373,6 @@ You can also watch [Azure Search and Geospatial Data][channel9-geospatial] on Ch
 [geospatial-search]: https://azure.microsoft.com/en-us/documentation/articles/search-create-geospatial/
 [channel9-geospatial]: https://channel9.msdn.com/Shows/Data-Exposed/Azure-Search-and-Geospatial-Data
 
-
 ## Further Reading
 
 [https://azure.microsoft.com/en-us/documentation/articles/search-howto-stackexchange-data/](https://azure.microsoft.com/en-us/documentation/articles/search-howto-stackexchange-data/)
@@ -353,6 +382,8 @@ You can also watch [Azure Search and Geospatial Data][channel9-geospatial] on Ch
 [What is Azure Search](https://azure.microsoft.com/en-us/documentation/articles/search-what-is-azure-search/)
 
 [Search Documentation](https://azure.microsoft.com/en-us/documentation/services/search/)
+
+[Synonym Search Preview](https://docs.microsoft.com/en-us/azure/search/search-synonyms)
 
 ## Appendix
 
