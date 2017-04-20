@@ -14,10 +14,13 @@ namespace LabWeb.Controllers
 {
     public class HomeController : Controller
     {
-        private static readonly string[] _availableRegions = { LocationNames.WestUS, LocationNames.CentralUS, LocationNames.NorthEurope, LocationNames.SoutheastAsia };
-        
+        private const string WarmupQueryOne = "SELECT * FROM c";
+        private const string WarmupQueryTwo = "SELECT COUNT(1) FROM c";
+        private static readonly string[] _availableRegions = {LocationNames.WestUS, LocationNames.CentralUS, LocationNames.NorthEurope, LocationNames.SoutheastAsia};
+
         private static Dictionary<string, DocumentClient> _readonlyClients;
-        
+        private static readonly FeedOptions _feedOptions = new FeedOptions {MaxItemCount = 10, EnableScanInQuery = true};
+
         public async Task<ActionResult> Index()
         {
             // this is initializing the client connections.
@@ -29,26 +32,26 @@ namespace LabWeb.Controllers
         {
             if (_readonlyClients == null)
             {
-                var dbEndpoint = new Uri(ConfigurationManager.AppSettings["DocumentDBEndpoint"]);
-                var dbKey = ConfigurationManager.AppSettings["DocumentDBPrimaryReadonlyKey"];
+                var dbEndpoint = new Uri(ConfigurationManager.AppSettings["DocumentDB:Endpoint"]);
+                var dbKey = ConfigurationManager.AppSettings["DocumentDB:Key"];
 
                 var clients = new Dictionary<string, DocumentClient>();
                 var tasks = new List<Task>();
                 foreach (var region in _availableRegions)
                 {
-                    var policy = new ConnectionPolicy()
+                    var policy = new ConnectionPolicy
                     {
                         ConnectionMode = ConnectionMode.Direct,
                         ConnectionProtocol = Protocol.Tcp,
-                        PreferredLocations = { region }
+                        PreferredLocations = {region}
                     };
                     var client = new DocumentClient(dbEndpoint, dbKey, policy);
                     tasks.Add(Task.Run(async () =>
                     {
-                         await client.OpenAsync();
-                         await WarmupConnection(client);
-                     }));
-                    
+                        await client.OpenAsync();
+                        await WarmupConnection(client);
+                    }));
+
                     clients.Add(region, client);
                 }
                 _readonlyClients = clients;
@@ -62,16 +65,18 @@ namespace LabWeb.Controllers
             return _readonlyClients[locationName];
         }
 
-        private const string WarmupQueryOne = "SELECT * FROM c";
-        private const string WarmupQueryTwo = "SELECT COUNT(1) FROM c";
-        private static readonly FeedOptions _feedOptions = new FeedOptions { MaxItemCount = 10, EnableScanInQuery = true };
         private async Task WarmupConnection(IDocumentClient client)
         {
-            var collectionUri = UriFactory.CreateDocumentCollectionUri(ConfigurationManager.AppSettings["DocumentDBName"], ConfigurationManager.AppSettings["DocumentDBCollectionName"]);
+            var collectionUri = GetDocumentCollectionUri();
             var query = client.CreateDocumentQuery(collectionUri, WarmupQueryOne, _feedOptions).AsDocumentQuery();
             await query.ExecuteNextAsync();
             query = client.CreateDocumentQuery(collectionUri, WarmupQueryTwo, _feedOptions).AsDocumentQuery();
             await query.ExecuteNextAsync();
+        }
+
+        private static Uri GetDocumentCollectionUri()
+        {
+            return UriFactory.CreateDocumentCollectionUri(ConfigurationManager.AppSettings["DocumentDB:DatabaseName"], ConfigurationManager.AppSettings["DocumentDB:CollectionName"]);
         }
 
         public async Task<ActionResult> Query(string query, string locationName)
@@ -81,10 +86,11 @@ namespace LabWeb.Controllers
                 Documents = new List<string>(),
                 Query = query
             };
-            int numRetries = 0;
-            var collectionUri = UriFactory.CreateDocumentCollectionUri(ConfigurationManager.AppSettings["DocumentDBName"], ConfigurationManager.AppSettings["DocumentDBCollectionName"]);
+            var numRetries = 0;
+
+            var collectionUri = GetDocumentCollectionUri();
             var client = await GetReadOnlyClient(locationName);
-            IDocumentQuery<dynamic> docQuery = client.CreateDocumentQuery(collectionUri, query, _feedOptions).AsDocumentQuery();
+            var docQuery = client.CreateDocumentQuery(collectionUri, query, _feedOptions).AsDocumentQuery();
 
             if (docQuery != null)
             {
@@ -97,11 +103,11 @@ namespace LabWeb.Controllers
                         sw.Stop();
                         newModel.ResponseTime = sw.ElapsedMilliseconds;
 
-                        foreach (dynamic result in results)
+                        foreach (var result in results)
                         {
                             string json = result.ToString();
-                            string formattedJson = (json.StartsWith("{", StringComparison.InvariantCulture) ||
-                                                    json.StartsWith("[", StringComparison.InvariantCulture))
+                            var formattedJson = json.StartsWith("{", StringComparison.InvariantCulture) ||
+                                                json.StartsWith("[", StringComparison.InvariantCulture)
                                 ? JsonConvert.SerializeObject(JsonConvert.DeserializeObject(json), Formatting.Indented)
                                 : json;
                             newModel.Documents.Add(formattedJson);
@@ -118,16 +124,19 @@ namespace LabWeb.Controllers
                         var exception = e.InnerException as DocumentClientException;
                         if (exception != null)
                         {
-                            if (exception.StatusCode != null && (int)exception.StatusCode == 429)
+                            if (exception.StatusCode != null && (int) exception.StatusCode == 429)
                             {
                                 numRetries--;
                             }
-                            int startIndex = exception.Message.IndexOf("{", StringComparison.InvariantCulture);
-                            int endIndex = exception.Message.LastIndexOf("}", StringComparison.InvariantCulture) + 1;
-                            newModel.Error = (startIndex < 0 || endIndex < 0)
+                            var startIndex = exception.Message.IndexOf("{", StringComparison.InvariantCulture);
+                            var endIndex = exception.Message.LastIndexOf("}", StringComparison.InvariantCulture) + 1;
+                            newModel.Error = startIndex < 0 || endIndex < 0
                                 ? exception.Message
                                 : exception.Message.Substring(startIndex, endIndex - startIndex);
-                            if (exception.StatusCode != null) newModel.StatusCode = (int)exception.StatusCode;
+                            if (exception.StatusCode != null)
+                            {
+                                newModel.StatusCode = (int) exception.StatusCode;
+                            }
                         }
                         else
                         {
