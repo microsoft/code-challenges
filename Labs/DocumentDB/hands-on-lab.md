@@ -32,7 +32,7 @@ compile and launch the web app on the local machine.
 
 You should be presented with an application that looks like this:
 
-![](././images/home_page.png)
+![](./images/home_page.png)
 
 This page is designed to take the query that the user writes and pass it to a DocumentDB server that
 we have set up for the purposes of this demo. 
@@ -158,7 +158,7 @@ Give it a try!
 
 Now that we know how to select some records, lets see how the different data centres affect our latency!
 
-This project has been configured to allow the user to select which region to execute their DocumentDb query against. By default the Azure DocumentDB SDK will chose the most optiomal endpoint to perform read and write operations, however client applications can specify the ordered preference list of regions to be used to perform document operations. (We are using this so you can see the differences between regions)
+This project has been configured to allow the user to select which region to execute their DocumentDB query against. By default the Azure DocumentDB SDK will chose the most optiomal endpoint to perform read and write operations, however client applications can specify the ordered preference list of regions to be used to perform document operations. (We are using this so you can see the differences between regions)
 
 Exceute this query and select a different region each time. Notice how the response time changes due to the location of the data center?
 
