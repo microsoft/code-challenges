@@ -108,7 +108,7 @@ E.g.
 In this scenario we will introduce **Synonym Search** and **Autocomplete Search**.
 
 ### Part One
-A common app feature is the "auto-complete" textbox. Azure Search auto-complete is currently in preview - let's see how it's done.
+Azure Search Autocomplete is a new Azure Search API currently in preview that returns suggested terms from your document index based on fields in your suggestor. This is different to the exisiting document suggestion API which returns whole documents based on your search parameters. - let's see it in action.
 
 Stop running the application. Return to Visual Studio and navigate to `JobSearchService.cs`.
 
@@ -140,9 +140,11 @@ public async Task<List<string>> ExecuteSuggest(string query)
 ```
 
 You will notice that we are passing `sg` as the second parameter to the `SuggestAutocompleteAsync` method. This parameter names a "suggestor" that has been pre-created on the Azure Search 
-index. A suggester determines which fields are scanned for suggested query terms. See [Suggesters](https://docs.microsoft.com/en-us/rest/api/searchservice/Suggesters) for more information.
+index. 
 
-As the autocomplete function is still in preview, the .Net Azure Search client does not yet support calls. The `SuggestAutocompleteAsync` function will call the azure rest enpoint directly.
+A suggester determines which fields are scanned for suggested query terms. See [Suggesters](https://docs.microsoft.com/en-us/rest/api/searchservice/Suggesters) for more information.
+
+As the Autocomplete API is currently in preview and not yet implemented in the preview Azure Search .NET SDK, the `SuggestAutocompleteAsync` function will call the Azure Search REST endpoint directly.
 
 Press `F5` to run the application. Type "eng" into the search box. As you type you should now see the auto complete list appear and suggest search terms to you.
 
@@ -157,7 +159,17 @@ GET https://[service name].search.windows.net/indexes/[index name]/docs/autocomp
 api-key: [admin key]  
 ```
 
+Azure Search Autocomplete has three modes of autocomplete.
+
+- `oneTerm` - Only the last term is used when creating a suggestion.
+- `twoTerms` - Two terms will be suggested.
+- `oneTermWithContext` - If contains more than one term in the query, the last two terms (the last term can be partial) occur togeather in the document.
+
+
+
 ### Part Two
+
+The Azure Search Synonyms API is also currently in preview and it is implemented in the preview Azure Search .NET SDK.
 
 As part of the index we have uploaded the following set of synonyms to our Azure Search instance.
 
@@ -171,9 +183,9 @@ As part of the index we have uploaded the following set of synonyms to our Azure
 
 The synonym map is then attached to the related fields in the search index. Queries against these fields will then begin returning results that are related to the synonyms in the map. 
 
-To see this in action we have attached the synonym map above to our index. When you type 'Engineer' into the search box and press enter. The results should all show Engineer. This is because there are a overwleming amount of results in the index for Engineer.
+To see this in action we have attached the synonym map above to our index. When you type "engineer: into the search box and press enter. The results should all show Engineer. This is because there are a overwleming amount of results in the index for Engineer.
 
-Try typing the synonym 'Creator' into the searh box and press enter. You will notice that the results are more vairied as creator is not as used much in the result. 
+Try typing the synonym "creator" into the searh box and press enter. You will notice that the results are more vairied as creator is not as used much in the result. The search is however bringing results back based on the associated synonyms from the map.
 
 ![Synonym Match](./images/synonym_match.png)
 
