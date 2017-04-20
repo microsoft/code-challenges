@@ -1,0 +1,39 @@
+var client = await GetReadOnlyClient(locationName);
+IDocumentQuery<dynamic> docQuery = client.CreateDocumentQuery(collectionUri, query, _feedOptions).AsDocumentQuery();
+
+SELECT *
+FROM tweet
+
+SELECT *
+FROM twitter
+
+SELECT CreatedBy
+FROM tweets
+
+SELCT tweets.CreatedBy
+FROM tweets
+
+
+SELECT *
+FROM tweets
+WHERE tweets.CreatedBy.Name = "Matthew Batten"
+
+SELECT *
+FROM hashtags IN tweets.Hashtags
+
+SELECT *
+FROM hashtags IN tweets.Hashtags
+WHERE hashtags.text != "Trump"
+
+SELECT tweets.CreatedBy.Name,
+		tweets.FullText
+FROM tweet
+
+Little map of locations and animation
+
+Show javascipt function and use it in a query.
+
+Create a deployment markdown.
+
+#Build2017
+
