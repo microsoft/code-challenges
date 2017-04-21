@@ -4,7 +4,7 @@ using Microsoft.Azure;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 
-namespace DocDb.Tweets
+namespace Microsoft.CodeChallenges.DocumentDB.TweetSeed
 {
     public class DocumentDbService
     {

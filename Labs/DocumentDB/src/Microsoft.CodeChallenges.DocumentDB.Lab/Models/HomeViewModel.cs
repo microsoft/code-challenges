@@ -1,4 +1,4 @@
-﻿namespace LabWeb.Models
+﻿namespace Microsoft.CodeChallenges.DocumentDB.Lab.Models
 {
     public class HomeViewModel
     {
