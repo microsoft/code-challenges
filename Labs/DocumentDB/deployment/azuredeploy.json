@@ -1,0 +1,55 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "databaseAccountName": {
+            "type": "string",
+            "metadata": {
+                "description": "The DocumentDB database account name."
+            }
+        }
+    },
+    "variables": {
+        "offerType": "Standard"
+    },
+    "resources": [
+        {
+            "apiVersion": "2015-04-08",
+            "type": "Microsoft.DocumentDB/databaseAccounts",
+            "name": "[parameters('databaseAccountName')]",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "name": "[parameters('databaseAccountName')]",
+                "databaseAccountOfferType": "[variables('offerType')]",
+                "locations": [
+                    {
+                        "locationName": "West US",
+                        "failoverPriority": 0
+                    },
+                    {
+                        "locationName": "Central US",
+                        "failoverPriority": 1
+                    },
+                    {
+                        "locationName": "North Europe",
+                        "failoverPriority": 2
+                    },
+                    {
+                        "locationName": "Southeast Asia",
+                        "failoverPriority": 3
+                    }
+                ]
+            }
+        }
+    ],
+    "outputs": {
+        "DocumentDBEndPoint": {
+            "type": "string",
+            "value": "[reference(concat('Microsoft.DocumentDB/databaseAccounts/', parameters('databaseAccountName'))).documentEndpoint]"
+        },
+        "DocumentDBKey": {
+            "type": "string",
+            "value": "[listKeys(resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('databaseAccountName')), '2015-11-06').primaryMasterKey]"
+        }
+    }
+}

@@ -4,13 +4,13 @@ using System.Configuration;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using LabWeb.Models;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Documents.Linq;
+using Microsoft.CodeChallenges.DocumentDB.Lab.Models;
 using Newtonsoft.Json;
 
-namespace LabWeb.Controllers
+namespace Microsoft.CodeChallenges.DocumentDB.Lab.Controllers
 {
     public class HomeController : Controller
     {
@@ -88,9 +88,7 @@ namespace LabWeb.Controllers
             };
             var numRetries = 0;
 
-            var collectionUri = GetDocumentCollectionUri();
-            var client = await GetReadOnlyClient(locationName);
-            var docQuery = client.CreateDocumentQuery(collectionUri, query, _feedOptions).AsDocumentQuery();
+            IDocumentQuery<dynamic> docQuery = null;
 
             if (docQuery != null)
             {

@@ -3,7 +3,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 
-namespace LabWeb
+namespace Microsoft.CodeChallenges.DocumentDB.Lab
 {
     public class MvcApplication : HttpApplication
     {
