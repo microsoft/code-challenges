@@ -25,7 +25,30 @@ namespace Microsoft.CodeChallenges.DocumentDB.TweetSeed
             try
             {
                 await _client.CreateDatabaseAsync(new Database {Id = database});
-                await _client.CreateDocumentCollectionAsync(UriFactory.CreateDatabaseUri(database), new DocumentCollection {Id = collection});
+            }
+            catch (DocumentClientException)
+            {
+                //Ignore - It probably already exists
+            }
+
+            try
+            {
+                await _client.CreateDocumentCollectionAsync(UriFactory.CreateDatabaseUri(database), new DocumentCollection { Id = collection });
+            }
+            catch (DocumentClientException)
+            {
+                //Ignore - It probably already exists
+            }
+
+            try
+            {
+                await _client.CreateUserDefinedFunctionAsync(_collectionUri, new UserDefinedFunction()
+                {
+                    Id = "displayDate",
+                    Body = @"function displayDate(inputDate) {
+                                return inputDate.split('T')[0];
+                            }"
+                });
             }
             catch (DocumentClientException)
             {
