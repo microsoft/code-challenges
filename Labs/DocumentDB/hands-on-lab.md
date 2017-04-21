@@ -390,6 +390,29 @@ FROM tweets
 ```
 ![](./images/projection2.png)
 
+## Part Three
+
+DocumentDB supports javascript User defined functions, there that you can use on this server called displayDate which removes the time parts of a UTC date string.
+
+This is the function :
+
+```javascript
+function displayDate(inputDate) {
+    return inputDate.split('T')[0];
+}
+```
+
+Let's have a go at using it
+
+```SQL
+SELECT tweets.CreatedAt,
+    udf.displayDate(tweets.CreatedAt) AS FormattedDate
+FROM tweets
+```
+
+![](./images/date_formatted.png)
+
+DocumentDb also supports stored procs written in javascript. This allows scalable and almost unlimited expandablity on the functionality DocumentDB can offer.
 
 ### Further Reading 
 
