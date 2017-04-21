@@ -63,7 +63,7 @@ public async Task<DocumentSearchResult<JobResult>> ExecuteSearch(string query, L
 This is just placeholder code. Modify it so that it looks like this:
 
 ```csharp
-public async Task<DocumentSearchResult<JobResult>> ExecuteSearch(string query, List<FacetGroup> facets = null, PositionDistanceSearch geoSearch = null)
+public async Task<SearchResponse> ExecuteSearch(string query, List<FacetGroup> facets = null, PositionDistanceSearch geoSearch = null)
 {   
         var searchParameters = new SearchParameters()
         {
@@ -72,7 +72,8 @@ public async Task<DocumentSearchResult<JobResult>> ExecuteSearch(string query, L
         };
         using (var indexClient = GetClient())
         {
-            return await indexClient.Documents.SearchAsync<JobResult>(query, searchParameters);
+            var results = await indexClient.Documents.SearchAsync<JobResult>(query, searchParameters);
+            return new SearchResponse(results);
         }
 }
 ```
@@ -185,7 +186,7 @@ The synonym map is then attached to the related fields in the search index. Quer
 
 To see this in action we have attached the synonym map above to our index. When you type "engineer: into the search box and press enter. The results should all show Engineer. This is because there are a overwleming amount of results in the index for Engineer.
 
-Try typing the synonym "creator" into the searh box and press enter. You will notice that the results are more vairied as creator is not as used much in the result. The search is however bringing results back based on the associated synonyms from the map.
+Try typing the synonym "creator" into the searh box and press enter. You will notice that the results are more varied as creator is not as used much in the result. The search is however bringing results back based on the associated synonyms from the map.
 
 ![Synonym Match](./images/synonym_match.png)
 
