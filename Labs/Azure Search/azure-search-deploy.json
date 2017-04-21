@@ -1,0 +1,46 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "name": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 60,
+      "metadata": {
+        "description": "Service name must only contain lowercase letters, digits or dashes, cannot use dash as the first two or last one characters, cannot contain consecutive dashes, and is limited between 2 and 60 characters in length."
+      }
+    }
+  },
+  "variables": {
+    "sku": "free",
+    "replicaCount": 1,
+    "partitionCount": 1,
+    "hostingMode": "default"
+  },
+  "resources": [
+    {
+      "apiVersion": "2015-08-19",
+      "name": "[parameters('name')]",
+      "type": "Microsoft.Search/searchServices",
+      "location": "[resourceGroup().location]",
+      "sku": {
+        "name": "[toLower(variables('sku'))]"
+      },
+      "properties": {
+        "replicaCount": "[variables('replicaCount')]",
+        "partitionCount": "[variables('partitionCount')]",
+        "hostingMode": "[variables('hostingMode')]"
+      }
+    }
+  ],
+  "outputs": {
+      "search-url": {
+          "type": "string",
+          "value" : "[parameters('name')]"
+      },
+      "api-key" : {
+          "type" : "string",
+          "value": "[listAdminKeys(resourceId('Microsoft.Search/searchServices', parameters('name')), '2015-08-19')].primaryKey"
+      }
+  }
+}
