@@ -1,0 +1,270 @@
+<h1 id="elastic-database-features-with-azure-sql-database">Elastic Database features with Azure SQL Database</h1>
+<h2 id="overview">Overview</h2>
+<p>The new Elastic Database features of Azure SQL Database allow you to introduce
+distributed, transactional workloads to your application.</p>
+<p>This hands-on lab will step you through the following features:</p>
+<ol>
+<li><p><strong>Cross-database queries:</strong> Connect to a single &quot;head&quot; database and issue queries that
+may include multiple databases.</p>
+<p>This feature allows you to query <em>vertically partitioned</em> tables, where individual tables
+exist on different physical databases. </p>
+</li>
+<li><p><strong>Elastic queries across sharded databases:</strong> Connect to a single &quot;head&quot; database and
+issue queries that execute across sharded databases.</p>
+<p>This feature allows you to query <em>horizontally partitioned</em> tables, where a single table
+is <em>sharded</em> across different physical databases.</p>
+</li>
+<li><p><strong>Query sharded databases:</strong> Using the Elastic Database client library, issue queries directly to
+database shards.</p>
+</li>
+<li><p><strong>Distributed transactions:</strong> Issue queries against separate databases under a single logical
+transaction.</p>
+</li>
+</ol>
+<blockquote>
+<p><strong>Note:</strong> In this hands-on lab we will be consuming data stored across an Azure SQL Database and
+91 database shards managed by an <a href="https://azure.microsoft.com/en-us/documentation/articles/sql-database-elastic-pool/">Azure Elastic Database Pool</a>. The shards have
+been preconfigured with a shard map called &quot;OrderShardMap&quot;.</p>
+</blockquote>
+<h3 id="about-the-code">About the code</h3>
+<p>This lab uses a simple ASP.NET MVC website as test application. This application allows you to
+write arbitrary SQL commands and execute them against our test databases. Any result sets will be
+rendered automatically into the HTML response. </p>
+<p>To begin, open the <code>Azure SQL DB Lab.sln</code> solution in Visual Studio 2015 and press <code>F5</code> to 
+compile and launch the web app on the local machine.</p>
+<p>The lab is broken into three <strong>Scenarios</strong>, each of which has its own MVC Controller.</p>
+<hr>
+<h2 id="scenario-1">Scenario 1</h2>
+<p>In this scenario we will introduce <strong>cross-database queries</strong>, which allow you to query tables across
+physical database boundaries in Azure SQL Database.</p>
+<h3 id="part-one">Part One</h3>
+<p>To begin, open the <code>Azure SQL DB Lab.sln</code> solution and navigate to the <code>Scenario1Controller</code> class
+in the <code>LabWeb</code> project.</p>
+<p><img src="img/000-select-scenario-1-controller.png" alt=""></p>
+<p>Press <code>F5</code> to compile and launch the web app. A browser window will appear. Navigate to &quot;Scenario 1&quot;.</p>
+<p><img src="img/005-navigate-to-scenario-1.png" alt=""> </p>
+<p>Initially, the Scenario 1 page is hard-coded with the following query:</p>
+<pre><code class="lang-sql">select &#39;external&#39; as source, name from sys.external_tables;
+
+select &#39;local&#39; as source, name from sys.tables where schema_name(schema_id) = &#39;dbo&#39;;
+
+select &#39;shard&#39; as source, ServerName, DatabaseName from [__ShardManagement].[ShardsGlobal];
+</code></pre>
+<p>You now see the output of this query in the browser window. The first result set enumerates
+the &quot;external&quot; tables configured in this database. We can see:</p>
+<ul>
+<li>Products</li>
+<li>Orders</li>
+<li>Order Details</li>
+</ul>
+<p>The &quot;Products&quot; table is hosted in a separate database. The &quot;Orders&quot; and &quot;Order Details&quot; tables are
+sharded across multiple databases using the CustomerId as a key.</p>
+<p>The second result set enumerates all logical tables in this database. We can see one &quot;real&quot; table:</p>
+<ul>
+<li>Customers</li>
+</ul>
+<p>And the three &quot;external&quot; tables:</p>
+<ul>
+<li>Products</li>
+<li>Orders</li>
+<li>Order Details</li>
+</ul>
+<p>Finally, the third result set enumerates all the shard databases tracked by the Shard Map:</p>
+<ul>
+<li>CustomerOrders1</li>
+<li>CustomerOrders2</li>
+<li>CustomerOrders3</li>
+<li>CustomerOrders4</li>
+<li>CustomerOrders5</li>
+<li>...</li>
+</ul>
+<p>As you can see, there are a lot of shards - one for each customer!</p>
+<blockquote>
+<p><strong>Pro tip:</strong> Sharding your data on an identifier like <em>Customer Id</em> is a great pattern for 
+multi-tenant applications where you want to provide physical isolation between tenants. </p>
+</blockquote>
+<h3 id="part-two">Part Two</h3>
+<p>Let&#39;s modify the query to retrieve data from an external table.</p>
+<p>Return to Visual Studio and stop debugging with <strong>Debug &gt; Stop Debugging</strong>.</p>
+<p>Open the <code>Scenario1Controller</code> class and replace the entire value of <code>CommandText</code> with the following:</p>
+<pre><code class="lang-sql">select ProductName, QuantityPerUnit, UnitPrice, UnitsInStock from dbo.[Products]
+</code></pre>
+<p>E.g.</p>
+<p><img src="img/010-modify-scenario-1-query.png" alt=""></p>
+<p>Re-build with <code>Ctrl-Shift-B</code> and refresh the browser window. You are now executing your
+first cross-database elastic query!</p>
+<p>To clarify - you have issued a SQL query to one database, called &quot;Head&quot;. This database
+has forwarded the query against the <code>Products</code> table to another database, called &quot;Products&quot;.
+The results have been aggregated by &quot;Head&quot; and returned.</p>
+<h3 id="part-three">Part Three</h3>
+<p>Lets write a more interesting query - joining a &quot;local&quot; table with an &quot;external&quot; table.</p>
+<p>Replace the value of <code>CommandText</code> with the following:</p>
+<pre><code class="lang-sql">select c.CustomerCode, count(p.ProductId) as product_count
+from dbo.[Products] p
+join dbo.[Customers] c on c.CustomerId = p.SupplierId
+group by c.CustomerCode
+</code></pre>
+<p>The &quot;Customers&quot; table is local to the Head database. &quot;Products&quot; is, of course, external.</p>
+<p>Re-build with <code>Ctrl-Shift-B</code> and refresh the browser window. You should see a result like
+the following:</p>
+<p><img src="img/015-scenario-1-join-query.png" alt=""></p>
+<p>You have queried both a local table and an external table simultaneously!</p>
+<h3 id="final-notes">Final Notes</h3>
+<p>Cross-database queries are ideal for reporting against large, distributed data sets. They take the
+pain out of writing distributed queries by allowing you to query remote tables as if they were local.</p>
+<p>For information about how to set up your own databases for Elastic query, check out
+<a href="https://azure.microsoft.com/en-us/documentation/articles/sql-database-elastic-query-getting-started-vertical/">Getting started with cross-database queries (vertical partitioning)</a>.</p>
+<hr>
+<h2 id="scenario-2">Scenario 2</h2>
+<p>In this scenario we will introduce <strong>elastic queries across sharded databases</strong>, which allows you to query
+a remote table which is split across multiple physical databases.</p>
+<h3 id="part-one">Part One</h3>
+<p>Return to Visual Studio, and navigate to the <code>Scenario2Controller</code> class.</p>
+<p><img src="img/020-select-scenario-2-controller.png" alt=""></p>
+<p>Initially, scenario 2 has the following query:</p>
+<pre><code class="lang-sql">-- Query for all line items on all orders by a specific customer
+
+select c.CustomerCode, o.OrderId, o.OrderDate, od.ProductID, p.ProductName, (od.Quantity * od.UnitPrice) as line_item_total
+from [dbo].[Orders] o
+left join [dbo].[Order Details] od on od.OrderId = o.OrderId
+left join [dbo].[Products] p on p.ProductId = od.ProductId
+left join [dbo].[Customers] c on c.CustomerId = o.CustomerId
+where o.CustomerId = 25;
+</code></pre>
+<p>This finds order details for all orders placed by customer <strong>#25</strong>, and includes a calculated field.</p>
+<p>This query covers a few local and external tables:</p>
+<ul>
+<li><strong>Customers</strong> (local)</li>
+<li><strong>Products</strong> (products database)</li>
+<li><strong>Orders</strong> and <strong>Order Details</strong> (order shard databases)</li>
+</ul>
+<p>Re-build with <code>Ctrl-Shift-B</code> and refresh the browser window. And we see the results:</p>
+<p><img src="img/025-scenario-2-initial-query.png" alt=""></p>
+<h3 id="part-two">Part Two</h3>
+<p>So we can execute a simple join. What about a more advanced query? Let&#39;s try an <code>aggregate</code> with a <code>group</code>:</p>
+<p>Modify the value of <code>CommandText</code> with the following SQL: </p>
+<pre><code class="lang-sql">-- Count orders by customer
+
+select c.CustomerId, c.CustomerCode, count(o.OrderId) as order_count
+from [dbo].[Orders] o
+left join [dbo].[Customers] c on c.CustomerId = o.CustomerId
+group by c.CustomerId, c.CustomerCode
+</code></pre>
+<p>This counts the number of orders placed by each customer. Note that the count for each row will
+aggregate correctly even if it covers rows across multiple databases.</p>
+<p>E.g.</p>
+<p><img src="img/030-scenario-2-aggregate-query.png" alt=""></p>
+<h3 id="final-notes">Final Notes</h3>
+<p>When using the Elastic query function you can combine local tables, remote tables and sharded tables 
+seamlessly into a single query.</p>
+<hr>
+<h2 id="scenario-3">Scenario 3</h2>
+<p>In this scenario we will introduce the Elastic Database client library, which allows us
+to dynamically connect to the appropriate database shard based on a shard key. </p>
+<p>Finally we will introduce <strong>distributed transactions</strong>, wherein you may issue commands 
+to multiple separate SQL Databases which are covered by a single logical transaction.</p>
+<h3 id="part-one">Part One</h3>
+<p>First, let&#39;s insert some new orders into the order database shards. For this we will use the 
+Elastic Database client library.</p>
+<blockquote>
+<p><strong>Note:</strong> The Elastic Database client library is available on NuGet under the name
+<code>Microsoft.Azure.SqlDatabase.ElasticScale.Client</code></p>
+</blockquote>
+<p>Return to Visual Studio, and navigate to the <code>Scenario3Controller</code> class.</p>
+<p><img src="img/035-select-scenario-3-controller.png" alt=""></p>
+<p>This controller is more complicated that the others as it is issuing queries directly against
+the order shard databases.</p>
+<p>Let&#39;s break the code down section by section. First, we include the &quot;Elastic Database client library&quot; namespace:</p>
+<pre><code class="lang-csharp">using Microsoft.Azure.SqlDatabase.ElasticScale.ShardManagement
+</code></pre>
+<p>Next, inside the <code>GetOrderShardMap</code> factory function, we use the <code>ShardMapManagerFactory</code> class to connect to 
+the Shard Map stored in the Head database:</p>
+<pre><code class="lang-csharp">// The shard map is hosted on the &quot;Head&quot; database
+var manager = ShardMapManagerFactory.GetSqlShardMapManager(headConnectionString, ShardMapManagerLoadPolicy.Eager);
+</code></pre>
+<p>Finally, we acquire the &quot;shard map&quot; for the order tables (identified by name):</p>
+<pre><code class="lang-csharp">var shardMap = manager.GetListShardMap&lt;int&gt;(&quot;OrderShardMap&quot;);
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> In the example code we are using the .NET <code>Lazy&lt;T&gt;</code> class to statically cache the <code>ListShardMap&lt;int&gt;</code>
+instance which represents our Order shard map.</p>
+<p>This is considered best practice and can significantly improve the performance of any routine which interacts
+with your shard databases.</p>
+</blockquote>
+<p>The <code>shard map</code> is used to determine which shard database to connect to based on a key. In this case, the orders
+and order details are sharded based on their &quot;Customer Id&quot;. Each shard contains orders for a single customer, e.g.</p>
+<ul>
+<li><strong>CustomerOrders22</strong> - Orders and order details for Customer &#39;FISSA&#39; (Id 22)</li>
+<li><strong>CustomerOrders87</strong> - Orders and order details for Customer &#39;WARTH&#39; (Id 87)</li>
+<li><strong>etc...</strong></li>
+</ul>
+<p>In this example we are inserting a new order for two hard-coded customers: &quot;FISSA&quot; and &quot;WARTH&quot;. 
+(See the two variables defined <code>firstCustomerId</code> and <code>secondCustomerId</code>) in the <code>CreateOrders</code> action method.</p>
+<p>To connect to the appropriate shard for the first customer, we would do the following:</p>
+<pre><code class="lang-csharp">var firstCustomerId = 22;
+var shardConnectionString = &quot;User ID=username;Password=password&quot;;
+
+using (var conn = shardMap.OpenConnectionForKey(firstCustomerId, shardConnectionString))
+{
+    // Execute commands
+}
+</code></pre>
+<p>The rest of the code is dealing with the details of creating a new order. We connect to each shard in turn 
+and insert a new Order record and a few Order Detail records.</p>
+<p>Let&#39;s try it out. Re-build with <code>Ctrl-Shift-B</code> and return to the browser window. Navigate to &quot;Scenario 3&quot;.</p>
+<p><img src="img/040-scenario-3-create-button.png" alt=""></p>
+<p>Press the &quot;Create orders&quot; button and wait for a success message.</p>
+<blockquote>
+<p><strong>Note:</strong> The first execution may take some time while the shard map warms up.</p>
+</blockquote>
+<p><img src="img/045-scenario-3-create-success.png" alt=""></p>
+<p>Return to the <strong>Scenario 2</strong> page where the query should still be &quot;Count orders by customer&quot;. Scroll down the 
+page to locate &quot;FISSA&quot; or &quot;WARTH&quot;. Note that every time you press the <strong>Create orders</strong> button the order count
+for these two customers will increment.</p>
+<blockquote>
+<p><strong>Pro tip:</strong> You may wish to modify this query to filter the results to just the two customers we are
+interested in, e.g. <code>where c.CustomerId in (22, 87)</code>.</p>
+</blockquote>
+<p>(Remember to re-build the solution with <code>Ctrl-Shift-B</code>)</p>
+<p>E.g.</p>
+<p><img src="img/050-scenario-3-customer-order-count.png" alt=""></p>
+<h2 id="part-two">Part Two</h2>
+<p>Next, we will introduce <em>distributed transactions</em> to the <code>CreateOrders</code> method.</p>
+<p>This is done using the long-standing .NET <code>System.Transactions</code> API. Support for distributed
+transactions with Azure SQL Database is included in <strong>v4.6.1</strong> of the .NET Framework.
+<em>See the final notes below for more information.</em></p>
+<p>Return to Visual Studio, and navigate to the <code>Scenario3Controller</code>.</p>
+<p>Include the &quot;System.Transactions&quot; namespace at the top of the file:</p>
+<pre><code class="lang-csharp">using System.Transactions;
+</code></pre>
+<p>Locate the comment <code>// OPEN TRANSACTION HERE</code> and replace it with the following snippet:</p>
+<pre><code class="lang-csharp">using (var transaction = new TransactionScope())
+</code></pre>
+<p>Next, locate the comment <code>// COMMIT TRANSACTION HERE</code> and replace it with the following snippet:</p>
+<pre><code class="lang-csharp">// Commit the transaction across both connections;
+transaction.Complete();
+</code></pre>
+<p>Re-build the solution with <code>Ctrl-Shift-B</code> and return to Scenario 3. Press the <strong>Create orders</strong> button
+to verify that the method still works.</p>
+<h2 id="part-three">Part Three</h2>
+<p>You have introduced a distributed transaction to the code!</p>
+<p>To see that the changes made to both databases are rolled back in the event of an error, add the
+following line of code before the <code>transaction.Complete();</code> call:</p>
+<pre><code class="lang-csharp">throw new InvalidOperationException(&quot;An unexpected application exception occured&quot;);
+</code></pre>
+<p>E.g.</p>
+<p><img src="img/055-scenario-3-prevent-transaction-commit.png" alt=""></p>
+<p>Now, whenever you click <strong>Create orders</strong> any changes to the order shard databases are rolled back after
+the exception occurs. Try alternating between <strong>Create orders</strong> and the &quot;Customer order count&quot; 
+query to see that the customer order count for &quot;FISSA&quot; and &quot;WARTH&quot; is only incremented when
+<code>transaction.Complete()</code> is called.</p>
+<h2 id="final-notes">Final Notes</h2>
+<p>Azure SQL Database Elastic Transactions are available <em>only</em> with .NET Framework <strong>v4.6.1</strong> or later.</p>
+<p>If you are running an older version of the .NET Framework, you may receive an error like the following when attempting to open
+a second connection under the transaction:</p>
+<pre><code>The Promote method returned an invalid value for the distributed transaction.
+</code></pre><h2 id="further-reading">Further reading</h2>
+<ul>
+<li><a href="https://azure.microsoft.com/en-us/documentation/articles/sql-database-elastic-scale-introduction/">Elastic Database features overview</a></li>
+<li><a href="https://azure.microsoft.com/en-us/blog/elastic-database-transactions-with-azure-sql-database/">Elastic Database Transactions with Azure SQL Database</a></li>
+</ul>

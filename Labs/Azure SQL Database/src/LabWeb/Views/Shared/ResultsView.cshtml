@@ -1,0 +1,95 @@
+﻿@model LabWeb.Helpers.ResultsViewModel
+
+<section>
+    
+    <h3>Command Text</h3>
+
+    <pre>@((Model.CommandText ?? "").Trim())</pre>
+
+</section>
+
+@if (Model.RecordsAffected > 0)
+{
+    <p>
+        @Model.RecordsAffected rows affected
+    </p>
+}
+
+@if (Model.ResultSets.Length == 0)
+{
+    <section>
+        <strong>No data</strong>
+    </section>
+}
+else if (Model.ResultSets.Length > 1)
+{
+    <p>
+        Jump to results:
+        @foreach (var set in Model.ResultSets)
+        {
+            <a href="#results@(set.Id)" class="btn btn-default">Result set @set.Id</a>
+        }
+    </p>
+}
+
+@foreach (var set in Model.ResultSets)
+{
+    <section data-max-height="250px">
+
+        <h3 id="results@(set.Id)">Result set @set.Id</h3>
+
+        <table class="table table-striped table-bordered">
+            <tr>
+                @foreach (var header in set.Fields)
+                {
+                    <th>@header</th>
+                }
+            </tr>
+            @if (set.Rows.Length == 0)
+            {
+                <tr>
+                    <td colspan="@set.Fields.Length">
+                        <strong>No data</strong>   
+                    </td>
+                </tr>
+            }
+            @foreach (var row in set.Rows)
+            {
+                <tr>
+                    @foreach (var value in row.Values)
+                    {
+                        <td>@PrettyPrint(value)</td>
+                    }
+                </tr>
+            }
+        </table>
+    </section>
+}
+
+@functions
+{
+    public object PrettyPrint(object value)
+    {
+        // Special NULL handling
+        if (value == null || value == DBNull.Value)
+        {
+            return MvcHtmlString.Create("<strong>NULL</strong>");
+        }
+        var t = value.GetType();
+        // Does this look like it is just a Date? (No time component)
+        if (t == typeof(DateTime) && ((DateTime)value).TimeOfDay == TimeSpan.Zero)
+        {
+            return ((DateTime)value).ToShortDateString();
+        }
+        if (t == typeof(DateTimeOffset) && ((DateTimeOffset)value).TimeOfDay == TimeSpan.Zero)
+        {
+            return ((DateTimeOffset) value).LocalDateTime.ToShortDateString();
+        }
+        // Decimal? Likely to be money
+        if (t == typeof(decimal))
+        {
+            return ((decimal) value).ToString("0.00");
+        }
+        return value;
+    }
+}

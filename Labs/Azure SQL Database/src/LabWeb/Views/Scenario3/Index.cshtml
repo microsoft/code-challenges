@@ -1,0 +1,32 @@
+﻿@model LabWeb.Helpers.ResultsViewModel
+
+@{
+    ViewBag.Title = "Scenario 3";
+}
+
+<h2>Scenario 3</h2>
+
+@{ var recordsChanged = TempData["RecordsChanged"]; }
+@if (recordsChanged != null)
+{
+    <div class="alert alert-success">
+
+        <strong>Success!</strong>
+        <hr />
+        <p class="bg-success">
+            Inserted @recordsChanged new records
+        </p>
+
+    </div>
+}
+
+<section>
+
+    <p>Click the button below to insert two orders</p>
+
+    @using (Html.BeginForm("CreateOrders", "Scenario3"))
+    {
+        <button type="submit" class="btn btn-warning">Create orders</button>
+    }
+
+</section>

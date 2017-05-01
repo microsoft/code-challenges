@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>Azure SQL Database</h1>
+    <p class="lead">
+        Elastic database queries hands-on lab
+    </p>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>
+            About this lab
+        </h2>
+        <p>
+            Azure SQL Database now includes support for <strong>Elastic queries</strong> and <strong>cross-database transactions</strong>.
+        </p>
+        <p>
+            In this lab you will get hands-on experience with:
+        </p>
+        <ol>
+            <li>Cross-database queries (vertical partitioning)</li>
+            <li>Elastic queries across sharded databases (horizontal partitioning)</li>
+            <li>Cross-database transactions</li>
+        </ol>
+        <p>
+            Open the accompanying hands-on lab document and select a scenario below to get started.
+        </p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Scenario 1</h2>
+        <p>Cross-database queries (vertical partitioning)</p>
+        <p>@Html.ActionLink("Go to Scenario 1", "Index", new { controller = "Scenario1" }, new { @class = "btn btn-default" })</p>
+    </div>
+    <div class="col-md-4">
+        <h2>Scenario 2</h2>
+        <p>Elastic queries across sharded databases (horizontal partitioning)</p>
+        <p>@Html.ActionLink("Go to Scenario 2", "Index", new { controller = "Scenario2" }, new { @class = "btn btn-default" })</p>
+    </div>
+    <div class="col-md-4">
+        <h2>Scenario 3</h2>
+        <p>Cross-database transactions</p>
+        <p>@Html.ActionLink("Go to Scenario 3", "Index", new { controller = "Scenario3" }, new { @class = "btn btn-default" })</p>
+    </div>
+</div>
