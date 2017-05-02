@@ -1,0 +1,31 @@
+{
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:38416/",
+      "sslPort": 0
+    }
+  },
+  "profiles": {
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "MSSQL_SERVICE_PORT": "1433",
+        "SA_PASSWORD": "Newuser@123",
+        "MSSQL_SERVICE_HOST": "127.0.0.1",
+        "SQLDB_DATABASE": "MVCPersonDB",
+        "ASPNET_VERSION": "Core-1.0.0"
+      }
+    },
+    "dotnet_core_mssql_app": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "http://localhost:5000",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

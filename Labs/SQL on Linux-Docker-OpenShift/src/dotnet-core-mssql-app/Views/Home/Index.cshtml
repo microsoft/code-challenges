@@ -1,0 +1,58 @@
+﻿@using dotnet_core_mssql_app.Models
+@model List<Person>
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>ASP.NET Core with MSSQL DB</h1>
+    <p class="lead">This is ASP.NET Core 1.0 application using MSSQL Database as backend.</p>
+</div>
+<div class="row text-danger">
+    @ViewBag.ClusterIPError
+</div>
+
+<div class="row">
+    <h3 class="less-mixins-centering">Persons Dictionary</h3>
+    <ul class="list-inline">
+        @if (Model != null)
+        {
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <li style="width:30%; border:1px solid #ddd; margin-right:10px; margin-bottom:10px;">
+                    <div class="table">
+                        <div style="display:inline-block; vertical-align:top">
+                            <img class="media-object small pull-left" src="@Model[i].Picture.ToString()" style="padding:10px; border-radius:50%;" width="100" height="100">
+                        </div>
+                        <div style="display:inline-block; padding:10px">
+                            <p>@Model[i].Name.ToString()</p>
+                            <p>@Model[i].ContactNo.ToString()</p>
+                            <p>@Model[i].Address.ToString()</p>
+                        </div>
+                    </div>
+
+                </li>
+            }
+        }
+    </ul>
+    <h3 class="less-mixins-centering">Add New Person Information</h3>
+    @using (Html.BeginForm())
+    {
+        <form class="bs-example">
+            <div class="form-group">
+                <label for="name">Person Name</label>
+                <input type="text" class="form-control" id="txtRestName" name="personname" placeholder="Person Name" required autofocus>
+            </div>
+            <div class="form-group">
+                <label for="emailId">Email ID</label>
+                <input type="text" class="form-control" id="txtemailid" name="address" placeholder="Email ID">
+            </div>
+            <div class="form-group">
+                <label for="contactno">Contact No</label>
+                <input type="text" class="form-control" id="txtcontact" name="contactno" placeholder="Contact No" required>
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+    }
+</div>
