@@ -398,7 +398,7 @@
       "displayName": "Git Repository URL",
       "required": true,
       "description": "The URL of the repository with your application source code.",
-      "value": "https://github.com/Microsoft/code-challenges.git"
+      "value": "https://github.com/click2cloud/dotnet-core-mssql-app.git"
     },
     {
       "name": "SOURCE_REPOSITORY_REF",
@@ -410,7 +410,7 @@
       "name": "CONTEXT_DIR",
       "displayName": "Context Directory",
       "description": "Set this to the relative path to your project if it is not in the root of your repository.",
-      "value": "/Labs/SQL on Linux-Docker-OpenShift/src/dotnet-core-mssql-app"
+      "value": "/src/dotnet-core-mssql-app"
     },
     {
       "name": "DOTNET_STARTUP_PROJECT",

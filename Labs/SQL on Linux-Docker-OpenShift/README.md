@@ -8,6 +8,10 @@ This is a demo application created to show how SQL Server can operate on OpenShi
 SQL on Linux-Docker-OpenShift
 │   README.md                           <--- Contains project overview and instructions to run SQL Server 
 │
+└───docs
+│   │   Lab01 - Run SQL Server in OpenShift Container 
+        Platform.docx                   <--- Hands-on lab document 
+│
 └───Lab-Scripts
 │   │   01-cluster-up.bat               <--- Script to run OpenShift cluster on Windows Lab 
 │   │   02-port-forward.bat             <--- Script to forward MSSQL Container port
@@ -22,3 +26,6 @@ SQL on Linux-Docker-OpenShift
 │    
 ```
 
+## Lab 
+
+See the hands-on lab document [here](docs/Lab01 - Run SQL Server in OpenShift Container Platform.docx)
