@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C385C9C3-76AF-46AC-A6C4-95FFCFFAF438}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3CD06AC3-3A59-4DDF-B20D-DACEBE56B8EB}"
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+	EndProjectSection
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "dotnet-core-mssql-app", "src\dotnet-core-mssql-app\dotnet-core-mssql-app.xproj", "{AE3AF875-0B8C-4678-99C8-A2C95B008221}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AE3AF875-0B8C-4678-99C8-A2C95B008221}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE3AF875-0B8C-4678-99C8-A2C95B008221}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE3AF875-0B8C-4678-99C8-A2C95B008221}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE3AF875-0B8C-4678-99C8-A2C95B008221}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AE3AF875-0B8C-4678-99C8-A2C95B008221} = {C385C9C3-76AF-46AC-A6C4-95FFCFFAF438}
+	EndGlobalSection
+EndGlobal

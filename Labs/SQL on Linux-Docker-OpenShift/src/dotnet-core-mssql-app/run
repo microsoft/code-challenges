@@ -1,0 +1,2 @@
+#!/bin/bash
+sleep 5000 | nohup dotnet run > /dev/null 2>&1 &
