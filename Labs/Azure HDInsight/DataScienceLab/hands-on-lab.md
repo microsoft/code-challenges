@@ -28,7 +28,7 @@ Learn the basics of data science using Spark
 This notebook demonstrates how to use MLLib, Sparks's built-in machine
 learning libraries, to perform a simple prediction on an open dataset.
 
-**Launch Jupyter Notebooks **
+### Launch Jupyter Notebook
  Navigate to this link and add your cluster name and username/password provided. https://<Fill_ME_IN>.azurehdinsight.net/jupyter/tree/PySpark
 
 -   Username: &lt;FILL\_ME\_IN&gt;
@@ -61,7 +61,7 @@ Read the dataset from a csv file stored in Azure Blob Storage.
 
 ```python
 inspections =
-spark.read.csv('wasb:///HdiSamples/HdiSamples/FoodInspectionData/FoodInspections1.csv',
+spark.read.csv('wasb:///HdiSamples/HdiSamples/FoodInspectionData/Food_Inspections1.csv',
 inferSchema=True)
 ```
 #### Inspect Schema
@@ -86,12 +86,12 @@ df.select('results').distinct().show()
 
 import matplotlib.pyplot as plt
 
-labels = count\_results\_df\['results'\]
+labels = count_results_df['results']
 
-sizes = count\_results\_df\['cnt'\]
+sizes = count_results_df['cnt']
 
-colors = \['turquoise', 'seagreen', 'mediumslateblue', 'palegreen',
-'coral'\]
+colors = ['turquoise', 'seagreen', 'mediumslateblue', 'palegreen',
+'coral']
 
 plt.pie(sizes, labels=labels, autopct='%1.1f%%', colors=colors)
 
@@ -110,7 +110,7 @@ We can use the model we created earlier to predict what the results of
 new inspections will be, based on the violations that were observed.
 ```python
 testData =
-selectInterestingColumns(spark.read.csv('wasb:///HdiSamples/HdiSamples/FoodInspectionData/Food\_Inspections2.csv',
+selectInterestingColumns(spark.read.csv('wasb:///HdiSamples/HdiSamples/FoodInspectionData/Food_Inspections2.csv',
 inferSchema=True))
 
 testDf = testData.where("results = 'Fail' OR results = 'Pass' OR results
@@ -137,7 +137,7 @@ print("There were %d inspections and there were %d successful
 predictions" % (numInspections, numSuccesses))
 
 print("This is a %d%% success rate" % (float(numSuccesses) /
-float(numInspections) \* 100))
+float(numInspections) * 100))
 ```
 #### Final visualization to help us reason about the results of this test.
 
@@ -302,7 +302,7 @@ print("There were %d User sessions and there were %d successful
 predictions" % (numInspections, numSuccesses))
 
 print("This is a %d%% success rate" % (float(numSuccesses) /
-float(numInspections) \* 100))
+float(numInspections) * 100))
 ```
 #### Final visualization to help us reason about the results of this test.
 

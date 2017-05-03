@@ -83,8 +83,7 @@ PaymentAmount varchar(50)
 
 STORED AS TEXTFILE LOCATION 'wasb:///hadooplabs/Lab1/weblogs/';
 
-LOAD DATA INPATH 'wasb:///hadooplabs/Lab1/weblogs.csv' INTO TABLE
-HDILABDB.weblogs;
+LOAD DATA INPATH 'wasb:///hadooplabs/Lab1/weblogs.csv' INTO TABLE HDILABDB.weblogs;
 ```
 -   Click Execute to run the query. Once the query complete, the Query
     Process Results, status will change to **SUCCEEDED**.
@@ -202,14 +201,11 @@ month. The output should look like this.
 
 DROP TABLE IF EXISTS HDILABDB.SalesbyCategory;
 
-CREATE TABLE HDILABDB.SalesbyCategory ROW FORMAT DELIMITED
-
-FIELDS TERMINATED by '\1' lines TERMINATED by '\n'
+CREATE TABLE HDILABDB.SalesbyCategory ROW FORMAT DELIMITED FIELDS TERMINATED by '\1' lines TERMINATED by '\n'
 
 STORED AS TEXTFILE LOCATION 'wasb:///hadooplabs/Lab1/SalesbyCategory'
 
 AS
-
 Select
 
 categoryname,
@@ -218,12 +214,8 @@ Sum(Quantity) As quantitysold,
 
 Sum(PaymentAmount) As totalamount
 
-FROM HDILABDB.weblogs
-
-WHERE PurchaseType="Purchased"
-
+FROM HDILABDB.weblogs WHERE PurchaseType="Purchased"
 GROUP BY CategoryName
-
 ORDER BY QuantitySold Desc;
 
 Select * from HDILABDB.SalesbyCategory LIMIT 10
@@ -250,10 +242,7 @@ sold per book. The output should look like this.
 -- Top Selling Books
 
 DROP TABLE IF EXISTS HDILABDB.SalesbyBooks;
-
-CREATE TABLE HDILABDB.SalesbyBooks ROW FORMAT DELIMITED FIELDS
-
-TERMINATED by '\1' lines TERMINATED by '\n'
+CREATE TABLE HDILABDB.SalesbyBooks ROW FORMAT DELIMITED FIELDS TERMINATED by '\1' lines TERMINATED by '\n'
 
 STORED AS TEXTFILE LOCATION 'wasb:///hadooplabs/Lab1/SalesbyBooks'
 
