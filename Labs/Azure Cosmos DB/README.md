@@ -1,4 +1,4 @@
-Document DB
+Azure Cosmos DB
 ======
 
 ## Deployment

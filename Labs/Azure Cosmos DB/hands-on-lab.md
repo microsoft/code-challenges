@@ -1,13 +1,13 @@
-Azure DocumentDB Lab
+Azure Cosmos DB Lab
 =================================================
 
 ## Overview
 
-Azure DocumentDB is a NoSQL, JSON document database built for big data solutions that require scaling and high availability.
+Azure Cosmos DB is Microsoft's globally distributed, multi-model database service designed for global scale-out.
 
 This hands-on lab will step you through the following features:
 
-1. **Querying** - Connect to a DocumentDB database and execute a simple query
+1. **Querying** - Connect to a Azure Cosmos DB database using the DocumentDB API and execute a simple query
 2. **Filtering** - Execute ad-hoc queries on schemaless JSON data.
 
 ### About the code
@@ -16,14 +16,14 @@ This lab uses a simple ASP.NET MVC website as a test application. This applicati
 write arbitrary query commands and execute them against our test databases. Any result set will be
 rendered automatically into the JSON response panel. There are arrows to navigate left and right through the results. 
 
-> **Note:** The DocumentDB that we will be querying was created via the Azure Portal.
+> **Note:** The Azure Cosmos DB that we will be querying was created via the Azure Portal.
 > For more information on the Azure Portal refer to the **Appendix** at the end of this lab.
 
 -----
 
 ## Scenario 1
 
-In this scenario. We will change the MVC application to send a query to the DocumentDB server.
+In this scenario. We will change the MVC application to send a query to the Azure Cosmos DB server.
 
 ### Part One
 
@@ -34,7 +34,7 @@ You should be presented with an application that looks like this:
 
 ![](./images/home_page.png)
 
-This page is designed to take the query that the user writes and pass it to a DocumentDB server that
+This page is designed to take the query that the user writes and pass it to a Azure Cosmos DB server via the DocumentDB API that
 we have set up for the purposes of this demo. 
 
 Type this query into the query editor:
@@ -48,7 +48,7 @@ FROM c
 
 ![](./images/no_results.png)
 
-Currently there are no results - we need to finish implementing the DocumentDB call first.
+Currently there are no results - we need to finish implementing the DocumentDB API call first.
 
 ### Part Two
 
@@ -62,7 +62,7 @@ Find the `Query` action method. There is a line of code that looks like this:
 IDocumentQuery<dynamic> docQuery = null;
 ```
 
-We will modify it to create and send a DocumentDB query. 
+We will modify it to create and send a DocumentDB SQL query. 
 
 The query text from the page is passed into the action via the `query` variable. Change it to the following:
 
@@ -81,7 +81,7 @@ Let's quickly inspect the rest of the Query Action:
 var results = await docQuery.ExecuteNextAsync();
 ```
 
-This part is what actually uses the Azure DocumentDB SDK to call DocumentDB and retrieve the results for
+This part is what actually uses the DocumentDB SDK to call Azure Cosmos DB and retrieve the results for
 our query. Notice this will only return up to `MaxItemCount` results as above (In our case 10 items). 
 This can also be set to -1 for dynamic sizing of the resulting set to the maximum response size.
 
@@ -119,14 +119,14 @@ FROM c
 
 ![](./images/50_results.png)
 
-Progress! We have successfully returned results from DocumentDB.
+Progress! We have successfully returned results from Azure Cosmos DB.
 
 
 ## Scenario 2
 
 From now on, we will be working directly in the web browser.
 
-In this scenario we will introduce the SQL-like syntax of DocumentDB and show how we can use it to manipulate our results.
+In this scenario we will introduce the DocumentDB SQL syntax and show how we can use it to manipulate our results.
 
 The dataset we are querying is a live stream of tweets from twitter with hashtags relating to //build/.
 
@@ -158,7 +158,7 @@ Give it a try!
 
 Now that we know how to select some records, lets see how the different data centres affect our latency!
 
-This project has been configured to allow the user to select which region to execute their DocumentDB query against. By default the Azure DocumentDB SDK will chose the most optiomal endpoint to perform read and write operations, however client applications can specify the ordered preference list of regions to be used to perform document operations. (We are using this so you can see the differences between regions)
+This project has been configured to allow the user to select which region to execute their DocumentDB SQL query against. By default the DocumentDB SDK will chose the primary region to perform read and write operations, however client applications can specify the ordered preference list of regions to be used to perform document operations. (We are using this so you can see the differences between regions)
 
 Exceute this query and select a different region each time. Notice how the response time changes due to the location of the data center?
 
@@ -174,6 +174,8 @@ FROM tweets
 ![](./images/north_europe.png)
 
 ![](./images/southeast_asia.png)
+
+> **Note:** These response time here includes the time it takes to send a packet from the development environment over the wire in addition to the time it takes Azure Cosmos DB to run the query. Single document reads from Cosmos DB return in <10ms when performed from a VM co-located in the same region as the database region.
 
 Try this out with the difference queries going forward!
 
@@ -208,7 +210,7 @@ FROM tweets
 
 Now that we know how to select a certain field, we can filter on them.
 
-Send a tweet now on twitter using #MSBuild or #DocumentDB. Lets see if we can find your tweet!
+Send a tweet now on twitter using #MSBuild, #Azure, or #CosmosDB. Lets see if we can find your tweet!
 
 Write a query to select a specific tweet by its user by username (replace windowsdev with your username):
 
@@ -247,7 +249,7 @@ In this scenario we are going to see how we can use joins to inspect child objec
 
 ### Part One
 
-We have been using DocumentDB to inspect all the tweets in the database and for certain users.
+We have been using DocumentDB SQL to inspect all the tweets in the database and for certain users.
 
 Lets see how we can find out the hashtags that have been used in all the tweets. We can use the `JOIN` keyword to join to our hashtags array in each tweet. We can also give it an alias and inspect its properties.
 
@@ -266,13 +268,13 @@ Inspect the results and you will see for each hashtag object in the array of eac
 ![](./images/join2.png)
 
 
-Now that we know how to join to our child array we can use it for filtering. Lets find all other hashtags that have been used along with the build hashtags (#MSBuild, #Azure, #DocumentDB):
+Now that we know how to join to our child array we can use it for filtering. Lets find all other hashtags that have been used along with the build hashtags (#MSBuild, #Azure, #CosmosDB):
 
 ```SQL
 SELECT hashtags
 FROM tweets
 JOIN hashtags IN tweets.Hashtags
-WHERE hashtags.text NOT IN ("MSBuild", "MsBuild", "DocumentDb", "DocumentDB", "Azure")
+WHERE hashtags.text NOT IN ("MSBuild", "MsBuild", "CosmosDB", "Azure")
 ```
 
 ![](./images/filter2.png)
@@ -392,7 +394,7 @@ FROM tweets
 
 ## Part Three
 
-DocumentDB supports javascript User defined functions, there that you can use on this server called displayDate which removes the time parts of a UTC date string.
+The DocumentDB API supports javascript User defined functions, there that you can use on this server called displayDate which removes the time parts of a UTC date string.
 
 This is the function :
 
@@ -412,27 +414,27 @@ FROM tweets
 
 ![](./images/date_formatted.png)
 
-DocumentDb also supports stored procs written in javascript. This allows scalable and almost unlimited expandablity on the functionality DocumentDB can offer.
+The DocumentDB API also supports stored procedures written in javascript which enables you to perform ACID transactions over multiple records. This allows scalable and almost unlimited expandablity on the functionality Azure Cosmos DB can offer.
 
 ### Further Reading 
 
-[Get Started with DocumentDB - http://aka.ms/docdbstart](http://aka.ms/docdbstart)
+[Get Started with Azure Cosmos DB - http://aka.ms/cosmosdb](http://aka.ms/cosmosdb)
 
-[Documentation and Videos - http://aka.ms/docdbdocs](http://aka.ms/docdbdocs)
+[Documentation and Videos - http://aka.ms/acdbnqs](http://aka.ms/acdbnqs)
 
-[How does pricing work? - http://aka.ms/docdbpricing](http://aka.ms/docdbpricing)
+[How does pricing work? - http://aka.ms/acdbpricing](http://aka.ms/acdbpricing)
 
-[Get help on the forums - http://aka.ms/docdbforum](http://aka.ms/docdbforum)
+[Get help on Stack Overflow - http://stackoverflow.com/questions/tagged/azure-documentdb](http://stackoverflow.com/questions/tagged/azure-documentdb)
 
 [DocumentDB SQL Query Syntax](https://azure.microsoft.com/en-us/documentation/articles/documentdb-sql-query)
 
-[DocumentDB Query Playground](https://www.documentdb.com/sql/demo)
+[DocumentDB SQL Query Playground](https://www.documentdb.com/sql/demo)
 
 ## Appendix
 
-The Azure Portal was used to create the DocumentDB server. The Azure Portal can be found at [https://portal.azure.com/](https://portal.azure.com/).
+The Azure Portal was used to create the Azure Cosmos DB server. The Azure Portal can be found at [https://portal.azure.com/](https://portal.azure.com/).
 
-Some features that you can use in Azure Portal with DocumentDB include:
+Some features that you can use in Azure Portal with Cosmos DB include:
 
 
 #### Document Explorer

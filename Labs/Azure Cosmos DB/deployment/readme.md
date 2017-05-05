@@ -1,4 +1,4 @@
-# Deployment Guide for DocumentDB Lab
+# Deployment Guide for Azure Cosmos DB Lab
 
 ## Azure Resources
 
@@ -6,7 +6,7 @@ To deploy the azure resouces needed for this lab, click the button below
 
 ![https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2Fcode-challenges%2Fmaster%2FLabs%2FDocumentDB%2FDeployment%2Fazuredeploy.json](http://azuredeploy.net/deploybutton.png)
 
-Enter a resource group and a suitable (unique) name for your DocumentDB server. **This must be all lowercase** Set West US as the Location of the resource group.
+Enter a resource group and a suitable (unique) name for your Azure Cosmos DB server. **This must be all lowercase** Set West US as the Location of the resource group.
 
 ![](./images/azure_deploy.png)
 
@@ -69,14 +69,14 @@ e.g. (The keys in this example have been destroyed)
 <add key="Twitter:AccessTokenSecret" value="bmwuB4HuSWSutrGK7xYyqjefXO0GBWIQDCZqmsKEo4AZE" />
 ```
 
-There are two ways to seed data in your DocumentDB, you can either search for tags or use a live stream of tweets that are using the hashtags that are specified in the`app.config`.
+There are two ways to seed data in your Azure Cosmos DB, you can either search for tags or use a live stream of tweets that are using the hashtags that are specified in the`app.config`.
 
 Firstly add the tags that you want to use in the`app.config` by comma seperating some hash tags
 
 e.g.
 
 ```XML
-<add key="Twitter:Tags" value="#MSBuild,#DocumentDb,#Azure"/>
+<add key="Twitter:Tags" value="#MSBuild,#CosmosDB,#Azure"/>
 ```
 
 Open `Program.cs`
@@ -89,14 +89,14 @@ TwitterLiveStream(credentials, tags);
 ```
 
 If you want to use a live stream of data to seed your data, then leave it as it is.
-If you want execute a search of past tweets (will seed your DocumentDB faster) then swap the commented out line so that it looks like this.
+If you want execute a search of past tweets (will seed your Azure Cosmos DB faster) then swap the commented out line so that it looks like this.
 
 ```csharp
 //TwitterLiveStream(credentials, tags);
 TwitterSearch(credentials, tags);
 ```
 
-Run the application and you will see it seeding your DocumentDB database!
+Run the application and you will see it seeding your Azure Cosmos DB database!
 
 (Note if you are seeding from the live stream then you will have to manually close the application)
 
