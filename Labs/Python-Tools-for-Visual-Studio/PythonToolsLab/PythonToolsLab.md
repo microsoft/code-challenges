@@ -73,15 +73,16 @@ For Polynomial Kernel
 
 ### Set up the environment manually & Run
 
-1. Open the Environments Window (Tools -> Python Tools -> Environment)
+(This is independent of next part, so they can be done in either order)
+1.	Open the Environments Window (Tools -> Python Tools -> Environment)
 
+ 
 2. Create a custom Python 3 environment, make it the default for all programs. If you don't see one, use the tool to create one. 
     a. The path prefix is: C:\Users\Administrator\AppData\Local\Programs\Python\Python36
 
-3. Navigate to packages and install the NumPy, SciPy, sklearn, pandas, and matplotlib. 
+2.	Navigate to packages and install the Pandas, scipy, scikit-learn, and matplotlib packages.
 
-You should see a plot of precited values. The R^2 value is a measure of accuracy of the prediction. The closer this number is to 1, the better 
-the predicted values curve fits with the curve of actual values. Which regression technique best suits this problem?
+You might run into trouble installing one of the packages. For these instances, we recommend using the Anaconda distribution. 
 
 ### Re-run with Anaconda
 
@@ -91,7 +92,8 @@ the predicted values curve fits with the curve of actual values. Which regressio
 
 3. Run the script again.
 
-As you can see using Anaconda precludes the need to customize the environment - it already comes loaded with many popular Python packages for 
-scientific computing. 
+You should see a plot of precited values. The R^2 value is a measure of accuracy of the prediction. The closer this number is to 1, the better the predicted values curve fits with the curve of actual values. Which regression technique best suits this problem?
+
+As you can see using Anaconda precludes the need to customize the environment - it already comes loaded with many popular Python packages for scientific computing. 
 
 
