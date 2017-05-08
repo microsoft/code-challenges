@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Microsoft.CodeChallenges.DocumentDB.Lab.Models
+namespace Microsoft.CodeChallenges.CosmosDB.Lab.Models
 {
     public class QueryModel
     {

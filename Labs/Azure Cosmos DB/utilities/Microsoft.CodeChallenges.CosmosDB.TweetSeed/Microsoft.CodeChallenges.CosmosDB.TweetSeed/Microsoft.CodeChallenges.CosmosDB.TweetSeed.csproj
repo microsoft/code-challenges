@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{1B287D58-0805-481E-85C6-85E6A109D1D2}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Microsoft.CodeChallenges.DocumentDB.TweetSeed</RootNamespace>
-    <AssemblyName>Microsoft.CodeChallenges.DocumentDB.TweetSeed</AssemblyName>
+    <RootNamespace>Microsoft.CodeChallenges.CosmosDB.TweetSeed</RootNamespace>
+    <AssemblyName>Microsoft.CodeChallenges.CosmosDB.TweetSeed</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -76,7 +76,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DocumentDbService.cs" />
+    <Compile Include="CosmosDbService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
