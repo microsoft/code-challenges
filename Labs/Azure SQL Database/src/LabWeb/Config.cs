@@ -6,12 +6,11 @@ namespace LabWeb
     {
         private static int ConnectTimeoutSeconds = 120;
 
-        public const string ServerDomainName = "ENTER YOUR AZURE SQL DATABASE (LOGICAL SERVER NAME)";
-
-        public const string HeadDatabase = "ENTER YOUR HEAD DATABASE INFO";
-
+        public const string ServerDomainName = "";
         public const string Username = "ENTER YOUR AZURE SQL DATABASE LOGICAL SERVER USERNAME";
         public const string Password = "ENTER YOUR AZURE SQL DATABASE LOGICAL SERVER PASSWORD";
+
+        public const string HeadDatabase = "Head";
 
         /// <summary>
         /// Returns a connection string for connecting to the Head database.
