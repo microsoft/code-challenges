@@ -4,11 +4,11 @@ using Microsoft.Azure;
 using Tweetinvi;
 using Tweetinvi.Models;
 
-namespace Microsoft.CodeChallenges.DocumentDB.TweetSeed
+namespace Microsoft.CodeChallenges.CosmosDB.TweetSeed
 {
     class Program
     {
-        private static DocumentDbService _docDbService;
+        private static CosmosDbService _docDbService;
 
         private static void Main()
         {
@@ -19,7 +19,7 @@ namespace Microsoft.CodeChallenges.DocumentDB.TweetSeed
                                                          CloudConfigurationManager.GetSetting("Twitter:AccessToken"),
                                                          CloudConfigurationManager.GetSetting("Twitter:AccessTokenSecret"));
 
-                _docDbService = new DocumentDbService();
+                _docDbService = new CosmosDbService();
                 await _docDbService.Initalise();
 
                 var tags = CloudConfigurationManager.GetSetting("Twitter:Tags").Split(',');

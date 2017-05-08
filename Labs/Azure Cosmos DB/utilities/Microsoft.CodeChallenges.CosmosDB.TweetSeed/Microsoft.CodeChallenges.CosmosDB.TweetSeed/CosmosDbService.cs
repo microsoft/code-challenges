@@ -4,22 +4,22 @@ using Microsoft.Azure;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 
-namespace Microsoft.CodeChallenges.DocumentDB.TweetSeed
+namespace Microsoft.CodeChallenges.CosmosDB.TweetSeed
 {
-    public class DocumentDbService
+    public class CosmosDbService
     {
         private DocumentClient _client;
         private Uri _collectionUri;
 
         public async Task Initalise()
         {
-            var endpoint = CloudConfigurationManager.GetSetting("DocumentDB:Endpoint");
-            var key = CloudConfigurationManager.GetSetting("DocumentDB:Key");
+            var endpoint = CloudConfigurationManager.GetSetting("CosmosDB:Endpoint");
+            var key = CloudConfigurationManager.GetSetting("CosmosDB:Key");
 
             _client = new DocumentClient(new Uri(endpoint), key);
 
-            var database = CloudConfigurationManager.GetSetting("DocumentDB:DatabaseName");
-            var collection = CloudConfigurationManager.GetSetting("DocumentDB:CollectionName");
+            var database = CloudConfigurationManager.GetSetting("CosmosDB:DatabaseName");
+            var collection = CloudConfigurationManager.GetSetting("CosmosDB:CollectionName");
             _collectionUri = UriFactory.CreateDocumentCollectionUri(database, collection);
 
             try

@@ -7,10 +7,10 @@ using System.Web.Mvc;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Documents.Linq;
-using Microsoft.CodeChallenges.DocumentDB.Lab.Models;
+using Microsoft.CodeChallenges.CosmosDB.Lab.Models;
 using Newtonsoft.Json;
 
-namespace Microsoft.CodeChallenges.DocumentDB.Lab.Controllers
+namespace Microsoft.CodeChallenges.CosmosDB.Lab.Controllers
 {
     public class HomeController : Controller
     {
@@ -32,8 +32,8 @@ namespace Microsoft.CodeChallenges.DocumentDB.Lab.Controllers
         {
             if (_readonlyClients == null)
             {
-                var dbEndpoint = new Uri(ConfigurationManager.AppSettings["DocumentDB:Endpoint"]);
-                var dbKey = ConfigurationManager.AppSettings["DocumentDB:Key"];
+                var dbEndpoint = new Uri(ConfigurationManager.AppSettings["CosmosDB:Endpoint"]);
+                var dbKey = ConfigurationManager.AppSettings["CosmosDB:Key"];
 
                 var clients = new Dictionary<string, DocumentClient>();
                 var tasks = new List<Task>();
@@ -76,7 +76,7 @@ namespace Microsoft.CodeChallenges.DocumentDB.Lab.Controllers
 
         private static Uri GetDocumentCollectionUri()
         {
-            return UriFactory.CreateDocumentCollectionUri(ConfigurationManager.AppSettings["DocumentDB:DatabaseName"], ConfigurationManager.AppSettings["DocumentDB:CollectionName"]);
+            return UriFactory.CreateDocumentCollectionUri(ConfigurationManager.AppSettings["CosmosDB:DatabaseName"], ConfigurationManager.AppSettings["CosmosDB:CollectionName"]);
         }
 
         public async Task<ActionResult> Query(string query, string locationName)

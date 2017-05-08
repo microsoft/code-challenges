@@ -1,4 +1,4 @@
-﻿namespace Microsoft.CodeChallenges.DocumentDB.Lab.Models
+﻿namespace Microsoft.CodeChallenges.CosmosDB.Lab.Models
 {
     public class HomeViewModel
     {
