@@ -6,10 +6,10 @@
 -- Create the demo user, grant READ
 
 create user [demouser] for login [demouser];
-go
+GO
 
 alter role db_datareader add member [demouser];
-go
+GO
 
 -- ### Products ###
 
@@ -26,10 +26,10 @@ create table [dbo].[Products](
 	[Discontinued] [bit] not null,
     constraint [PK_Products] primary key clustered ([ProductID] asc)
 );
-go
+GO
 
 create nonclustered index [ProductName] on [dbo].[Products] ([ProductName] asc)
-go
+GO
 
 set identity_insert [dbo].[Products] on
 insert into [dbo].[Products] 

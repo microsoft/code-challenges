@@ -14,15 +14,19 @@ namespace Prepare
     {
         private const int ConnectionTimeoutSeconds = 60;
 
-        private const string ShardServer = "<server>.database.windows.net";
-        private const string ShardMapDatabase = "Head";
-        private const string ShardDatabasePoolName = "ShardDatabasePool";
-
         private const string Username = "<username>";
         private const string Password = "<password>";
+        private const string ShardServer = "<server>.database.windows.net";
+
+        private const string ShardMapDatabase = "Head";
+        private const string ProductDatabase = "Products";
+        private const string MasterDatabase = "Master";
+        private const string ShardDatabasePoolName = "ShardDatabasePool";
 
         public static int FirstShardId = 1;
         public static int LastShardId = 91;
+
+        private static readonly string[] GoSplit = { "GO" + Environment.NewLine };
 
         public static void Main()
         {
@@ -54,6 +58,26 @@ namespace Prepare
             }
             .ToString();
 
+            var productDatabaseConnectionString = new SqlConnectionStringBuilder
+            {
+                ConnectTimeout = ConnectionTimeoutSeconds,
+                DataSource = ShardServer,
+                InitialCatalog = ProductDatabase,
+                UserID = Username,
+                Password = Password
+            }
+            .ToString();
+
+            var masterDatabaseConnectionString = new SqlConnectionStringBuilder
+            {
+                ConnectTimeout = ConnectionTimeoutSeconds,
+                DataSource = ShardServer,
+                InitialCatalog = MasterDatabase,
+                UserID = Username,
+                Password = Password
+            }
+            .ToString();
+
             var shardConnectionString = new SqlConnectionStringBuilder
             {
                 ConnectTimeout = ConnectionTimeoutSeconds,
@@ -65,9 +89,69 @@ namespace Prepare
             var shardMapManager = GetOrCreateCreateSqlShardMapManager(connectionString);
 
             var map = GetOrCreateListShardMap<int>(shardMapManager, "OrderShardMap");
-            
+
+            CreateDemoUser(masterDatabaseConnectionString);
+
             Console.WriteLine("Creating shards");
             BuildAndPrepareShards(map, connectionString, shardConnectionString);
+
+            Console.WriteLine("Seeding Data");
+            SeedData(connectionString, productDatabaseConnectionString);
+        }
+
+        private static void CreateDemoUser(string connectionString)
+        {
+            using (var productsConnection = new SqlConnection(connectionString))
+            {
+                productsConnection.Open();
+                // Prepare the database
+                Console.Write($"Preparing Master");
+                {
+                    var prepareStatements = File.ReadAllText("0_master_prepare.sql").Split(new[] { "GO" }, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (var sql in prepareStatements)
+                    {
+                        productsConnection.Execute(sql: sql, commandTimeout: 0);
+                        Console.Write("#");
+                    }
+                }
+            }
+        }
+
+        private static void SeedData(string connectionString, string productConnectionString)
+        {
+            using (var connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                Console.Write($"Preparing Head");
+                {
+                    var prepareStatements = File.ReadAllText("1_head_prepare.sql")
+                        .Replace("<username>", Username)
+                        .Replace("<password>", Password)
+                        .Replace("<server>", ShardServer)
+                        .Split(GoSplit, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (var sql in prepareStatements)
+                    {
+                        connection.Execute(sql: sql, commandTimeout: 0);
+                        Console.Write("#");
+                    }
+                }
+            }
+
+            using (var productsConnection = new SqlConnection(productConnectionString))
+            {
+                productsConnection.Open();
+
+                Console.Write($"Preparing Products");
+                {
+                    var prepareStatements = File.ReadAllText("2_products_prepare.sql").Split(GoSplit, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (var sql in prepareStatements)
+                    {
+                        productsConnection.Execute(sql: sql, commandTimeout: 0);
+                        Console.Write("#");
+                    }
+                }
+
+            }
         }
 
         private static void BuildAndPrepareShards(ListShardMap<int> shardMap, string headConnectionString, string shardConnectionString)
@@ -97,21 +181,21 @@ namespace Prepare
                     switch (ReadContinueAction())
                     {
                         case ContinueAction.Retry:
-                        {
-                            Console.WriteLine("Retrying...");
-                            break;
-                        }
+                            {
+                                Console.WriteLine("Retrying...");
+                                break;
+                            }
                         case ContinueAction.Skip:
-                        {
-                            Console.WriteLine("Skipping...");
-                            retrying = false;
-                            break;
-                        }
+                            {
+                                Console.WriteLine("Skipping...");
+                                retrying = false;
+                                break;
+                            }
                         case ContinueAction.Halt:
-                        {
-                            Console.WriteLine("Halting...");
-                            return;
-                        }
+                            {
+                                Console.WriteLine("Halting...");
+                                return;
+                            }
                     }
                 }
             }
@@ -163,7 +247,7 @@ namespace Prepare
                     headConn.Execute(sql: $@"create database {databaseName} ( SERVICE_OBJECTIVE = ELASTIC_POOL(name = {ShardDatabasePoolName}) )", commandTimeout: 0);
                 }
             }
-            catch(SqlException ex)
+            catch (SqlException ex)
             {
                 // Does the database already exist?
                 if (ex.Message.Contains("already exists."))
@@ -181,7 +265,7 @@ namespace Prepare
         private static void PrepareOrderShard(Shard shard, int customerId, string shardConnectionString)
         {
             Console.WriteLine($"Connecting to shard {shard.Location.Database}");
-            
+
             using (var conn = shard.OpenConnection(shardConnectionString))
             {
                 // Clear order and order details tables
@@ -195,7 +279,7 @@ namespace Prepare
                 // Prepare the database
                 Console.Write($"Preparing shard {shard.Location.Database}: ");
 
-                var prepareStatements = File.ReadAllText("3_order_shard_prepare.sql").Split(new[] { "GO" }, StringSplitOptions.RemoveEmptyEntries);
+                var prepareStatements = File.ReadAllText("3_order_shard_prepare.sql").Split(GoSplit, StringSplitOptions.RemoveEmptyEntries);
                 foreach (var sql in prepareStatements)
                 {
                     conn.Execute(sql: sql, commandTimeout: 0);

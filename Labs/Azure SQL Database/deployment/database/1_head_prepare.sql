@@ -8,15 +8,15 @@
 -- Create the demo user, grant READ
 
 create user [demouser] for login [demouser];
-go
+GO
 
 alter role db_datareader add member [demouser];
-go
+GO
 
 grant execute on [__ShardManagement].[spGetAllShardMapsGlobal] to [demouser];
 grant execute on [__ShardManagement].[spGetAllShardMappingsGlobal] to [demouser];
 grant execute on [__ShardManagement].[spFindShardMappingByKeyGlobal] to [demouser];
-go
+GO
 
 -- NOTE: username and password should be for an administrator SQL account
 
@@ -27,15 +27,15 @@ create database scoped credential SqlAdminCred
 
 create external data source [ProductsDataSource] with (
     type = RDBMS,
-    location = '<server>.database.windows.net', 
-    database_name = '<products_database_name>',
+    location = '<server>', 
+    database_name = 'Products',
     credential = SqlAdminCred,
 );
 
 create external data source [OrdersDataSource] with (
     type = SHARD_MAP_MANAGER,
-    location = '<server>.database.windows.net',
-    database_name = '<central_database_name>',
+    location = '<server>',
+    database_name = 'Head',
     credential = SqlAdminCred,
     shard_map_name = 'OrderShardMap'
 );
