@@ -50,11 +50,6 @@
                     "name": "Head",
                     "apiVersion": "2014-04-01-preview",
                     "location": "[resourceGroup().location]",
-                    "properties": {
-                        "collation": "[variables('collation')]",
-                        "elasticPoolName": "ShardDatabasePool",
-                        "edition": "Basic"
-                    },
                     "dependsOn": [
                         "[concat('Microsoft.Sql/servers/', parameters('serverName'))]",
                         "[concat('Microsoft.Sql/servers/', parameters('serverName'), '/elasticpools/', 'ShardDatabasePool')]"
@@ -65,11 +60,6 @@
                     "name": "Products",
                     "apiVersion": "2014-04-01-preview",
                     "location": "[resourceGroup().location]",
-                    "properties": {
-                        "collation": "[variables('collation')]",
-                        "elasticPoolName": "ShardDatabasePool",
-                        "edition": "Basic"
-                    },
                     "dependsOn": [
                         "[concat('Microsoft.Sql/servers/', parameters('serverName'))]",
                         "[concat('Microsoft.Sql/servers/', parameters('serverName'), '/elasticpools/', 'ShardDatabasePool')]"

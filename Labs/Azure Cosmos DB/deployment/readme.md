@@ -4,7 +4,7 @@
 
 To deploy the azure resouces needed for this lab, click the button below
 
-![https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2Fcode-challenges%2Fmaster%2FLabs%2FDocumentDB%2FDeployment%2Fazuredeploy.json](http://azuredeploy.net/deploybutton.png)
+![https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2Fcode-challenges%2Fmaster%2FLabs%2FAzure%20Cosmos%20DB%2FDeployment%2Fazuredeploy.json](http://azuredeploy.net/deploybutton.png)
 
 Enter a resource group and a suitable (unique) name for your Azure Cosmos DB server. **This must be all lowercase** Set West US as the Location of the resource group.
 
