@@ -16,7 +16,7 @@ namespace WpfAppClient
     
     public partial class MainWindow : Window
     {
-
+        //You could replace this URL with your own Zipkin Server URL
         private const string zipkinServerUrl = "http://52.229.21.70:9411";
         // Counts the number of requests submitted.
         int count = 1;
