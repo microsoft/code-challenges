@@ -24,7 +24,7 @@ namespace WcfService1
     // NOTE: In order to launch WCF Test Client for testing this service, please select Service1.svc or Service1.svc.cs at the Solution Explorer and start debugging.
     public class DemoService : IDemoService
     {
-
+        //You could replace this URL with your own Zipkin Server URL
         private const string zipkinServerUrl = "http://52.229.21.70:9411";
         public long SubmitNewJob(string content)
         {
