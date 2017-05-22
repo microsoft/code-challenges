@@ -46,10 +46,7 @@ namespace WpfAppClient
         public static void InitializeTraceConfig(String zipkinServerUrl)
         {
 
-            ILogger logger = new MyLogger(); //It should implement ILogger
-                                             //Initialize Zipkin sender with collector URL to which Trace data is sent for storage and the format (Json).
-                                             // IZipkinSender zkSender = new HttpZipkinSender("http://52.229.21.70:9411", "application/json");
-                                             //   IZipkinSender zkSender = new HttpZipkinSender(zipkinServerUrl, "application/x-thrift");
+            ILogger logger = new MyLogger(); 
             IZipkinSender zkSender = new HttpZipkinSender(zipkinServerUrl, "application/json");
 
             //1.0 implies full tracing without sampling ie., records all traces.
