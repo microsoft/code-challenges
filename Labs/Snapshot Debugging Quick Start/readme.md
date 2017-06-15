@@ -89,11 +89,11 @@ Before publishing, we need to add a database
 4. To add a database
   a. Click on the Services option on the left
   b. Click the plus button on the right next to SQL Database, and configure the database and server as needed
-    i. Configure the SQL Server if needed
+  i. Configure the SQL Server if needed
 
  ![](images/009.png)
 
-	ii. Configure the SQL Database, and be sure to set the Connection String Name to MyCompany.Visitors to update the connection string on publish
+  ii. Configure the SQL Database, and be sure to set the Connection String Name to MyCompany.Visitors to update the connection string on publish
 
  ![](images/010.png) Then click OK to setup the creation of the Server and Database on publish
 
