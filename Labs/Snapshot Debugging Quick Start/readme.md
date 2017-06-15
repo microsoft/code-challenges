@@ -12,8 +12,7 @@ Completing this Quick Start should make you familiar with the Snapshot Debugger 
 
 The Virtual Machine that accompanies this Quick Start comes with all the software configured for you to quickly complete this lab.  All you will need is an Azure Subscription.
 
--
-  - If you do not have an Azure Subscription, you can join our [Visual Studio Dev Essentials](https://www.visualstudio.com/dev-essentials/) program to gain free monthly Azure credits.
+- If you do not have an Azure Subscription, you can join our [Visual Studio Dev Essentials](https://www.visualstudio.com/dev-essentials/) program to gain free monthly Azure credits.
 
 The username for this VM is **build** and the password is **QuickStart2017**
 
