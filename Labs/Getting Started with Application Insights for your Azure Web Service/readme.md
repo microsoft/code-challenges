@@ -30,288 +30,288 @@ This Quick Start Challenge is intended for developers familiar with ASP.NET web 
 2. Select **File | New | Project** from the main menu.
 3. From the **Visual C# | Web** section, select the **ASP.NET Web Application (.NET Framework)** template and enter a **Name** of **"AppInsightsLab"**. Click **OK** to continue.
 
- ![](images/0.png)
+ ![](images/001.png)
 
-1. Select the **MVC** template and click **OK** to create the project.
+4. Select the **MVC** template and click **OK** to create the project.
 
- ![](images/0.png)
+ ![](images/002.png)
 
-1. Press **F5** to build and run the app. As you can see, there's nothing special here yet. Close the browser to end the debugging session. Note that you may need to select **Debug | Stop Debugging** to force an end to the session during this lab.
-2. In **Solution Explorer** , right-click the **AppInsightsLab** project node and select **Application Insights | Configure Application Insights**.
+5. Press **F5** to build and run the app. As you can see, there's nothing special here yet. Close the browser to end the debugging session. Note that you may need to select **Debug | Stop Debugging** to force an end to the session during this lab.
+6. In **Solution Explorer** , right-click the **AppInsightsLab** project node and select **Application Insights | Configure Application Insights**.
 
- ![](images/0.png)
+ ![](images/003.png)
 
-1. By default, the NuGet references to the core Application Insights packages are added. However, you'll need to connect with an Azure account to collect and analyze data. Click **Start Free**.
+7. By default, the NuGet references to the core Application Insights packages are added. However, you'll need to connect with an Azure account to collect and analyze data. Click **Start Free**.
 
- ![](images/0.png)
+ ![](images/004.png)
 
-1. Click **Sign in** and sign in with your Azure account.
-2. Select a pricing mode and click **Register**.
+8. Click **Sign in** and sign in with your Azure account.
+9. Select a pricing mode and click **Register**.
 
- ![](images/0.png)
+ ![](images/005.png)
 
-1. Click **Collect traces from System.Diagnostics** to add that trace listener to the project. This will enable you to send logs to Application Insights so that they can be merged in with other telemetry data collected in the application. Click **Finish** when the process completes.
+10. Click **Collect traces from System.Diagnostics** to add that trace listener to the project. This will enable you to send logs to Application Insights so that they can be merged in with other telemetry data collected in the application. Click **Finish** when the process completes.
 
- ![](images/0.png)
+ ![](images/006.png)
 
-1. Let's walk through **Solution Explorer** to take a look at what was added and changed to the project. First, locate the **Application Insights** folder inside the **Connected Services** node. This provides a link to more information on getting started.
+11. Let's walk through **Solution Explorer** to take a look at what was added and changed to the project. First, locate the **Application Insights** folder inside the **Connected Services** node. This provides a link to more information on getting started.
 
- ![](images/0.png)
+ ![](images/007.png)
 
-1. Expand the **References** node and locate the **Microsoft.AI.** \* assemblies. These are the payloads of NuGet packages added by Application Insights.
+12. Expand the **References** node and locate the **Microsoft.AI.** \* assemblies. These are the payloads of NuGet packages added by Application Insights.
 
- ![](images/0.png)
+ ![](images/008.png)
 
-1. Double-click the **ErrorHandler\AiHandleErrorAttribute.cs** file to open it.
+13. Double-click the **ErrorHandler\AiHandleErrorAttribute.cs** file to open it.
 
- ![](images/0.png)
+ ![](images/009.png)
 
-1. This class contains a global exception handler that automatically sends unhandled exceptions to Application Insights for logging.
+14. This class contains a global exception handler that automatically sends unhandled exceptions to Application Insights for logging.
 
- ![](images/0.png)
+ ![](images/010.png)
 
-1. Double-click the **Views\Shared\_Layout.cshtml** file to open it.
+15. Double-click the **Views\Shared\_Layout.cshtml** file to open it.
 
- ![](images/0.png)
+ ![](images/011.png)
 
-1. This file is the outer-most template for HTML pages rendered by this application. Application Insights has inserted initialization code inside the tag so that you can immediately start using the JavaScript API to instrument the client-side portion of the application. Note the **instrumentationKey** property in the middle of the code block. This key is unique to your Application Insights account.
+16. This file is the outer-most template for HTML pages rendered by this application. Application Insights has inserted initialization code inside the tag so that you can immediately start using the JavaScript API to instrument the client-side portion of the application. Note the **instrumentationKey** property in the middle of the code block. This key is unique to your Application Insights account.
 
- ![](images/0.png)
+ ![](images/012.png)
 
-1. Double-click **ApplicationInsights.config** to open it.
+17. Double-click **ApplicationInsights.config** to open it.
 
- ![](images/0.png)
+ ![](images/013.png)
 
- ![](images/0.png)
+ ![](images/014.png)
 
-1. Finally, **packages.config** has been updated to reflect the NuGet packages and **Web.config** has been updated to reflect the assembly references.
+18. Finally, **packages.config** has been updated to reflect the NuGet packages and **Web.config** has been updated to reflect the assembly references.
 
- ![](images/0.png)
+ ![](images/015.png)
 
 # Task 2: Tracking usage data
 
 1. Press **F5** to build and run the project. Navigate around the site for a few pages using the navigation links at the top to generate traffic. Be sure to visit the **Contact** page.
 
- ![](images/0.png)
+ ![](images/016.png)
 
-1. Leave the browser window open and return to **Visual Studio**.
-2. Click the **Application Insights** button. Note that it may be minimized inside a collapsed menu button if the window is narrow.
+2. Leave the browser window open and return to **Visual Studio**.
+3. Click the **Application Insights** button. Note that it may be minimized inside a collapsed menu button if the window is narrow.
 
- ![](images/0.png)
+ ![](images/017.png)
 
- ![](images/0.png)
+ ![](images/018.png)
 
-1. The default action of the button is to open the **Application Insights Search**. This provides access to the full set of telemetry data collection throughout the application's history. Search for **"contact"** and click the first result that comes up.
+4. The default action of the button is to open the **Application Insights Search**. This provides access to the full set of telemetry data collection throughout the application's history. Search for **"contact"** and click the first result that comes up.
 
- ![](images/0.png)
+ ![](images/019.png)
 
-1. The **Request Details** that open provide a wealth of information about the collected data from the request, such as the request and response details. Click the **Track Operation** tab.
+5. The **Request Details** that open provide a wealth of information about the collected data from the request, such as the request and response details. Click the **Track Operation** tab.
 
- ![](images/0.png)
+ ![](images/020.png)
 
-1. The **Track Operation** tab provides the details and timeline of the steps involved in the request. In this case, it's a pretty simple single-step operation that succeeded.
+6. The **Track Operation** tab provides the details and timeline of the steps involved in the request. In this case, it's a pretty simple single-step operation that succeeded.
 
- ![](images/0.png)
+ ![](images/021.png)
 
 # Task 3: Working with the Application Insights Portal
 
 1. Open a new browser window (not a new tab in the debug browser window) and navigate to [https://portal.azure.com](https://portal.azure.com/). The portal provides even more functionality.
 2. Click **Application Insights** from the navigation menu.
 
- ![](images/0.png)
+ ![](images/022.png)
 
-1. Click the **AppInsightsLab** account to open it.
+3. Click the **AppInsightsLab** account to open it.
 
- ![](images/0.png)
+ ![](images/023.png)
 
-1. The **Overview** blade provides a dashboard view of the account. There are shortcut links and standard reports as well.
+4. The **Overview** blade provides a dashboard view of the account. There are shortcut links and standard reports as well.
 
- ![](images/0.png)
+ ![](images/024.png)
 
-1. Click the **Open chart in Analytics** button.
+5. Click the **Open chart in Analytics** button.
 
- ![](images/0.png)
+ ![](images/025.png)
 
-1. This will open the extremely powerful **Analytics** engine for query and analysis. You can create virtually any kind of report you need using the flexible syntax and access to everything in the platform. Close the browser tab.
+6. This will open the extremely powerful **Analytics** engine for query and analysis. You can create virtually any kind of report you need using the flexible syntax and access to everything in the platform. Close the browser tab.
 
- ![](images/0.png)
+ ![](images/026.png)
 
-1. Back on the **Overview** blade, click **Alerts**. Alerts are proactive notifications the platform can send you based on the circumstances you define.
+7. Back on the **Overview** blade, click **Alerts**. Alerts are proactive notifications the platform can send you based on the circumstances you define.
 
- ![](images/0.png)
+ ![](images/027.png)
 
-1. Click **Add alert**.
+8. Click **Add alert**.
 
- ![](images/0.png)
+ ![](images/028.png)
 
-1. Expand the **Metric** dropdown to see the list of metrics you can monitor for alerts. Close the alert blades until you return to the **Overview** blade.
+9. Expand the **Metric** dropdown to see the list of metrics you can monitor for alerts. Close the alert blades until you return to the **Overview** blade.
 
- ![](images/0.png)
+ ![](images/029.png)
 
-1. **Smart Detection** is a machine learning feature that learns about your app's behavior over time and can proactively identify circumstances that may be unexpected so that you can be alerted.
+10. **Smart Detection** is a machine learning feature that learns about your app's behavior over time and can proactively identify circumstances that may be unexpected so that you can be alerted.
 
- ![](images/0.png)
+ ![](images/030.png)
 
-1. Click **Availability**. Web tests are automated processes you can configure Application Insights to run periodically to ensure the application is running as expected.
+11. Click **Availability**. Web tests are automated processes you can configure Application Insights to run periodically to ensure the application is running as expected.
 
- ![](images/0.png)
+ ![](images/031.png)
 
-1. Click **Add web test**.
+12. Click **Add web test**.
 
- ![](images/0.png)
+ ![](images/032.png)
 
-1. You can create web tests that either ping a URL periodically or run a **.webtest** file you provide in order to determine whether the site is running as expected. Close the test blades until you return to the **Overview** blade for this project.
+13. You can create web tests that either ping a URL periodically or run a **.webtest** file you provide in order to determine whether the site is running as expected. Close the test blades until you return to the **Overview** blade for this project.
 
- ![](images/0.png)
+ ![](images/033.png)
 
-1. Click the **Live Stream** button to begin live streaming the Application Insights collections into the portal.
+14. Click the **Live Stream** button to begin live streaming the Application Insights collections into the portal.
 
- ![](images/0.png)
+ ![](images/034.png)
 
-1. Return to the debug test app browser and use the navigation links to generate some site traffic. Close the debug application browser window (not the portal window) when done.
+15. Return to the debug test app browser and use the navigation links to generate some site traffic. Close the debug application browser window (not the portal window) when done.
 
- ![](images/0.png)
+ ![](images/035.png)
 
-1. Return to the portal window and notice how the traffic you just generated is already showing up.
+16. Return to the portal window and notice how the traffic you just generated is already showing up.
 
- ![](images/0.png)
+ ![](images/036.png)
 
-1. Close the **Live Metrics Stream** blade.
-2. Click the **App map** button.
+17. Close the **Live Metrics Stream** blade.
+18. Click the **App map** button.
 
- ![](images/0.png)
+ ![](images/037.png)
 
- ![](images/0.png)
+ ![](images/038.png)
 
-1. Besides the **Server** , the **Client** also has a dependency on **AJAX** requests, which you can see here.
+19. Besides the **Server** , the **Client** also has a dependency on **AJAX** requests, which you can see here.
 
- ![](images/0.png)
+ ![](images/039.png)
 
 # Task 4: Tracking exceptions
 
 1. Return the **Solution Explorer** in **Visual Studio** and double-click **Controllers\HomeController.cs** to open that file.
 
- ![](images/0.png)
+ ![](images/040.png)
 
-1. Insert the following line of code at the top of the **Contact** method.
+2. Insert the following line of code at the top of the **Contact** method.
+```
+throw new Exception("Contact exception!");
+```
 
-1.
-  1. throw new Exception("Contact exception!");
+3. The final method should look like this.
 
-1. The final method should look like this.
+ ![](images/041.png)
 
- ![](images/0.png)
+4. Press **F5** to build and run the newly flawed project.
+5. Navigate to the **Contact** page.
 
-1. Press **F5** to build and run the newly flawed project.
-2. Navigate to the **Contact** page.
+ ![](images/042.png)
 
- ![](images/0.png)
+6. This may throw an exception and break in **Visual Studio**. If so, press **F5** to continue anyway.
+7. In **Visual Studio** , click the **Application Insights** button.
 
-1. This may throw an exception and break in **Visual Studio**. If so, press **F5** to continue anyway.
-2. In **Visual Studio** , click the **Application Insights** button.
+ ![](images/043.png)
 
- ![](images/0.png)
+8. There should be data in the view, but if there isn't, click the **Reset** button and set the **Time range** to **Last 30 minutes**. This occasionally needs to be done to refresh the view. Note that there is now an **Exception** tracked.
 
-1. There should be data in the view, but if there isn't, click the **Reset** button and set the **Time range** to **Last 30 minutes**. This occasionally needs to be done to refresh the view. Note that there is now an **Exception** tracked.
+ ![](images/044.png)
 
- ![](images/0.png)
+9. Locate and click on the **Exception** in the list view.
 
-1. Locate and click on the **Exception** in the list view.
+ ![](images/045.png)
 
- ![](images/0.png)
+10. Like the request earlier, you can also click **Track Operation** to see the steps involved to get to this exception.
 
-1. Like the request earlier, you can also click **Track Operation** to see the steps involved to get to this exception.
+ ![](images/046.png)
 
- ![](images/0.png)
+11. As we already knew, the exception began with a request to **Home/Contact**.
 
-1. As we already knew, the exception began with a request to **Home/Contact**.
+ ![](images/047.png)
 
- ![](images/0.png)
+12. Expand the **Application Insights** dropdown and select **Explore Telemetry Trends**.
 
-1. Expand the **Application Insights** dropdown and select **Explore Telemetry Trends**.
+ ![](images/048.png)
 
- ![](images/0.png)
+13. The **Application Insights Trends** tool visualizes how your application's important telemetry events change over time, helping you quickly identify problems and anomalies. By linking you to more detailed diagnostic information, Trends can help you improve your app's performance, track down the causes of exceptions, and uncover insights from your custom events. Change the **Telemetry Type** to **Exceptions** and click **Analyze Telemetry** to see the trends for exceptions.
 
-1. The **Application Insights Trends** tool visualizes how your application's important telemetry events change over time, helping you quickly identify problems and anomalies. By linking you to more detailed diagnostic information, Trends can help you improve your app's performance, track down the causes of exceptions, and uncover insights from your custom events. Change the **Telemetry Type** to **Exceptions** and click **Analyze Telemetry** to see the trends for exceptions.
+ ![](images/049.png)
 
- ![](images/0.png)
+14. Return to the portal window, which should still be open to the **Application Map**. Click **Refresh**.
 
-1. Return to the portal window, which should still be open to the **Application Map**. Click **Refresh**.
+ ![](images/050.png)
 
- ![](images/0.png)
+15. Note that the **Server** now indicates that there is a warning, which is a direct result of the exception. Click the warning. Note that it may take some time for the warning to appear.
 
-1. Note that the **Server** now indicates that there is a warning, which is a direct result of the exception. Click the warning. Note that it may take some time for the warning to appear.
+ ![](images/051.png)
 
- ![](images/0.png)
+16. Scroll to the bottom of the new blade and click the exception.
 
-1. Scroll to the bottom of the new blade and click the exception.
+ ![](images/052.png)
 
- ![](images/0.png)
+17. In the **Exceptions** panel, click **Contact exception!** to review its details.
 
-1. In the **Exceptions** panel, click **Contact exception!** to review its details.
+ ![](images/053.png)
 
- ![](images/0.png)
+18. Even in the portal, you can review the full stack trace and other details about the exception.
 
-1. Even in the portal, you can review the full stack trace and other details about the exception.
+ ![](images/054.png)
 
- ![](images/0.png)
+19. Return to **HomeController.cs** in **Visual Studio**. Note the two **CodeLens** markers on the right side of the **Contact** method. Click the last one to review **Exception** details. Click the one before it to view requests. These are pulling data from Application Insights to provide you with timely information in the editor.
 
-1. Return to **HomeController.cs** in **Visual Studio**. Note the two **CodeLens** markers on the right side of the **Contact** method. Click the last one to review **Exception** details. Click the one before it to view requests. These are pulling data from Application Insights to provide you with timely information in the editor.
+ ![](images/055.png)
 
- ![](images/0.png)
-
-1. Close the debug app browser window.
+20. Close the debug app browser window.
 
 # Task 5: Integrating telemetry
 
 1. Add the following code inside the **About** method. This will track a server-side custom event every time someone visits **Home/About**.
+```
+var ai = new Microsoft.ApplicationInsights.TelemetryClient();
+TrackEvent("About - server");
+```
 
-1.
-  1. var ai = new Microsoft.ApplicationInsights.TelemetryClient();
-  2. TrackEvent("About - server");
+2. In **Solution Explorer** , double-click **Views\Home\About.cshtml** to open it.
 
-1. In **Solution Explorer** , double-click **Views\Home\About.cshtml** to open it.
+ ![](images/056.png)
 
- ![](images/0.png)
+3. Add the following code to the end of the file. It will use the JavaScript API to track a custom browser-side event when the **About** page is visited.
+```
+@section scripts
+{
+	<script type="text/javascript">
+	trackEvent("About - client");
+	</script>
+}
+```
 
-1. Add the following code to the end of the file. It will use the JavaScript API to track a custom browser-side event when the **About** page is visited.
+4. Press **F5** to build and launch the site. Since **About.cshtml** was open, it should open to that page. Otherwise, navigate to it using the link at the top.
+5. In **Visual Studio** , click **Application Insights**.
 
-1.
-  1. @section scripts
-  2. {
-  3. <script type="text/javascript">
-  4. trackEvent("About - client");
-  5. </script>
-  6. }
+ ![](images/057.png)
 
-1. Press **F5** to build and launch the site. Since **About.cshtml** was open, it should open to that page. Otherwise, navigate to it using the link at the top.
-2. In **Visual Studio** , click **Application Insights**.
+6. Now you should see a **Custom Event** has been tracked, which is from the server-side telemetry.
 
- ![](images/0.png)
+ ![](images/058.png)
 
-1. Now you should see a **Custom Event** has been tracked, which is from the server-side telemetry.
+7. Return to the portal window and close all blades until you get back to the **AppInsightsLab** overview blade. Click the **Page view load time** chart.
 
- ![](images/0.png)
+ ![](images/059.png)
 
-1. Return to the portal window and close all blades until you get back to the **AppInsightsLab** overview blade. Click the **Page view load time** chart.
+8. Click the **Page Views** chart.
 
- ![](images/0.png)
+ ![](images/060.png)
 
-1. Click the **Page Views** chart.
+9. Click **Filters**.
 
- ![](images/0.png)
+ ![](images/061.png)
 
-1. Click **Filters**.
+10. Check the **Custom Event** filter to add it. This will add browser-side events to the report. Click **Update**.
 
- ![](images/0.png)
+ ![](images/062.png)
 
-1. Check the **Custom Event** filter to add it. This will add browser-side events to the report. Click **Update**.
+11. On the **Search** blade, you will now see the custom event in the chart. You can now even drill in to the event to get more details, see other requests in the same session, and more.
 
- ![](images/0.png)
-
-1. On the **Search** blade, you will now see the custom event in the chart. You can now even drill in to the event to get more details, see other requests in the same session, and more.
-
- ![](images/0.png)
+ ![](images/063.png)
 
 # Summary
 
