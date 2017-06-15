@@ -12,7 +12,8 @@ Completing this Quick Start should make you familiar with the Snapshot Debugger 
 
 The Virtual Machine that accompanies this Quick Start comes with all the software configured for you to quickly complete this lab.  All you will need is an Azure Subscription.
 
-- If you do not have an Azure Subscription, you can join our [Visual Studio Dev Essentials](https://www.visualstudio.com/dev-essentials/) program to gain free monthly Azure credits.
+-
+  - If you do not have an Azure Subscription, you can join our [Visual Studio Dev Essentials](https://www.visualstudio.com/dev-essentials/) program to gain free monthly Azure credits.
 
 The username for this VM is **build** and the password is **QuickStart2017**
 
@@ -127,7 +128,7 @@ Before publishing, we need to add a database
 
  ![](images/015.png)
 
-  c. Switch the view to see all roles available in the subscription: ![](images/0.png)
+  c. Switch the view to see all roles available in the subscription: ![](images/016.png)
 
 4. Find the role "Application Insights Snapshot Debugger" role and
   i. Click on the role to open the blade to manage membership in the role
@@ -135,7 +136,7 @@ Before publishing, we need to add a database
   ii. Select your name from the list of users or simply start typing if you don't see your name
   iv. Click Select add yourself to the role and enable your account to view the SnapShots
 
- ![](images/016.png)
+ ![](images/017.png)
 
 # Task 4: Debugging a running app with SnapShots
 
@@ -143,32 +144,32 @@ _Note: Depending on how quickly you have completed these steps the data may not 
 
 1. One of the best ways to see at a glance how your application is behaving is the App Map.  To go to the App Map, open the Application Insights resource where your application is sending its telemetry, if you used the default naming it will be named MyCompany.Visitors.Web.  select the App Map option
 
- ![](images/017.png)
+ ![](images/018.png)
 
 2. Notice that there are some exceptions on the MyCompany.Visitors.Web component in the App Map.  Select the server node to see the information about the node, including the failures.
 
- ![](images/018.png)
+ ![](images/019.png)
 
 3. Notice that we have a System.InvalidOperationException – let's explore that exception by clicking on it and opening the Exception Properties blade.  You can immediately see a significant amount of detail about the exception.
 
- ![](images/019.png)
+ ![](images/020.png)
 
 4. To open the Snapshot click on the Open Debug Snapshot link in the upper right to see a more detailed view of the exception, and the state of the application and environment when the exception occurred.
 
 _If the exception you select does not contain a Snapshot, cycle to the next exception until you find one that does contain a Snapshot.  Recall that there is a configurable threshold that must be met before a snapshot will be generated.  Additionally, because snapshots are uploaded in the background to minimize impact on your side, it may take a few minutes for snapshots to appear._
 
- ![](images/020.png)
+ ![](images/021.png)
 
 5. To get an even more in depth look at how the exception occurred, download the Snapshot and open it with Visual Studio Enterprise 2017 to walk through the application execution leading up to the exception
   a. Download the Snapshot. If you are using Microsoft Edge or Internet Explorer, these tools change the extension automatically to a zip file, you will need to change it to a .diagsession extension manually so the file will open in Visual Studio automatically.
 
- ![](images/021.png)
+ ![](images/022.png)
 
-6. Once the Snapshot opens in Visual Studio, you can choose how to review the Snapshot.  In this case, select "Debug with Managed Only" ![](images/0.png)
+6. Once the Snapshot opens in Visual Studio, you can choose how to review the Snapshot.  In this case, select "Debug with Managed Only" ![](images/023.png)
 
 7. You are now debugging a Snapshot from production that was provided for you by Application Insights, because a series of exceptions occurred.  You are taken to the exact line of code that caused the exception, with a Call Stack and Locals.
 
- ![](images/022.png)
+ ![](images/024.png)
 
 8. Before continuing to the next step, see if you can determine the problem given the information you have about line of code where the exception occurred, the outerMessage and the locals at the time of the exception.
 
