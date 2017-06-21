@@ -26,7 +26,7 @@ This Quick Start Challenge is intended for developers who are familiar with ASP.
 # Task 1: Working with live unit testing
 
 1. Launch a new instance of **Visual Studio**.
-2. Select **File | Open | Project/Solution** and select the solution at **C:\Labs\DEV12 - Live Unit Testing, Refactoring, and Code Style\MvcMovieSample\MvcMovieRTM.sln**. This is an ASP.NET MVC project that has some unit tests in a separate project.
+2. Select **File | Open | Project/Solution** and select the solution file **MvcMovieRTM.sln** (contained in the **src/MvcMovieSample/** folder in this repo). This is an ASP.NET MVC project that has some unit tests in a separate project.
 3. From **Solution Explorer** , open the **Test** project's **MoviesControllerIndex.cs**.
 
  ![](images/001.png)
