@@ -23,7 +23,7 @@ This Quick Start Challenge is intended for developers who are familiar with Xama
 # Task 1: Opening the solution and launching the Android emulator
 
 1. Launch a new instance of **Visual Studio**.
-2. Select **File | Open | Project/Solution** and select the solution file at **C:\Labs\DEV07 - Build Smarter Apps with Xamarin &amp; the Intelligent Cloud\IntelligentAppChallenge\IntelligentAppChallenge.sln**.
+2. Select **File | Open | Project/Solution** and select the solution file **IntelligentAppChallenge.sln** (found in this repo in the **src\IntelligentAppChallenge** folder).
 3. Close the **Xamarin Mac Agent** dialog if it opens.
 4. Click the **Open Android Emulator Manager (AVD)** button from the toolbar. This is an Android SDK utility that can be used to launch the emulator. Since it can take a few minutes for the emulator to be ready, you'll kick that process off now so that it should be already available to deploy to later on.
 
