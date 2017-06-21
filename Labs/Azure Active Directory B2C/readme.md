@@ -1,13 +1,13 @@
-# Consumer sign-up &amp; sign-in with Azure Active Directory B2C
+# Consumer sign-up & sign-in with Azure Active Directory B2C
 
 # Overview
 
-Azure Active Directory (Azure AD) B2C is a cloud identity service for your consumer-facing web &amp; mobile apps. It is highly-available, secure and scales to millions of consumer identities. Consumers can use their social accounts (Facebook, Google, Microsoft account, etc.) or create new credentials to access your apps. In this quick start challenge, you will develop a .NET Model-View-Controller (MVC) web app that allows consumers to sign-up &amp; sign-in to your web app using email addresses and passwords. As a bonus step, you can also add support for Facebook sign-up &amp; sign-in.
+Azure Active Directory (Azure AD) B2C is a cloud identity service for your consumer-facing web & mobile apps. It is highly-available, secure and scales to millions of consumer identities. Consumers can use their social accounts (Facebook, Google, Microsoft account, etc.) or create new credentials to access your apps. In this quick start challenge, you will develop a .NET Model-View-Controller (MVC) web app that allows consumers to sign-up & sign-in to your web app using email addresses and passwords. As a bonus step, you can also add support for Facebook sign-up & sign-in.
 
 # Objectives
 
 - How to create a new Azure AD B2C tenant.
-- How to register your web application and create sign-up &amp; sign-in experiences.
+- How to register your web application and create sign-up & sign-in experiences.
 - How to integrate your .NET MVC web app with your B2C tenant using the OpenID Connect protocol.
 
 # Prerequisites
@@ -22,7 +22,7 @@ This Quick Start Challenge is intended for developers who are familiar with C# a
 
 # Task 1: Create a new Azure AD B2C tenant
 
-Let&#39;s start by creating an Azure AD B2C tenant. A &quot;tenant&quot; (also called a &quot;directory&quot;) is a container for all of your consumers, apps, policies, groups and more.
+Let's start by creating an Azure AD B2C tenant. A &quot;tenant&quot; (also called a &quot;directory&quot;) is a container for all of your consumers, apps, policies, groups and more.
 
 1. First, sign in to the Azure portal at [https://portal.azure.com](https://portal.azure.com).
 2. Click the **New** button and search for **&quot;b2c&quot;**.
@@ -39,7 +39,7 @@ Let&#39;s start by creating an Azure AD B2C tenant. A &quot;tenant&quot; (also c
 
  ![](images/003.png)
 
-5. Enter an **Organization name** of **&quot;Contoso&quot;** and an **Initial domain name** that&#39;s globally unique. For example, you may want to include your name, such as **&quot;ContosoJohnDoe&quot;**. This will be the subdomain of the tenant, such as **&quot;ContosoJohnDoe.onmicrosoft.com&quot;** , and will be used to configure the client application later on. Click **Create**.
+5. Enter an **Organization name** of **&quot;Contoso&quot;** and an **Initial domain name** that's globally unique. For example, you may want to include your name, such as **&quot;ContosoJohnDoe&quot;**. This will be the subdomain of the tenant, such as **&quot;ContosoJohnDoe.onmicrosoft.com&quot;** , and will be used to configure the client application later on. Click **Create**.
 
  ![](images/004.png)
 
@@ -73,7 +73,7 @@ Let&#39;s start by creating an Azure AD B2C tenant. A &quot;tenant&quot; (also c
 
 # Task 3: Create your sign-in/sign-up policy
 
-Next, you need to create a sign-up policy. Policies are settings that fully describes consumer identity experiences such as sign-up, sign-in, profile editing and password reset. Your app can trigger the appropriate experience by invoking the right policy (as a query parameter &#39;p&#39;) as part of the authentication request.
+Next, you need to create a sign-up policy. Policies are settings that fully describes consumer identity experiences such as sign-up, sign-in, profile editing and password reset. Your app can trigger the appropriate experience by invoking the right policy (as a query parameter 'p') as part of the authentication request.
 
 1. Use the breadcrumb at the top of the portal to return to the **Settings** blade of your application.
 
@@ -94,7 +94,7 @@ Next, you need to create a sign-up policy. Policies are settings that fully desc
 
  ![](images/015.png)
 
-6. From the **Application claims** tab check **Display Name, Postal Code, User is new, and User&#39;s Object ID** and click **OK**.
+6. From the **Application claims** tab check **Display Name, Postal Code, User is new, and User's Object ID** and click **OK**.
 
  ![](images/016.png)
 
@@ -102,14 +102,15 @@ Next, you need to create a sign-up policy. Policies are settings that fully desc
 
 # Task 4: Integrate an ASP.NET app with your B2C tenant
 
-You can use Microsoft&#39;s OWIN middleware library to send authentication requests to Azure AD B2C to execute sign-up &amp; sign-in policies, manage consumer sessions using cookies, validating tokens from Azure AD B2C, and more. In this lab we&#39;ll work with a nearly complete app and configure it to work with your settings.
+You can use Microsoft's OWIN middleware library to send authentication requests to Azure AD B2C to execute sign-up & sign-in policies, manage consumer sessions using cookies, validating tokens from Azure AD B2C, and more. In this lab we'll work with a nearly complete app and configure it to work with your settings.
 
-1. Open **WebApp-OpenIdConnect-DotNet.sln** from the lab project directory. You can find this in the **C:\Labs** folder within the folder matching this lab&#39;s code.
+1. Open the **WebApp-OpenIdConnect-DotNet.sln** file from the **src/WebApp-OpenIDConnect-DotNet** folder.
+
 2. From **Solution Explorer** , open **appsettings.json**. This file contains all necessary settings for authentication.
 
  ![](images/017.png)
 
-3. Update the **ClientId** and **Tenant** settings with your application&#39;s ID and subdomain, respectively. Note that this project is already configured to use the sign-up/sign-in policy of **&quot;B2C\_1\_susi&quot;**. If you happened to use a different name earlier, update that now.
+3. Update the **ClientId** and **Tenant** settings with your application's ID and subdomain, respectively. Note that this project is already configured to use the sign-up/sign-in policy of **&quot;B2C\_1\_susi&quot;**. If you happened to use a different name earlier, update that now.
 
  ![](images/018.png)
 
@@ -118,7 +119,7 @@ You can use Microsoft&#39;s OWIN middleware library to send authentication reque
 
  ![](images/019.png)
 
-6. You&#39;ll need to register a new user before you can log in. Click **Sign up now**.
+6. You'll need to register a new user before you can log in. Click **Sign up now**.
 
  ![](images/020.png)
 
@@ -126,13 +127,13 @@ You can use Microsoft&#39;s OWIN middleware library to send authentication reque
 
  ![](images/021.png)
 
-8. After the sign-in process has completed you will be returned to the site. Note now that you&#39;re logged in and the site has access to registered user data, such as the display name.
+8. After the sign-in process has completed you will be returned to the site. Note now that you're logged in and the site has access to registered user data, such as the display name.
 
  ![](images/022.png)
 
 # Summary
 
-Congratulations on completing this Quick Start Challenge! In this lab, you&#39;ve learned how to use Azure AD B2C to add rich, secure &amp; scalable consumer sign-up &amp; sign-in experiences to your web app.
+Congratulations on completing this Quick Start Challenge! In this lab, you've learned how to use Azure AD B2C to add rich, secure & scalable consumer sign-up & sign-in experiences to your web app.
 
 # Additional Resources
 
