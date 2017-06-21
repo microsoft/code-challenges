@@ -35,8 +35,8 @@ You have an Azure web app running in production.  The application allows users t
 And complete the sign in steps
 
 3. Open the project on the Desktop, either through the File menu option or through Start Page
-  a. Browse to C:\users\build\desktop\mycompany.visitors\
-  b. Open the solution MyCompany.Visitors.Server.sln
+    1. Browse to C:\users\build\desktop\mycompany.visitors\
+    2. Open the solution MyCompany.Visitors.Server.sln
 4. Right click on the "MyCompany.Visitors.Web" project and select "Configure Application Insights
 
  ![](images/002.png)
@@ -46,13 +46,13 @@ And complete the sign in steps
  ![](images/003.png)
 
 6. Configure the Application Insights resource creation by
-  a. Verifying your account
-  b. Selecting your subscription
-  c. Configuring the resource, providing the
-    i. Resource Group name: azure-snapshot-lab
-    ii. Application Insights Resource name: MyCompany.Visitors.Web
-  d. If you have already selected a billing model for this subscription, skip the next step.
-    i. Switch the billing model "Application Insights will remain free and halt data collection after 1GB/Month" for this lab.  You can change this through the Azure portal later if you wish
+    1. Verifying your account
+    2. Selecting your subscription
+    3. Configuring the resource, providing the
+        1. Resource Group name: azure-snapshot-lab
+        2. Application Insights Resource name: MyCompany.Visitors.Web
+    4. If you have already selected a billing model for this subscription, skip the next step.
+        1. Switch the billing model "Application Insights will remain free and halt data collection after 1GB/Month" for this lab.  You can change this through the Azure portal later if you wish
 
 Then click the "Register" button to trigger the resource creation in Azure
 
@@ -70,42 +70,44 @@ Then click the "Register" button to trigger the resource creation in Azure
  ![](images/006.png)
 
 2. When you publish:
-  a. Select a Microsoft Azure App service
-  b. For the lab, we will create a new App Service
-  c. And Publish
+    1. Select a Microsoft Azure App service
+    2. For the lab, we will create a new App Service
+    3. And Publish
 
  ![](images/007.png)
 
 3. Configure your app service by
-  a. Providing an app name
-  b. Verifying you are deploying to the correct subscription
-  c. Selecting the Resource Group you created when you configured Application Insights: azure-snapshot-lab
-  d. Select the App Service Plan for the app
+    1. Providing an app name
+    2. Verifying you are deploying to the correct subscription
+    3. Selecting the Resource Group you created when you configured Application Insights: azure-snapshot-lab
+    4. Select the App Service Plan for the app
 
 Before publishing, we need to add a database
 
  ![](images/008.png)
 
 4. To add a database
-  a. Click on the Services option on the left
-  b. Click the plus button on the right next to SQL Database, and configure the database and server as needed
-  i. Configure the SQL Server if needed
+    1. Click on the Services option on the left
+    2. Click the plus button on the right next to SQL Database, and configure the database and server as needed
+        1. Configure the SQL Server if needed 
+	
+	![](images/009.png)
 
- ![](images/009.png)
+        2. Configure the SQL Database, and be sure to set the Connection String Name to MyCompany.Visitors to update the connection string on publish 
+	
+![](images/010.png) 
 
-  ii. Configure the SQL Database, and be sure to set the Connection String Name to MyCompany.Visitors to update the connection string on publish
+Then click OK to setup the creation of the Server and Database on publish
 
- ![](images/010.png) Then click OK to setup the creation of the Server and Database on publish
+    3. Then click Create to create the App Service Plan, App Service, Database Server and Database; and publish the app to Azure 
+    
+    ![](images/011.png)
 
-  c. Then click Create to create the App Service Plan, App Service, Database Server and Database; and publish the app to Azure
+    4. If this is the first time that you've published you app, it will be automatically published after your resources are created.  Otherwise, click Publish to update your web app.
+    
+    ![](images/012.png)
 
- ![](images/011.png)
-
-  d. If this is the first time that you've published you app, it will be automatically published after your resources are created.  Otherwise, click Publish to update your web app.
-
- ![](images/012.png)
-
-5. Wait for the resources to be created and the app to publish, and then we can move on to triggering SnapShots in a live app in Azure.
+    5. Wait for the resources to be created and the app to publish, and then we can move on to triggering SnapShots in a live app in Azure.
 
 # Task 3: Debugging a running app with SnapShots
 
@@ -114,28 +116,22 @@ Before publishing, we need to add a database
  ![](images/013.png)
 
 2. Next, we need to trigger some exceptions.  Once the website loads, click the "Visitors" tab of the website 5 or more times to simulate a recurring problem.
-  a. Note that automatic SnapShots are generated in the background for problems that occur frequently.  A problem that occurs only once or rarely will not trigger an automatic SnapShot by default.
+    1. Note that automatic SnapShots are generated in the background for problems that occur frequently.  A problem that occurs only once or rarely will not trigger an automatic SnapShot by default.
 
 3. Now that we have triggered an error to be collected, we need to ensure you have permissions to view the SnapShots.  SnapShots can contain sensitive information as they are the full environmental and application state when the exception occurs, so Microsoft requires that explicit permissions be granted for viewing SnapShots.
-  a. In the Azure portal, Use the left-hand navigation bar to navigate to the subscriptions blade and select the subscription where your Application Insights resource is running.
+  a. In the Azure portal, Use the left-hand navigation bar to navigate to the subscriptions blade and select the subscription where your Application Insights resource is running. ![](images/014.png)
 
- ![](images/014.png)
+    1. If you do not see Subscriptions in the left-hand navigation, you can find it through More Services at the bottom of that navigation bar
 
-	i. If you do not see Subscriptions in the left-hand navigation, you can find it through More Services at the bottom of that navigation bar
+    2. Select the "Access Control (IAM)" blade and select "Roles" at the top ![](images/015.png)
 
-  b. Select the "Access Control (IAM)" blade and select "Roles" at the top
+    3. Switch the view to see all roles available in the subscription: ![](images/016.png)
 
- ![](images/015.png)
-
-  c. Switch the view to see all roles available in the subscription: ![](images/016.png)
-
-4. Find the role "Application Insights Snapshot Debugger" role and
-  i. Click on the role to open the blade to manage membership in the role
-  ii. Click Add
-  ii. Select your name from the list of users or simply start typing if you don't see your name
-  iv. Click Select add yourself to the role and enable your account to view the SnapShots
-
- ![](images/017.png)
+    4. Find the role "Application Insights Snapshot Debugger" role and
+        1. Click on the role to open the blade to manage membership in the role
+        2. Click Add
+        3. Select your name from the list of users or simply start typing if you don't see your name
+        4. Click Select add yourself to the role and enable your account to view the SnapShots ![](images/017.png)
 
 # Task 4: Debugging a running app with SnapShots
 
