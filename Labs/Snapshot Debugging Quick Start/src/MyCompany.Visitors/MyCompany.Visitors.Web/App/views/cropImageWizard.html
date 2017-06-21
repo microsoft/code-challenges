@@ -1,0 +1,12 @@
+﻿<div class="modal autoclose">
+    <div class="modal-header">
+        <span class="title-modal" data-bind="html: title"></span>
+        <button class="button-close" data-bind="click: close"></button>
+    </div>
+    <div class="modal-body modal-crop">
+        <img class="crop" src="Content/Images/no-photo-big.png" data-bind="event: { load: imageLoaded }, attr: { src: image }" />
+        <div class="buttons">
+            <button class="button-primary autofocus" data-bind="{html: actionText, click: accept}"></button>
+        </div>
+    </div>
+</div>

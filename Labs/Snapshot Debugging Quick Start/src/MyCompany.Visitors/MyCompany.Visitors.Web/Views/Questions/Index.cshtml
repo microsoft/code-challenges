@@ -1,0 +1,62 @@
+﻿@model IEnumerable<MyCompany.Visitors.Model.Question>
+
+@{
+    ViewBag.Title = "MyCompany Visitors | Questions";
+}
+
+@*HTML Update for Brower Link demo*@
+@*<div id="toast-container" class="toast-top-full-width">
+        <div class="toast toast-demo">
+            Refreshed by VS Browser Link!
+        </div>
+    </div>*@
+
+@section scripts{
+    @Scripts.Render("~/Scripts/bootstrap")
+}
+
+
+<div id="searchBar">
+    <input type="text" class="input-medium search-query"/>
+    <a class="btn btn-primary" href="#">Search</a>
+</div>
+
+<h2>In the browser....</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Text)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Answer)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Text)
+            </td>
+            <td class="answer">
+                @Html.DisplayFor(modelItem => item.Answer)
+            </td>
+        </tr>
+    }
+
+</table>
+
+<div id="myModal" class="modal hide fade">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Information</h3>
+    </div>
+    <div class="modal-body">
+        <p>Need more information?</p>
+        <p>Go to <a href="http://www.microsoft.com">microsoft.com</a></p>
+    </div>
+    <div class="modal-footer">
+        <a id="closeModal" href="#" class="btn btn-primary">Close</a>
+    </div>
+</div>

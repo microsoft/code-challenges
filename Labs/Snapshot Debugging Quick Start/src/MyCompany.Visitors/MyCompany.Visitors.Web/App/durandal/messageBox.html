@@ -1,0 +1,13 @@
+﻿<div class="modal-msgBox autoclose">
+    <div class="modal-msgBox-header">
+        <!--<span data-bind="html: title"></span>-->
+        <button class="button-close" data-bind="click: close"></button>
+    </div>
+    <div class="modal-msgBox-body">
+        <p class="msgBox-message" data-bind="html: message"></p>
+    </div>
+    <div class="modal-msgBox-footer" data-bind="foreach: options">
+        <button class="button-primary button-primary-padding" 
+                data-bind="click: function () { $parent.selectOption($data); }, html: $data, css: { autofocus: $index() == ($parent.options.length - 1) }"></button>
+    </div>
+</div>

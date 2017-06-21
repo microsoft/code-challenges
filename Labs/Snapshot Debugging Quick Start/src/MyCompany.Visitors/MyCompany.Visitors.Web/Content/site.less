@@ -1,0 +1,476 @@
+﻿@import "Variables.less";
+
+html {
+    overflow-y: scroll;
+}
+
+body {
+    margin: 0;
+    font-family: @primary-font;
+    font-size: 14px;
+    background-color: #ededed;
+}
+
+html, body, .durandal-wrapper, .progress-container {
+    height: 100%;
+    overflow: auto;
+}
+
+a {
+    text-decoration: none;
+
+    &:active {
+        background-color: none;
+    }
+}
+
+button {
+    font-family: @primary-font;
+}
+
+input {
+    border: none;
+}
+
+.clear {
+    clear: both;
+}
+
+#main-container {
+    max-width: 1076px;
+    min-width: 675px;
+    margin: 0 auto;
+}
+
+#content {
+    position: relative;
+}
+
+/*User*/
+.user-name {
+    font-family: @primary-font-semilight;
+    font-size: @base-font-size;
+    color: #801223;
+    margin-right: 25px;
+    vertical-align: middle;
+    float: right;
+    padding-top: 5px;
+}
+
+.button-primary {
+    font-family: @primary-font;
+    font-size: @base-font-size;
+    background-color: @module-primary-color;
+    line-height: 20px;
+    text-align: center;
+    color: #fff;
+    border: none;
+    padding: 5px 25px 5px 25px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: @module-primary-color-over;
+    }
+}
+
+.button-right {
+    float: right;
+}
+
+.user-data {
+    display: inline-block;
+    float: right;
+    font-size: @base-font-size;
+    margin-top: 20px;
+
+    img {
+        max-height: 30px;
+        float: right;
+    }
+}
+/*End User*/
+
+.button-faq {
+    margin-left: 5px;
+
+    & a:-webkit-any-link {
+        color: white;
+    }
+}
+
+
+.brand {
+    background-image: url(Images/logo.png);
+    background-repeat: no-repeat;
+    width: 314px;
+    height: 108px;
+    display: block;
+}
+
+/*Navigation*/
+.content-nav-buttons {
+    margin-top: 15px;
+    float: left;
+
+    .content-nav-button {
+        position: relative;
+        float: right;
+        width: 204px;
+        height: 40px;
+        background-color: @second-background-color;
+        border-bottom-color: @second-background-color;
+
+        .icon {
+            position: absolute;
+            top: 10px;
+            left: 42px;
+            width: 25px;
+            height: 20px;
+            background: url(Images/visits-icons.png);
+            cursor: pointer;
+        }
+
+        .nav-button {
+            width: 189px;
+            height: 40px;
+            display: block;
+            padding-left: 15px;
+            text-align: center;
+            text-transform: uppercase;
+            font-weight: bold;
+            color: @second-font-color;
+            font-size: 15px;
+            line-height: 40px;
+            text-decoration: none;
+            outline: 0;
+        }
+
+        &:hover, &.active {
+            border-bottom: solid 3px;
+            border-bottom-color: @module-primary-color-over;
+
+            .nav-button {
+                color: #801223;
+            }
+
+            .icon {
+                background-position: 25px 0;
+            }
+        }
+    }
+
+        .content-nav-button:first-child {
+            margin-left: 1px;
+
+            .icon {
+                background-image: url(Images/visitor-icons.png);
+                width: 20px;
+                left: 50px;
+            }
+
+            .nav-button {
+                padding-left: 16px;
+                width: 188px;
+            }
+
+            &:hover, &.active {
+
+                .icon {
+                    background-image: url(Images/visitor-icons.png);
+                    background-position: 20px 0;
+                }
+            }
+        }
+}
+/*End Navigation*/
+
+.progress-container {
+    width: 600px;
+    margin: 0 auto;
+    padding-top: 15%;
+    text-align: center;
+}
+
+    .progress-container .progress {
+        height: 10px;
+        margin-top: 55px;
+        margin-left: 185px;
+        width: 250px;
+    }
+
+.progress-danger.progress-striped .bar,
+.progress-striped .bar-danger {
+    background-color: #c43051;
+}
+
+/* Reset styles */
+ul {
+    list-style: none;
+    -webkit-margin-before: 0;
+    -webkit-margin-after: 0;
+    -webkit-padding-start: 0;
+    padding: 0;
+}
+
+.row-fluid {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.container-fluid {
+    padding-bottom: 50px;
+}
+
+
+#applicationHost {
+    position: relative;
+    min-height: 100%;
+}
+
+.loading-background {
+    position: absolute;
+    background-color: rgba(255,255,255,0.7);
+    height: 100%;
+    width: 100%;
+    z-index: 9999;
+
+    .loading {
+        width: 150px;
+        height: 18px;
+        top: 50%;
+        left: 50%;
+        position: fixed;
+        margin-left: -75px;
+        margin-top: -9px;
+
+        .fountainG {
+            position: absolute;
+            top: 0;
+            background-color: @module-primary-color;
+            width: 19px;
+            height: 19px;
+            -moz-animation-name: bounce_fountainG;
+            -moz-animation-duration: 1.9s;
+            -moz-animation-iteration-count: infinite;
+            -moz-animation-direction: linear;
+            -moz-transform: scale(.3);
+            -moz-border-radius: 12px;
+            -webkit-animation-name: bounce_fountainG;
+            -webkit-animation-duration: 1.9s;
+            -webkit-animation-iteration-count: infinite;
+            -webkit-animation-direction: linear;
+            -webkit-transform: scale(.3);
+            -webkit-border-radius: 12px;
+            -ms-animation-name: bounce_fountainG;
+            -ms-animation-duration: 1.9s;
+            -ms-animation-iteration-count: infinite;
+            -ms-animation-direction: linear;
+            -ms-transform: scale(.3);
+            -ms-border-radius: 12px;
+            -o-animation-name: bounce_fountainG;
+            -o-animation-duration: 1.9s;
+            -o-animation-iteration-count: infinite;
+            -o-animation-direction: linear;
+            -o-transform: scale(.3);
+            -o-border-radius: 12px;
+            animation-name: bounce_fountainG;
+            animation-duration: 1.9s;
+            animation-iteration-count: infinite;
+            animation-direction: linear;
+            transform: scale(.3);
+            border-radius: 12px;
+        }
+
+        #fountainG_1 {
+            left: 0;
+            -moz-animation-delay: 0.14s;
+            -webkit-animation-delay: 0.14s;
+            -ms-animation-delay: 0.14s;
+            -o-animation-delay: 0.14s;
+            animation-delay: 0.14s;
+        }
+
+        #fountainG_2 {
+            left: 19px;
+            -moz-animation-delay: 0.5s;
+            -webkit-animation-delay: 0.5s;
+            -ms-animation-delay: 0.5s;
+            -o-animation-delay: 0.5s;
+            animation-delay: 0.5s;
+        }
+
+        #fountainG_3 {
+            left: 38px;
+            -moz-animation-delay: 0.66s;
+            -webkit-animation-delay: 0.66s;
+            -ms-animation-delay: 0.66s;
+            -o-animation-delay: 0.66s;
+            animation-delay: 0.66s;
+        }
+
+        #fountainG_4 {
+            left: 56px;
+            -moz-animation-delay: 0.82s;
+            -webkit-animation-delay: 0.82s;
+            -ms-animation-delay: 0.82s;
+            -o-animation-delay: 0.82s;
+            animation-delay: 0.82s;
+        }
+
+        #fountainG_5 {
+            left: 75px;
+            -moz-animation-delay: .98s;
+            -webkit-animation-delay: .98s;
+            -ms-animation-delay: .98s;
+            -o-animation-delay: .98s;
+            animation-delay: 0.98s;
+        }
+
+        #fountainG_6 {
+            left: 94px;
+            -moz-animation-delay: 1.14s;
+            -webkit-animation-delay: 1.14s;
+            -ms-animation-delay: 1.14s;
+            -o-animation-delay: 1.14s;
+            animation-delay: 1.14s;
+        }
+
+        #fountainG_7 {
+            left: 113px;
+            -moz-animation-delay: 1.3s;
+            -webkit-animation-delay: 1.3s;
+            -ms-animation-delay: 1.3s;
+            -o-animation-delay: 1.3s;
+            animation-delay: 1.3s;
+        }
+
+        #fountainG_8 {
+            left: 131px;
+            -moz-animation-delay: 1.46s;
+            -webkit-animation-delay: 1.46s;
+            -ms-animation-delay: 1.46s;
+            -o-animation-delay: 1.46s;
+            animation-delay: 1.46s;
+        }
+
+        @-moz-keyframes bounce_fountainG {
+            0% {
+                -moz-transform: scale(1);
+                background-color: @module-primary-color;
+            }
+
+            100% {
+                -moz-transform: scale(.3);
+                background-color: @second-background-color;
+            }
+        }
+
+        @-webkit-keyframes bounce_fountainG {
+            0% {
+                -webkit-transform: scale(1);
+                background-color: @module-primary-color;
+            }
+
+            100% {
+                -webkit-transform: scale(.3);
+                background-color: @second-background-color;
+            }
+        }
+
+        @-ms-keyframes bounce_fountainG {
+            0% {
+                -ms-transform: scale(1);
+                background-color: @module-primary-color;
+            }
+
+            100% {
+                -ms-transform: scale(.3);
+                background-color: @second-background-color;
+            }
+        }
+
+        @-o-keyframes bounce_fountainG {
+            0% {
+                -o-transform: scale(1);
+                background-color: @module-primary-color;
+            }
+
+            100% {
+                -o-transform: scale(.3);
+                background-color: @second-background-color;
+            }
+        }
+
+        @keyframes bounce_fountainG {
+            0% {
+                transform: scale(1);
+                background-color: @module-primary-color;
+            }
+
+            100% {
+                transform: scale(.3);
+                background-color: @second-background-color;
+            }
+        }
+    }
+}
+
+.modal-crop {
+    position: relative;
+    text-align: center;
+    padding-bottom: 60px;
+
+    .crop {
+        max-height: 525px;
+    }
+
+    .buttons {
+        margin-top: 10px;
+    }
+}
+
+.faq-header {
+    padding-bottom: 0;
+}
+
+
+/* Notifications */
+.toast-info {
+    background-color: @module-primary-color !important;
+}
+
+#toast-container > .toast-info {
+    background-image: url("Images/info.png") !important;
+}
+
+#toast-container > .toast-info, #toast-container > .toast-demo {
+    background-image: url("Images/info.png") !important;
+}
+
+.toast-demo {
+    background-color: #9e5d26;
+    font-size: 1.3em;
+}
+
+/* End Notifications */
+
+.error-page {
+    background-color: @module-primary-color;
+    color: @list-info-font-color;
+    font-size:3em;
+}
+
+.error-page-info {    
+    text-align: center;
+    margin-top: 15%;
+}
+
+.lync {
+    cursor: pointer;
+}
+
+@media all and (min-width: 750px) {
+    .user-data {
+        font-size: 1.03em;
+    }
+}

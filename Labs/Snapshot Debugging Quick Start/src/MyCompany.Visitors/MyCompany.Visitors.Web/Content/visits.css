@@ -1,0 +1,203 @@
+﻿/*General fonts*/
+/*General*/
+/*Module*/
+/*List*/
+.margin-header-class {
+  margin-bottom: 20px;
+}
+.subcontent-statistics-auto {
+  width: auto;
+  margin-right: 10px;
+}
+.refresh-button-margin {
+  margin-left: 3px;
+}
+.dates-newsize {
+  font-family: "Segoe UI Semibold", "Tahoma", "Verdana", "Arial", "sans-serif";
+  font-size: 1.2em;
+}
+.close-visit-text {
+  font-family: "wf_SegoeUI", "Segoe UI", "Segoe", "Segoe WP", "Tahoma", "Verdana", "Arial", "sans-serif";
+}
+.content-info-icon {
+  position: absolute;
+  right: 20px;
+  top: 22px;
+  width: 35px;
+  height: 35px;
+  background-image: url(Images/info.png);
+  background-repeat: no-repeat;
+}
+.button-clock {
+  background-color: #9d9d9d;
+  background-image: url(Images/clock-button.png);
+}
+.button-clock:hover {
+  background-color: #858585;
+}
+/*.article-item {
+    float: left;
+    margin-bottom: 7px;
+    margin-right: 5px;
+
+    &:first-child {
+        .tile-box {
+            .tile-avatar {
+                img {
+                    height: 247px;
+                    width: 210px;
+                }
+            }
+
+            .tile-information {
+
+                                  width: 263px;
+                height: 247px;
+                background-color: @module-primary-color;
+
+
+                .tile-information-middle {
+                    display: none;
+                }
+
+                .tile-information-middle-firstchild {
+                    display: block;
+                    color: #fcc5d1;
+                    margin-top: 10px;
+
+                    .content-time {
+                        font-size: 1.21em;
+                        padding-left: 10px;
+                    }
+
+                    .content-p-issue {
+                        margin-top: 5px;
+                        padding-left: 10px;
+
+                        p {
+                            font-size: 1em;
+                            font-family: @primary-font-semilight;
+
+                            .issue-span {
+                                font-family: @primary-font;
+                                font-weight: 400;
+                                font-size: 1.15em;
+                                margin-left: 0;
+                                line-height: 17px;
+                            }
+                        }
+                    }
+                }
+
+                .tile-information-down {
+                    display: block;
+                    position: absolute;
+                    color: #fcc5d1;
+                    font-family: @primary-font-semilight;
+                    font-size: 1.50em;
+                    bottom: 10px;
+                    right: 15px;
+                    .content-clock {
+                        float: left;
+                    }
+
+                    .pending {
+                        float: left;
+                        line-height: 35px;
+                        padding-left: 7px;
+                    }
+                }
+
+                .content-datetime {
+                    display: none;
+                }
+            }
+        }
+    }
+}
+
+.tile-box {
+    .tile-avatar {
+        float: left;
+
+        img {
+            height: 120px;
+            width: 115px;
+        }
+    }
+
+    .tile-information {
+        position: relative;
+        float: left;
+        height: 120px;
+        width: 360px;
+        background-color: @module-primary-color;
+
+        .tile-information-icons {
+            position: absolute;
+            right: 3px;
+            top: 7px;
+
+            .tile-icon {
+                background-color: transparent;
+                border: none;
+            }
+        }
+
+        .tile-information-up {
+            color: #ededed;
+            max-width: 190px;
+            -ms-text-overflow: ellipsis;
+            -o-text-overflow: ellipsis;
+            text-overflow: ellipsis;
+            padding-left: 10px;
+
+            .tile-information-name {
+                font-family: @primary-font-light;
+                font-size: 1.75em;
+            }
+
+            .tile-information-corporation {
+                font-family: @primary-font-semilight;
+                font-size: 1.20em;
+            }
+        }
+
+        .tile-information-middle-firstchild {
+            display: none;
+        }
+
+        .tile-information-middle {
+            color: #fcc5d1;
+            width: 228px;
+            padding-left: 10px;
+            margin-top: 19px;
+
+            .content-p-issue {
+
+                p {
+                    font-size: 0.92em;
+                    font-family: @primary-font-semilight;
+
+                    .issue-span {
+                        font-family: @primary-font;
+                        font-weight: 400;
+                        font-size: 1.15em;
+                        margin-left: 0;
+                        line-height: 17px;
+                    }
+                }
+            }
+        }
+        .content-datetime {
+            font-size: 1.20em;
+            color: #fcc5d1;
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+        }
+        .tile-information-down{
+            display: none;
+        }
+    }
+}*/

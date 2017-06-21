@@ -1,0 +1,57 @@
+﻿<div class="modal modal-new-size modal-new-top autoclose">
+    <div class="modal-header modal-header-small">
+        <span class="title-modal" data-bind="html: title"></span>
+        <button class="button-close" data-bind="click: close"></button>
+    </div>
+    <div class="modal-body modal-body-padding" data-bind="with: visitEntity">
+        <div class="modal-body-in">
+            <span class="body-in-title body-in-title-margin">Visitor</span>
+            <input id="visitor-id-input" type="text" class="main-text main-text-visited" data-bind="value: visitorId" />
+            <div>
+                <div class="vehicle-info">
+                    <span class="body-in-title">License plate</span>
+                    <input type="text" class="main-text" data-bind="value: plate" />
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="modal-body-in modal-body-in-margin">
+            <span class="body-in-title body-in-title-margin">Date</span>
+            <div>
+                <div class="content-select-dates">
+                    <select class="select-dates" data-bind="dateTimePicker: { property: visitDateTime, unit: 'day'}">
+                    </select>
+                </div>
+                <div class="content-select-dates content-select-dates-margins content-select-dates-month">
+                    <select class="select-dates select-dates-month" data-bind="dateTimePicker: { property: visitDateTime, unit: 'month'}">
+                    </select>
+                </div>
+                <div class="content-select-dates">
+                    <select class="select-dates" data-bind="dateTimePicker: { property: visitDateTime, unit: 'year'}">
+                    </select>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <span class="body-in-title">Time</span>
+            <div>
+                <div class="content-select-dates">
+                    <select class="select-dates" data-bind="dateTimePicker: { property: visitDateTime, unit: 'hour'}">
+                    </select>
+                </div>
+                <div class="content-select-dates content-select-dates-margins">
+                    <select class="select-dates" data-bind="dateTimePicker: { property: visitDateTime, unit: 'minute'}">
+                    </select>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="modal-body-in modal-body-in-margin">
+            <span class="body-in-title">Comments</span>
+            <textarea class="issue-area" data-bind="value: comments"></textarea>
+            <div class="contain-buttons">
+                <button class="button-primary button-propierties save-float autofocus" data-bind="{html: $parent.actionText, click: $root.accept}"></button>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>

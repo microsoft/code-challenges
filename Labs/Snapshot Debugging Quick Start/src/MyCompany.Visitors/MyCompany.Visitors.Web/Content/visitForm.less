@@ -1,0 +1,251 @@
+﻿@import url('variables.less');
+
+.modal-new-size {
+    width: 651px;
+}
+
+.modal-header-small {
+    padding: 10px 0 10px 25px;
+}
+
+.modal-new-top {
+    margin-top: 10%;
+}
+
+.modal-body-padding {
+    padding: 0 25px 25px 25px;
+}
+
+.modal-body-in {
+    float: left;
+    position: relative;
+
+    .validationMessage {
+        position: absolute;
+        display: block;
+        margin-top: 5px;
+        right: 10px;
+    }
+
+    input {
+        margin-bottom: 10px;
+    }
+
+    .body-in-title {
+        display: block;
+        font-size: 1em;
+        color: #2d2d2d;
+        margin-bottom: 7px;
+        margin-top: 10px;
+    }
+
+    .body-in-title-margin {
+        margin-top: 10px;
+    }
+
+    .main-text {
+        height: 35px;
+        font-size: 1.07em;
+        width: 120px;
+    }
+
+    .select2-container {
+        width: 100% !important;
+    }
+
+    .select2-choice {
+        width: 120px;
+    }
+
+    .vehicle-info {
+        float: left;
+
+        .main-text {
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+    }
+
+    .check-vehicle {
+        margin-top: 10px;
+        margin-left: 21px;
+    }
+
+    .content-select-dates {
+        float: left;
+        width: 60px;
+        height: 37px;
+        line-height: 37px;
+        overflow: hidden;
+        background-image: url(Images/arrow_time.png);
+        background-repeat: no-repeat;
+        background-position: 90% center;
+        background-color: #fff;
+
+        &.content-select-dates-month {
+            width: 120px;
+        }
+
+        .select-dates {
+            border: none;
+            width: 100%;
+            height: 100%;
+            display: block;
+            font-size: 1.05em;
+            color: #787878;
+            -webkit-appearance: none;
+            background-color: transparent;
+        }
+
+        .select-dates-month {
+            width: 140px;
+        }
+    }
+
+    .content-select-dates-margins {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    .issue-area {
+        width: 120px;
+        height: 90px;
+        font-size: 1em;
+        padding: 10px 10px 10px 10px;
+        border: none;
+        resize: none;
+    }
+
+    .contain-buttons {
+        margin-top: 15px;
+
+        .button-properties {
+            width: 130px;
+            height: 35px;
+        }
+
+        .save-float {
+            float: right;
+        }
+    }
+}
+
+.modal-body-in-margin {
+    margin-left: 20px;
+}
+
+
+/* Select2 Styles */
+.select2-container {
+    /*width: 100% !important;*/
+}
+
+.select2-results .picture {
+    max-width: 25px;
+    margin-right: 5px;
+}
+
+.select2-choice.select2-default {
+    background-image: none;
+}
+
+.select2-container .select2-choice {
+    border-radius: 0;
+    -webkit-border-radius: 0;
+    background-image: none;
+    height: 35px;
+}
+
+/*.select2-drop.select2-drop-active.select2-with-searchbox {
+    width: 250px !important;
+}*/
+
+.select2-container-active .select2-choice,
+.select2-container-active .select2-choices {
+    box-shadow: none;
+    border: 0;
+}
+
+.select2-search {
+    padding-top: 4px;
+}
+
+.select2-result-label {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.select2-results .select2-highlighted {
+    background: @module-primary-color;
+}
+
+.select2-container .select2-choice div {
+    background-image: none;
+    background: none;
+    border: 0;
+    margin-right: 5px;
+
+    b {
+        background-image: none;
+        background-image: url(Images/arrow_time.png);
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+}
+
+.select2-container .select2-choice span {
+    margin-top: 4px;
+}
+
+/* End Select2 Styles */
+
+
+@media all and (min-width: 1090px) {
+
+    .modal-header-small {
+        padding: 10px 0 10px 40px;
+    }
+
+    .modal-new-size {
+        width: 958px;
+    }
+
+    .modal-body-padding {
+        padding: 0 40px 25px 40px;
+    }
+
+    .modal-body-in {
+        .main-text {
+            width: 175px;
+        }
+
+        .content-select-dates {
+            width: 80px;
+
+            &.content-select-dates-month {
+                width: 120px;
+            }
+
+            .select-dates-month {
+                width: 140px;
+            }
+        }
+
+        .issue-area {
+            width: 260px;
+        }
+
+        .contain-buttons {
+            margin-top: 15px;
+        }
+    }
+
+    .modal-body-in-margin {
+        margin-left: 40px;
+    }
+
+    .select2-choice {
+        width: 100%;
+    }
+}

@@ -1,0 +1,227 @@
+﻿@import url('variables.less');
+
+.modal-detail {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    z-index: 1050;
+    background-color: #dfe0e0;
+    padding-bottom: 40px;
+    width: 660px;
+
+    .modal-detail-header {
+        padding: 10px 0 10px 40px;
+
+        .new-margin-top {
+            margin-top: 10px;
+        }
+    }
+
+    .modal-detail-body {
+        padding: 0 40px 0 40px;
+
+        .modal-detail-left {
+            float: left;
+
+            img {
+                height: 243px;
+                max-width: 181px;
+            }
+        }
+
+        .modal-detail-middle {
+            position: relative;
+            float: left;
+            width: 183px;
+            height: 223px;
+            padding-left: 20px;
+            padding-top: 20px;
+            background-color: @module-primary-color;
+
+            ul {
+                list-style: none;
+
+                li {
+                    display: block;
+                    color: #fff;
+                    font-size: 0.85em;
+                    margin-bottom: 5px;
+
+                    &:first-child {
+                        font-family: @primary-font-light;
+                        font-size: 20px;
+                        margin-top: -10px;
+                    }
+
+                    &:last-child {
+                        position: absolute;
+                        bottom: 32px;
+
+                        .last-visit-image {
+                            margin-right: 10px;
+                            margin-top: -19px;
+                        }
+                    }
+                }
+            }
+        }
+
+        .modal-detail-right {
+            float: left;
+            margin-left: 5px;
+            /*width: 285px;*/
+            ul {
+                list-style: none;
+                margin: 0;
+
+                li {
+                    display: block;
+                    color: #fff;
+                    height: 58px;
+                    margin-bottom: 5px;
+
+                    .photo-left {
+                        float: left;
+                        max-width: 54px;
+                        max-height: 100%;
+                    }
+
+                    .photo-details {
+                        float: left;
+                        width: 123px;
+                        height: 54px;
+                        padding-left: 5px;
+                        background-color: @module-primary-color;
+                        overflow: hidden;
+
+                        .user-details {
+                            float: left;
+                            width: 110px;
+                            font-size: 1em;
+                            padding-top: 2px;
+                            padding-bottom: 2px;
+                            padding-right: 5px;
+
+                            .full-name {
+                                font-size: 0.85em;
+                            }
+
+                            .position {
+                                font-size: 0.85em;
+                            }
+                        }
+
+                        .time-details {
+                            float: right;
+                            width: 50px;
+                            margin-top: 7px;
+                            padding-right: 5px;
+
+                            .time {
+                                font-size: 0.85em;
+                            }
+
+                            .lync {
+                                float: left;
+                                width: 40px;
+                                margin-top: 13px;
+                                margin-left: 3px;
+                            }
+                        }
+                    }
+
+                        .photo-details.no-pending {
+                            background-color: #a4a4a3;
+                            line-height: 80px;
+
+                            .text-no-pending {
+                                font-size: 1.28em;
+                            }
+                        }
+
+                    &:last-child {
+                        margin-bottom: 0px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media all and (min-width: 1090px) {
+    .modal-detail {
+        width: 911px;
+
+        .modal-detail-body {
+            .modal-detail-left {
+                img {
+                    height: 335px;
+                    max-width: 250px;
+                }
+            }
+
+            .modal-detail-middle {
+                width: 295px;
+                height: 315px;
+
+                ul {
+                    li {
+                        font-size: 1.28em;
+
+                        &:first-child {
+                            font-size: 30px;
+                        }
+                    }
+                }
+            }
+
+            .modal-detail-right {
+                ul {
+                    li {
+                        height: 80px;
+
+                        .photo-left {
+                            max-width: 75px;
+                        }
+
+                        .photo-details {
+                            width: 170px;
+                            height: 75px;
+
+                            .user-details {
+                                width: 110px;
+                                font-size: 1em;
+
+                                .full-name {
+                                    font-size: 1.28em;
+                                }
+
+                                .position {
+                                    font-size: 0.85em;
+                                }
+                            }
+
+                            .time-details {
+                                width: 50px;
+
+                                .time {
+                                    font-size: 0.85em;
+                                }
+
+                                .lync {
+                                    width: 40px;
+                                }
+                            }
+                        }
+
+                            .photo-details.no-pending {
+                                .text-no-pending {
+                                    font-size: 1.28em;
+                                }
+                            }
+                    }
+                }
+            }
+        }
+    }
+}

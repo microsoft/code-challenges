@@ -1,0 +1,76 @@
+﻿<section class="view">
+    <header>
+        <div class="content-input">
+            <input autofocus="autofocus" class="input-search" type="text" data-bind="value: filter, valueUpdate: 'afterkeydown'">
+        </div>
+        <div class="content-statistics">
+            <div class="subcontent-statistics">
+                <span class="words-statistics">You have visitors</span>
+            </div>
+            <div class="main-number-statistics">
+                <span data-bind="text: visitorsCount"></span>
+            </div>
+            <button class="refresh-button" data-bind="click: refresh">
+            </button>
+            <div class="clear"></div>
+        </div>
+        <button class="button-primary padding-newvisitor" data-bind="click: add" title="New visitor">
+            New visitor
+        </button>
+        <div class="clear"></div>
+    </header>
+    <!-- ko if: !anyRecord()-->
+    <section class="list-no-articles">
+        No records found
+    </section>
+    <!-- /ko -->
+    <!-- ko if: anyRecord()-->
+    <section data-bind="foreach: visitors">
+        <article class="article-of-list">
+            <div class="avatar">
+                <img class="avatar-img" data-bind="attr: { src: picture }" alt="visitor photo" />
+            </div>
+            <div class="dates">
+                <span class="name" data-bind="text: fullName"></span>
+                <br />
+                <span class="company-name" data-bind="text: company"></span>
+            </div>
+            <div class="dates-statistics">
+                <div class="row-label">
+                    <span>Next visit</span>
+                    <span>Last visit</span>
+                </div>
+                <div class="date-info">
+                    <span data-bind="text: nextVisit().displayDate"></span>
+                    <span data-bind="text: lastVisit.displayDate"></span>
+                </div>
+                <div class="row-label">
+                    <!-- ko if: nextVisit().employee.fullName -->
+                    <span>Visit to:&nbsp;</span>
+                    <!-- /ko -->
+                    <!-- ko ifnot: nextVisit().employee.fullName -->
+                    <span>-</span>
+                    <!-- /ko -->
+                    <!-- ko if: lastVisit.employee.fullName -->
+                    <span>Visit to:&nbsp;</span>
+                    <!-- /ko -->
+                    <!-- ko ifnot: lastVisit.employee.fullName -->
+                    <span>-</span>
+                    <!-- /ko -->
+                </div>
+                <div class="visitors-info">
+                    <span data-bind="text: nextVisit().employee.fullName"></span>
+                    <span data-bind="text: lastVisit.employee.fullName"></span>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <button class="button-box button-info" type="button" data-bind="click: $parent.openDetail" title="Open detail view"></button>
+            <button class="button-box button-edit" type="button" data-bind="click: $parent.edit" title="Edit visitor"></button>
+            <button class="button-box button-delete" type="button" data-bind="click: $parent.deleteVisitor" title="Delete visitor"></button>
+            <div class="clear"></div>
+        </article>
+    </section>
+    <!--ko compose: { view: 'pagination'} -->
+    <!--/ko-->
+    <!-- /ko -->
+</section>

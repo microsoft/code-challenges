@@ -1,0 +1,172 @@
+﻿@import url('variables.less');
+
+.modal-detail-newwidth {
+    width: 655px;
+}
+
+.box-avatar {
+    float: left;
+
+    img {
+        height: 226px;
+        width: 189px;
+    }
+}
+
+.box-info {
+    padding: 0 20px 20px 20px;
+    float: left;
+    width: 173px;
+    height: 206px;
+    background-color: @module-primary-color;
+    color: #fff;
+
+    .info-up {
+        margin-top: 5px;
+
+        .box-name {
+            float: left;
+            font-family: @primary-font-light;
+            font-size: 1.5em;
+        }
+
+        .box-clock {
+            float: right;
+            width: 23px;
+            height: 23px;
+            margin-top: 8px;
+            background-image: url(Images/clock_pending.png);
+            background-repeat: no-repeat;
+        }
+    }
+
+    .info-middle {
+        ul {
+            list-style: none;
+
+            li {
+                display: block;
+                margin-bottom: 5px;
+
+                span {
+                    font-size: 1em;
+                }
+            }
+        }
+    }
+
+    .info-down {
+        height: 150px;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        overflow: hidden;
+        font-size: 1em;
+    }
+}
+
+.box-visite-to {
+    position: relative;
+    float: left;
+    margin-left: 5px;
+
+    img {
+        height: 226px;
+        width: 168px;
+    }
+
+    .visite-to-info {
+        position: absolute;
+        width: 130px;
+        background-color: @module-primary-color;
+        bottom: 0px;
+        color: #fff;
+        font-size: 0.85em;
+        padding: 10px 20px;
+        opacity: 0.9;
+
+        span {
+            display: block;
+        }
+
+        .visite-to-name {
+            font-family: @primary-font-light;
+            font-size: 1.5em;
+            margin-top: -5px;
+        }
+
+        .visite-to-down {
+
+            .visite-to-company {
+                float: left;
+            }
+
+            .visite-to-lync {
+                float: right;
+                width: 28px;
+                height: 27px;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+        }
+    }
+}
+
+
+
+@media all and (min-width: 1090px) {
+
+    .modal-detail-newwidth {
+        width: 970px;
+    }
+
+    .box-avatar {
+        img {
+            height: 335px;
+            width: 280px;
+        }
+    }
+
+    .box-info {
+        width: 280px;
+        height: 315px;
+
+        .info-up {
+            .box-name {
+                font-size: 2.14em;
+            }
+
+            .box-clock {
+                margin-top: 13px;
+            }
+        }
+
+        .info-middle {
+            ul {
+                li {
+                    span {
+                        font-size: 1.07em;
+                    }
+                }
+            }
+        }
+    }
+
+    .box-visite-to {
+        img {
+            height: 335px;
+            width: 280px;
+        }
+
+        .visite-to-info {
+            width: 240px;
+            font-size: 1em;
+
+            .visite-to-name {
+                font-size: 2.14em;
+            }
+        }
+    }
+}

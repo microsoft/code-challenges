@@ -1,0 +1,45 @@
+﻿<div class="modal autoclose">
+    <div class="modal-header">
+        <span class="title-modal" data-bind="html: title"></span>
+        <button class="button-close" data-bind="click: close"></button>
+    </div>
+    <div class="modal-body">
+        <div class="modal-body-left">
+            <div class="content-explore">
+                <div class="add-image" data-bind="html: imageButtonText"></div>
+                <input class="explore" type="file" data-bind="uploadFile: {file:file, picture:picture, onChanged: imageChanged}" name="photo" 
+                    data-placeholder="Content/Images/no-photo-big.png" />
+            </div>
+        </div>
+        <div class="content-modal-body-right" data-bind="with: visitorEntity">
+            <div class="modal-body-right">
+                <ul>
+                    <li>
+                        <label class="first-name">First name</label>
+                        <input class="input-modal" type="text" data-bind="value: firstName" required /></li>
+                    <li>
+                        <label>Last name</label>
+                        <input class="input-modal" type="text" data-bind="value: lastName" required /></li>
+                    <li>
+                        <label>ID</label>
+                        <input class="input-modal" type="text" data-bind="value: personalId" /></li>
+                    <li>
+                        <label>Email</label>
+                        <input class="input-modal" type="email" data-bind="value: email" required /></li>
+                    <li>
+                        <label>Organization/Company</label>
+                        <input class="input-modal" type="text" data-bind="value: company" required />
+                    </li>
+                    <li>
+                        <label>Professional title</label>
+                        <input class="input-modal" type="text" data-bind="value: position" />
+                    </li>
+                </ul>
+                <div class="buttons">
+                    <button class="modal-button autofocus" data-bind="{html: $parent.actionText, click: $root.accept}"></button>
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>

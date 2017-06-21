@@ -1,0 +1,232 @@
+﻿/*General fonts*/
+/*General*/
+/*Module*/
+/*List*/
+/* List */
+.article-of-list {
+  margin-top: 5px;
+}
+.article-of-list:first-child {
+  margin-top: 20px;
+}
+.avatar {
+  float: left;
+  max-width: 70px;
+  width: 10%;
+  height: 70px;
+  text-align: center;
+  background-color: #ededed;
+  margin-right: 5px;
+}
+.avatar-img {
+  max-height: 100%;
+  max-width: 100%;
+  min-width: 70px;
+}
+.dates {
+  float: left;
+  margin-right: 5px;
+  padding-left: 10px;
+  padding-top: 3px;
+  vertical-align: middle;
+  display: inline-block;
+  max-width: 195px;
+  width: 20%;
+  height: 67px;
+  background-color: #c43051;
+  margin-top: 0px;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  -ms-text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+}
+.dates .name {
+  font-size: 1.4em;
+}
+.dates .company-name {
+  font-size: 1.07em;
+  display: block;
+  margin-top: 5px;
+}
+.dates-statistics {
+  position: relative;
+  float: left;
+  margin-right: 5px;
+  max-width: 534px;
+  width: 44%;
+  height: 70px;
+  background-color: #dfe0e0;
+  padding-left: 15px;
+}
+.dates-statistics .row-label {
+  display: none;
+}
+.dates-statistics div {
+  float: left;
+}
+.dates-statistics div span {
+  margin-top: 9px;
+  display: block;
+  color: #2d2d2d;
+  min-height: 20px;
+  -ms-text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+}
+.dates-statistics div .dates-statistics-newtop {
+  margin-top: 4px;
+  display: block;
+  color: #2d2d2d;
+  max-width: 310px;
+  overflow: hidden;
+  -ms-text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  max-height: 60px;
+}
+.dates-statistics .date-info {
+  margin-left: 0px;
+  margin-right: 0px;
+  font-family: "Segoe UI Semibold", "Tahoma", "Verdana", "Arial", "sans-serif";
+}
+.dates-statistics .visitors-info {
+  margin-left: 20px;
+}
+.button-faq {
+  display: none;
+}
+@media all and (min-width: 750px) {
+  .dates-statistics {
+    width: 44%;
+  }
+  .button-faq {
+    display: inline-block;
+  }
+}
+@media all and (min-width: 900px) {
+  .dates-statistics {
+    width: 48%;
+  }
+  .dates-statistics .row-label {
+    display: block;
+  }
+  .dates-statistics .date-info {
+    margin-left: 40px;
+    margin-right: 40px;
+  }
+  .dates-statistics .visitors-info {
+    margin-left: 0;
+  }
+  .button-faq {
+    display: inline-block;
+  }
+}
+@media all and (min-width: 1090px) {
+  .dates-statistics {
+    width: 52%;
+  }
+  .button-faq {
+    display: inline-block;
+  }
+}
+/*End List*/
+/*Pagination*/
+.content-pagination {
+  background-color: #dfe0e0;
+  height: 50px;
+  margin-top: 5px;
+}
+.content-pagination ul {
+  float: left;
+  display: inline-block;
+  margin-top: 16px;
+  list-style: none;
+}
+.content-pagination ul li {
+  float: left;
+  width: 45px;
+  height: 30px;
+}
+.content-pagination ul li:first-child {
+  margin-left: 25px;
+}
+.content-pagination ul li a {
+  font-family: "Segoe UI Semibold", "Tahoma", "Verdana", "Arial", "sans-serif";
+  font-size: 1.7em;
+  color: #9d9d9d;
+  line-height: 20px;
+}
+.content-pagination ul li a:hover {
+  color: #c43051;
+  font-size: 2.5em;
+}
+.content-pagination ul > .active > div > a,
+.content-pagination ul > .active > span {
+  color: #c43051;
+  font-size: 2.5em;
+}
+.content-arrows {
+  float: right;
+  line-height: 50px;
+}
+.content-arrows .margin-arrow {
+  margin-left: 5px;
+}
+.content-arrows .arrow-type {
+  float: left;
+  width: 70px;
+  text-align: center;
+}
+.content-arrows .arrow-type .arrow {
+  border: none;
+  background-color: transparent;
+  font-family: "Segoe UI Semibold", "Tahoma", "Verdana", "Arial", "sans-serif";
+  font-size: 1.7em;
+  color: #9d9d9d;
+}
+/*End Pagination*/
+/* List Buttons*/
+.button-box {
+  float: left;
+  max-width: 70px;
+  width: 6%;
+  height: 70px;
+  margin-right: 5px;
+  border: none;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+.button-info {
+  background-color: #9d9d9d;
+  background-image: url(Images/visitor_.png);
+}
+.button-info:hover {
+  background-color: #858585;
+}
+.button-edit {
+  background-color: #c43051;
+  background-image: url(Images/edit.png);
+}
+.button-edit:hover {
+  background-color: #ab2945;
+}
+.button-delete {
+  background-color: #801223;
+  background-image: url(Images/cancel.png);
+  margin-right: 0px;
+}
+.button-delete:hover {
+  background-color: #660e1b;
+}
+/*End List Buttons*/
+.list-no-articles {
+  height: 70px;
+  margin-top: 70px;
+  line-height: 70px;
+  color: #c43051;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+}

@@ -1,0 +1,91 @@
+﻿/*General fonts*/
+/*General*/
+/*Module*/
+/*List*/
+/*Search*/
+.content-input {
+  float: left;
+  /*display: inline-block;*/
+
+  height: 40px;
+  border: solid 1px;
+  border-color: #dadada;
+  background-color: #fff;
+  line-height: 35px;
+  padding-right: 10px;
+  margin-right: 30px;
+}
+input.input-search {
+  margin-bottom: 0px;
+  font-size: 1.07em;
+  padding-left: 8px;
+  padding-right: 26px;
+  width: 230px;
+  color: #9b9b9b;
+  background-color: #fff;
+  background-image: url(Images/search.png);
+  background-repeat: no-repeat;
+  background-position: right;
+  border: none;
+  border-radius: 0px;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+input.input-search:focus {
+  outline: none;
+  border: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+/*End Search*/
+/*Visitors*/
+.content-statistics {
+  float: left;
+  width: auto;
+}
+.subcontent-statistics {
+  float: left;
+  width: 80px;
+  text-align: right;
+  margin-right: 15px;
+}
+.words-statistics {
+  font-size: 1.07em;
+  color: #c43051;
+}
+.main-number-statistics {
+  float: left;
+  font-size: 3.4em;
+  line-height: 36px;
+  color: #c43051;
+}
+.refresh-button {
+  float: left;
+  width: 40px;
+  height: 40px;
+  border: none;
+  margin-left: 15px;
+  background-color: #c43051;
+  background-image: url(Images/refresh.png);
+  background-repeat: no-repeat;
+}
+.refresh-button:hover {
+  background-color: #ab2945;
+}
+/*End Visitors*/
+/*Buttons*/
+.padding-newvisitor {
+  float: right;
+  padding: 10px 25px 10px 25px;
+}
+@media all and (min-width: 800px) {
+  .padding-newvisitor {
+    margin-right: 4px;
+  }
+}
+@media all and (min-width: 1090px) {
+  .padding-newvisitor {
+    margin-right: 0;
+  }
+}
+/*End Buttons*/

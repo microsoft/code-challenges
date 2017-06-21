@@ -1,0 +1,10 @@
+﻿<div class="content-nav-buttons">
+    <nav class="btn-group" data-bind="foreach: router.visibleRoutes">
+        <div class="content-nav-button" data-bind="css: { active: isActive }">
+            <div class="icon"></div>
+            <a class="nav-button" data-bind="attr: { href: hash }, html: caption"></a>
+        </div>
+    </nav>
+    <div class="clear"></div>
+</div>
+<div class="clear"></div>

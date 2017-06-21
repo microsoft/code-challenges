@@ -1,0 +1,20 @@
+﻿<section class="content-pagination">
+    <ul data-bind="foreach: pages">
+        <li data-bind="css: { active: activated}">
+            <div data-bind="{if: clickable}">
+                <a href="#" data-bind="{text: number, click: $root.paginate}"></a>
+            </div>
+            <div data-bind="{if: !clickable}">...</div>
+        </li>
+    </ul>
+    <div class="content-arrows">
+        <div class="arrow-type">
+            <button class="arrow" data-bind="click: previousPage"><</button>
+        </div>
+        <div class="arrow-type margin-arrow">
+            <button class="arrow" data-bind="click: nextPage">></button>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+</section>

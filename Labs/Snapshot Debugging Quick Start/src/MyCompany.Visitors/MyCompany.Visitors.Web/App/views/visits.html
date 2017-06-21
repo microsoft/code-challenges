@@ -1,0 +1,59 @@
+﻿<section class="view">
+    <header class="margin-header-class">
+        <div class="content-input">
+            <input autofocus="autofocus" class="input-search" type="text" data-bind="value: filter, valueUpdate: 'afterkeydown'">
+        </div>
+        <div class="content-statistics">
+            <div class="subcontent-statistics">
+                <span class="words-statistics">You have visits</span>
+            </div>
+        </div>
+
+        <div class="subcontent-statistics subcontent-statistics-auto">
+            <span class="main-number-statistics" data-bind="text: visitsCount"></span>
+        </div>
+        <button class="refresh-button refresh-button-margin" data-bind="click: refresh">
+        </button>
+        <button class="button-primary padding-newvisitor" data-bind="click: add" title="New visit">
+            New visit
+        </button>
+        <div class="clear"></div>
+    </header>
+    <!-- ko if: !anyRecord()-->
+    <section class="list-no-articles">
+        No records found
+    </section>
+    <!-- /ko -->
+    <!-- ko if: anyRecord()-->
+    <section data-bind="foreach: visits">
+        <article class="article-of-list">
+            <div class="avatar">
+                <img class="avatar-img" data-bind="attr: { src: visitor().picture }" alt="visitor photo" />
+            </div>
+            <div class="dates">
+                <span class="name" data-bind="text: visitor().fullName"></span>
+                <br />
+                <span class="company-name" data-bind="text: visitor().company"></span>
+            </div>
+            <div class="dates-statistics">
+                <div>
+                    <span class="dates-statistics-newtop dates-newsize" data-bind="text: displayDate"></span>
+                    <span class="dates-statistics-newtop" data-bind="text: displayTime"></span>
+                </div>
+                <div class="date-info">
+                    <span class="dates-statistics-newtop dates-newsize multi-ellipsis" data-bind="text: comments"></span>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <button class="button-box button-clock" type="button" data-bind="click: $parent.openDetail" title="Open detail view"></button>
+            <button class="button-box button-edit" type="button" data-bind="click: $parent.edit" title="Edit visit"></button>
+            <button class="button-box button-delete" type="button" data-bind="click: $parent.deleteVisit" title="Delete visit"></button>
+            <div class="clear"></div>
+        </article>
+    </section>
+    <div class="clear"></div>
+
+    <!--ko compose: { view: 'pagination'} -->
+    <!--/ko-->
+    <!-- /ko -->
+</section>

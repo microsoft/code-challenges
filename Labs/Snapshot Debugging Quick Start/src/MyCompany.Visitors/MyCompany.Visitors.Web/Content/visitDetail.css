@@ -1,0 +1,127 @@
+﻿/*General fonts*/
+/*General*/
+/*Module*/
+/*List*/
+.modal-detail-newwidth {
+  width: 655px;
+}
+.box-avatar {
+  float: left;
+}
+.box-avatar img {
+  height: 226px;
+  width: 189px;
+}
+.box-info {
+  padding: 0 20px 20px 20px;
+  float: left;
+  width: 173px;
+  height: 206px;
+  background-color: #c43051;
+  color: #fff;
+}
+.box-info .info-up {
+  margin-top: 5px;
+}
+.box-info .info-up .box-name {
+  float: left;
+  font-family: "Segoe UI light", "Tahoma", "Verdana", "Arial", "sans-serif";
+  font-size: 1.5em;
+}
+.box-info .info-up .box-clock {
+  float: right;
+  width: 23px;
+  height: 23px;
+  margin-top: 8px;
+  background-image: url(Images/clock_pending.png);
+  background-repeat: no-repeat;
+}
+.box-info .info-middle ul {
+  list-style: none;
+}
+.box-info .info-middle ul li {
+  display: block;
+  margin-bottom: 5px;
+}
+.box-info .info-middle ul li span {
+  font-size: 1em;
+}
+.box-info .info-down {
+  height: 150px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  font-size: 1em;
+}
+.box-visite-to {
+  position: relative;
+  float: left;
+  margin-left: 5px;
+}
+.box-visite-to img {
+  height: 226px;
+  width: 168px;
+}
+.box-visite-to .visite-to-info {
+  position: absolute;
+  width: 130px;
+  background-color: #c43051;
+  bottom: 0px;
+  color: #fff;
+  font-size: 0.85em;
+  padding: 10px 20px;
+  opacity: 0.9;
+}
+.box-visite-to .visite-to-info span {
+  display: block;
+}
+.box-visite-to .visite-to-info .visite-to-name {
+  font-family: "Segoe UI light", "Tahoma", "Verdana", "Arial", "sans-serif";
+  font-size: 1.5em;
+  margin-top: -5px;
+}
+.box-visite-to .visite-to-info .visite-to-down .visite-to-company {
+  float: left;
+}
+.box-visite-to .visite-to-info .visite-to-down .visite-to-lync {
+  float: right;
+  width: 28px;
+  height: 27px;
+}
+.box-visite-to .visite-to-info .visite-to-down .visite-to-lync img {
+  width: 100%;
+  height: 100%;
+}
+@media all and (min-width: 1090px) {
+  .modal-detail-newwidth {
+    width: 970px;
+  }
+  .box-avatar img {
+    height: 335px;
+    width: 280px;
+  }
+  .box-info {
+    width: 280px;
+    height: 315px;
+  }
+  .box-info .info-up .box-name {
+    font-size: 2.14em;
+  }
+  .box-info .info-up .box-clock {
+    margin-top: 13px;
+  }
+  .box-info .info-middle ul li span {
+    font-size: 1.07em;
+  }
+  .box-visite-to img {
+    height: 335px;
+    width: 280px;
+  }
+  .box-visite-to .visite-to-info {
+    width: 240px;
+    font-size: 1em;
+  }
+  .box-visite-to .visite-to-info .visite-to-name {
+    font-size: 2.14em;
+  }
+}

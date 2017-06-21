@@ -1,0 +1,74 @@
+﻿<div class="modal-detail autoclose">
+    <div class="modal-detail-header">
+        <span class="title-modal">Visitor info</span>
+        <button class="button-close new-margin-top" data-bind="click: close"></button>
+    </div>
+    <div class="modal-detail-body" data-bind="with: visitorEntity">
+        <div class="modal-detail-left">
+            <img data-bind="attr: { src: bigPicture }" />
+        </div>
+        <div class="modal-detail-middle">
+            <ul>
+                <li><span data-bind="text: fullName"></span></li>
+                <li><span data-bind="text: company"></span></li>
+                <li><span data-bind="text: position"></span></li>
+                <li data-bind="if: personalId">
+                    <span>ID: </span>
+                    <span data-bind="text: personalId"></span>
+                </li>
+                <!-- ko if: lastVisit && lastVisit.visitId -->
+                <li >                    
+                    <span>
+                        <img class="last-visit-image" src="Content/Images/last-visit.png" />Last visit:
+                    </span>
+                    <span data-bind="ifnot: lastVisit">-</span>
+                    <span data-bind="text: lastVisit.displayDate"></span>
+                </li>
+                <!-- /ko -->
+                <!-- ko ifnot: lastVisit && lastVisit.visitId -->
+                <li >
+                    <span>
+                        <img class="last-visit-image" src="Content/Images/last-visit.png" />No visits yet
+                    </span>
+                </li>
+                <!-- /ko -->
+            </ul>
+        </div>
+
+        <script type="text/html" id="visit-template">
+            <li data-bind="with: employee">
+                <div class="photo-left">
+                    <img data-bind="attr: { src: picture }" />
+                </div>
+                <div class="photo-details">
+                    <div class="user-details">
+                        <span class="full-name" data-bind="text: fullName"></span>
+                        <span class="position" data-bind="text: position"></span>
+                    </div>
+                    <div class="time-details">
+                        <span class="time" data-bind="text: $parent.displayTime"></span>
+                        <div class="lync">
+                            <div data-bind="click: $root.openLync" title="Contact with lync"><img src="Content/Images/lync-ico.png" /></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </li>
+        </script>
+        <script type="text/html" id="no-visit-template">
+            <li>
+                <div class="photo-left">
+                    <img src="Content/Images/no-photo.jpg" />
+                </div>
+                <div class="photo-details no-pending">
+                    <span class="text-no-pending">No pending visit</span>
+                </div>
+            </li>
+        </script>
+        <div class="modal-detail-right">
+            <ul data-bind="template: { name: $parent.chooseVisitTemplate, foreach: $parent.visits }">
+            </ul>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>

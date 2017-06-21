@@ -1,0 +1,27 @@
+﻿<!-- Button to avoid ie to get signout as default action -->
+<input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;" />
+<div id="main-container">
+    <header>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span6">
+                    <a class="brand" href="#" data-bind="click: home"></a>
+                </div>
+                <div class="span6">
+                    <!--ko compose: {model: 'viewmodels/user'} -->
+                    <!--/ko-->
+                </div>
+            </div>
+            <!--ko compose: {view: 'nav' } -->
+            <!--/ko-->
+        </div>
+    </header>
+    <section id="content" class="main container-fluid">
+        <div class="loading-background" data-bind="visible: isBusy || router.isNavigating, compose: { view: 'loading' }">
+        </div>
+        <!--ko compose: {model: router.activeItem, 
+            afterCompose: router.afterCompose,
+            transition: 'entrance' } -->
+        <!--/ko-->
+    </section>
+</div>

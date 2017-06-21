@@ -1,0 +1,179 @@
+﻿/*General fonts*/
+/*General*/
+/*Module*/
+/*List*/
+.modal-detail {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  z-index: 1050;
+  background-color: #dfe0e0;
+  padding-bottom: 40px;
+  width: 660px;
+}
+.modal-detail .modal-detail-header {
+  padding: 10px 0 10px 40px;
+}
+.modal-detail .modal-detail-header .new-margin-top {
+  margin-top: 10px;
+}
+.modal-detail .modal-detail-body {
+  padding: 0 40px 0 40px;
+}
+.modal-detail .modal-detail-body .modal-detail-left {
+  float: left;
+}
+.modal-detail .modal-detail-body .modal-detail-left img {
+  height: 243px;
+  max-width: 181px;
+}
+.modal-detail .modal-detail-body .modal-detail-middle {
+  position: relative;
+  float: left;
+  width: 183px;
+  height: 223px;
+  padding-left: 20px;
+  padding-top: 20px;
+  background-color: #c43051;
+}
+.modal-detail .modal-detail-body .modal-detail-middle ul {
+  list-style: none;
+}
+.modal-detail .modal-detail-body .modal-detail-middle ul li {
+  display: block;
+  color: #fff;
+  font-size: 0.85em;
+  margin-bottom: 5px;
+}
+.modal-detail .modal-detail-body .modal-detail-middle ul li:first-child {
+  font-family: "Segoe UI light", "Tahoma", "Verdana", "Arial", "sans-serif";
+  font-size: 20px;
+  margin-top: -10px;
+}
+.modal-detail .modal-detail-body .modal-detail-middle ul li:last-child {
+  position: absolute;
+  bottom: 32px;
+}
+.modal-detail .modal-detail-body .modal-detail-middle ul li:last-child .last-visit-image {
+  margin-right: 10px;
+  margin-top: -19px;
+}
+.modal-detail .modal-detail-body .modal-detail-right {
+  float: left;
+  margin-left: 5px;
+  /*width: 285px;*/
+
+}
+.modal-detail .modal-detail-body .modal-detail-right ul {
+  list-style: none;
+  margin: 0;
+}
+.modal-detail .modal-detail-body .modal-detail-right ul li {
+  display: block;
+  color: #fff;
+  height: 58px;
+  margin-bottom: 5px;
+}
+.modal-detail .modal-detail-body .modal-detail-right ul li .photo-left {
+  float: left;
+  max-width: 54px;
+  max-height: 100%;
+}
+.modal-detail .modal-detail-body .modal-detail-right ul li .photo-details {
+  float: left;
+  width: 123px;
+  height: 54px;
+  padding-left: 5px;
+  background-color: #c43051;
+  overflow: hidden;
+}
+.modal-detail .modal-detail-body .modal-detail-right ul li .photo-details .user-details {
+  float: left;
+  width: 110px;
+  font-size: 1em;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-right: 5px;
+}
+.modal-detail .modal-detail-body .modal-detail-right ul li .photo-details .user-details .full-name {
+  font-size: 0.85em;
+}
+.modal-detail .modal-detail-body .modal-detail-right ul li .photo-details .user-details .position {
+  font-size: 0.85em;
+}
+.modal-detail .modal-detail-body .modal-detail-right ul li .photo-details .time-details {
+  float: right;
+  width: 50px;
+  margin-top: 7px;
+  padding-right: 5px;
+}
+.modal-detail .modal-detail-body .modal-detail-right ul li .photo-details .time-details .time {
+  font-size: 0.85em;
+}
+.modal-detail .modal-detail-body .modal-detail-right ul li .photo-details .time-details .lync {
+  float: left;
+  width: 40px;
+  margin-top: 13px;
+  margin-left: 3px;
+}
+.modal-detail .modal-detail-body .modal-detail-right ul li .photo-details.no-pending {
+  background-color: #a4a4a3;
+  line-height: 80px;
+}
+.modal-detail .modal-detail-body .modal-detail-right ul li .photo-details.no-pending .text-no-pending {
+  font-size: 1.28em;
+}
+.modal-detail .modal-detail-body .modal-detail-right ul li:last-child {
+  margin-bottom: 0px;
+}
+@media all and (min-width: 1090px) {
+  .modal-detail {
+    width: 911px;
+  }
+  .modal-detail .modal-detail-body .modal-detail-left img {
+    height: 335px;
+    max-width: 250px;
+  }
+  .modal-detail .modal-detail-body .modal-detail-middle {
+    width: 295px;
+    height: 315px;
+  }
+  .modal-detail .modal-detail-body .modal-detail-middle ul li {
+    font-size: 1.28em;
+  }
+  .modal-detail .modal-detail-body .modal-detail-middle ul li:first-child {
+    font-size: 30px;
+  }
+  .modal-detail .modal-detail-body .modal-detail-right ul li {
+    height: 80px;
+  }
+  .modal-detail .modal-detail-body .modal-detail-right ul li .photo-left {
+    max-width: 75px;
+  }
+  .modal-detail .modal-detail-body .modal-detail-right ul li .photo-details {
+    width: 170px;
+    height: 75px;
+  }
+  .modal-detail .modal-detail-body .modal-detail-right ul li .photo-details .user-details {
+    width: 110px;
+    font-size: 1em;
+  }
+  .modal-detail .modal-detail-body .modal-detail-right ul li .photo-details .user-details .full-name {
+    font-size: 1.28em;
+  }
+  .modal-detail .modal-detail-body .modal-detail-right ul li .photo-details .user-details .position {
+    font-size: 0.85em;
+  }
+  .modal-detail .modal-detail-body .modal-detail-right ul li .photo-details .time-details {
+    width: 50px;
+  }
+  .modal-detail .modal-detail-body .modal-detail-right ul li .photo-details .time-details .time {
+    font-size: 0.85em;
+  }
+  .modal-detail .modal-detail-body .modal-detail-right ul li .photo-details .time-details .lync {
+    width: 40px;
+  }
+  .modal-detail .modal-detail-body .modal-detail-right ul li .photo-details.no-pending .text-no-pending {
+    font-size: 1.28em;
+  }
+}

@@ -1,0 +1,54 @@
+﻿<div class="modal-detail modal-detail-newwidth autoclose">
+    <div class="modal-detail-header">
+        <span class="title-modal">Visit details</span>
+        <button class="button-close new-margin-top" data-bind="click: close"></button>
+    </div>
+    <div class="modal-detail-body" data-bind="with: visitEntity">
+        <div class="box-avatar">
+            <img data-bind="attr: { src: visitor().bigPicture }" />
+        </div>
+        <div class="box-info">
+            <div class="info-up">
+                <span class="box-name" data-bind="text: visitor().fullName"></span>
+                <div class="box-clock"></div>
+                <div class="clear"></div>
+            </div>
+            <div class="info-middle">
+                <ul>
+                    <li><span data-bind="text: visitor().company"></span></li>
+                    <li><span data-bind="text: visitor().position"></span></li>
+                    <li><span>Date: </span><span data-bind="text: displayDate"></span></li>
+                    <li><span>Time: </span><span data-bind="text: displayTime"></span></li>
+                </ul>
+            </div>
+            <!--<div class="info-down">
+                <span>CRM Data</span>
+                <ul>
+                    <li><span>Account Manager: </span><span data-bind="text: visitor().crmAccountManager"></span></li>
+                    <li><span>Active Leads: </span><span data-bind="text: visitor().crmLeads"></span></li>
+                </ul>
+            </div>-->
+            <div data-bind="visible: hasCar">
+                <span>License plate: </span>
+                <span data-bind="text: plate"></span>
+            </div>
+        </div>
+        <div class="box-visite-to" data-bind="with: employee">
+            <img data-bind="attr: { src: $root.employeePicture }" />
+            <div class="visite-to-info">
+                <span>Visits</span>
+                <span class="visite-to-name" data-bind="text: fullName"></span>
+                <div class="visite-to-down">
+                    <div class="visite-to-company">
+                        <span data-bind="text: position"></span>
+                    </div>
+                    <div class="visite-to-lync">
+                        <div data-bind="click: $root.openLync" title="Contact with lync" class="lync"><img src="Content/Images/lync-ico.png" /></div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>

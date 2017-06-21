@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/faqcss")
+    @Scripts.Render("~/scripts/modernizr")
+</head>
+<body>
+
+    <div class="container-fluid">
+
+        <header>
+            <div class="container-fluid faq-header">
+                <div class="row-fluid">
+                    <div class="span6">
+                        <a id="homeLogo" class="brand" href="#">
+                        </a>
+                    </div>
+                    <div class="span6">
+                        <section class="user-data">
+                            <a id="signout" href="#" title="sign out">
+                                <button class="button-primary button-right">Sign out</button>
+                            </a>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <section id="content" class="main container-fluid">
+            @RenderBody()
+        </section>
+
+    </div>
+
+    @Scripts.Render("~/scripts/faqvendor")
+    @Scripts.Render("~/scripts/mainLayout")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,34 @@
+﻿@using System.Web
+@using System.Web.Optimization
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MyCompany Visitors</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+
+    @Styles.Render("~/Content/css")
+    <script type="text/javascript">
+        if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
+            var msViewportStyle = document.createElement("style");
+            var mq = "@@-ms-viewport{width:auto!important}";
+            msViewportStyle.appendChild(document.createTextNode(mq));
+            document.getElementsByTagName("head")[0].appendChild(msViewportStyle);
+        }
+    </script>
+    @Scripts.Render("~/scripts/modernizr")
+</head>
+<body class="error-page">
+    <div id="applicationHost">
+        <div class="error-page-info">
+            <span class="error-page-title">Something went wrong</span>
+            <br>
+            <span class="error-page-info">:(</span>
+        </div>
+    </div>
+</body>
+</html>

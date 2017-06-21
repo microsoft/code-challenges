@@ -1,0 +1,40 @@
+﻿@import url('variables.less');
+
+.modal-msgBox {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    z-index: 1050;
+    width: 435px;
+    background-color: @second-background-color;
+
+    .modal-msgBox-header {
+        padding: 10px 0 10px 40px;
+    }
+
+    .modal-msgBox-body {
+        font-size: 1.14em;
+        text-align: center;
+        padding: 25px 20px 0 20px;
+
+        .msgBox-message {
+            font-size: 1.14em;
+            color: #191919;
+        }
+    }
+
+    .modal-msgBox-footer {
+        text-align: center;
+        padding: 30px 0 40px 0;
+
+        .button-primary {
+            text-transform: capitalize;
+            margin-left: 5px;
+        }
+
+        .button-primary-padding {
+            padding-left: 35px;
+            padding-right: 35px;
+        }
+    }
+}
