@@ -90,21 +90,15 @@ Before publishing, we need to add a database
     1. Click on the Services option on the left
     2. Click the plus button on the right next to SQL Database, and configure the database and server as needed
         1. Configure the SQL Server if needed 
-	
 	![](images/009.png)
 
         2. Configure the SQL Database, and be sure to set the Connection String Name to MyCompany.Visitors to update the connection string on publish 
-	
-![](images/010.png) 
-
-Then click OK to setup the creation of the Server and Database on publish
+![](images/010.png) Then click OK to setup the creation of the Server and Database on publish
 
     3. Then click Create to create the App Service Plan, App Service, Database Server and Database; and publish the app to Azure 
-    
     ![](images/011.png)
 
     4. If this is the first time that you've published you app, it will be automatically published after your resources are created.  Otherwise, click Publish to update your web app.
-    
     ![](images/012.png)
 
     5. Wait for the resources to be created and the app to publish, and then we can move on to triggering SnapShots in a live app in Azure.
