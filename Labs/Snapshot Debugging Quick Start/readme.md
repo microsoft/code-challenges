@@ -34,10 +34,9 @@ You have an Azure web app running in production.  The application allows users t
 
 And complete the sign in steps
 
-3. Open the project on the Desktop, either through the File menu option or through Start Page
-    1. Browse to C:\users\build\desktop\mycompany.visitors\
-    2. Open the solution MyCompany.Visitors.Server.sln
-4. Right click on the "MyCompany.Visitors.Web" project and select "Configure Application Insights
+3. In Visual Studio, select File | Open | Project/Solution and select the solution file **MyCompany.Visitors.Server.sln** (contained in the **src/MyCompany.Visitors/** folder in this repo).
+
+4. Right click on the **MyCompany.Visitors.Web** project and select "Configure Application Insights
 
  ![](images/002.png)
 
