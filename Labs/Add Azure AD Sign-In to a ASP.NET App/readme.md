@@ -21,7 +21,7 @@ This Quick Start Challenge is intended for developers who are familiar with C# a
 
 # Step 1: Navigate to the URL and complete the Code steps
 
-1. Register your application using the Application Registration Portal. The Sign in window has been loaded for you in the other window (Azure AD or Microsoft Account).
+1. Register your application using the **Microsoft Application Registration Portal** at https://apps.dev.microsoft.com/portal/register-app.
 2. Enter a name for your application and your email.
 3. Make sure the option to **Guided Setup** is checked.
 4. Follow the coding instructions.
