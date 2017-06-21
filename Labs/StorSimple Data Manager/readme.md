@@ -1,5 +1,7 @@
 # StorSimple Data Manager
 
+# **NOTE: This lab remains only as an artifact from the Build 2017 QuickStarts. It requires a specially configured StorSimple device in order to be completed. The lab contents remain here for archival and reference purposes only.**
+
 # Overview
 
 Microsoft Azure StorSimple meets the needs of performance- and capacity-centric applications while giving you a complete hybrid cloud storage solution for enterprises. In this quick start, you will learn how to use the StorSimple Data Manager to use the data that lies in your StorSimple device with Azure services in the cloud.
