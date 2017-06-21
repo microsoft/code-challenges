@@ -85,40 +85,41 @@ This Quick Start Challenge is intended for developers who are familiar with C# a
 
 12. Press **F5** to build and run the application. When the app loads, wait a few seconds and select **Debug | Stop Debugging**. We want the first session load to get recorded before we move on, but don't need to do anything else in the app.
 
-# Task 3: Adding event tracking to the app
+# Task 4: Adding event tracking to the app
 
 1. It may take a while for the analytics to begin to appear in Mobile Center, so we'll move on to the next task and add in some event tracking.
 2. Immediately after the **MobileCenter** line of code added previously, add the line of code below. It's a relatively straightforward request to track a text event. Note that you could also add a dictionary parameter after the text name to provide a set of parameters to track along with the event itself.
 
-3.
-  1. Analytics.TrackEvent("Session was started");
+```
+Analytics.TrackEvent("Session was started");
+```
 
-4. Press **F5** to build and run the application again. Keep in mind that while we're using Mobile Center for an Android/Xamarin application, Mobile Center supports every major platform out there. As a result, you should check out the guidance for integrating other platform combinations with the Mobile Center events guidance at [https://docs.microsoft.com/en-us/mobile-center/analytics/understand-events](https://docs.microsoft.com/en-us/mobile-center/analytics/understand-events).
-5. Return to the Mobile Center browser window. Select the **Analytics** tab.
+3. Press **F5** to build and run the application again. Keep in mind that while we're using Mobile Center for an Android/Xamarin application, Mobile Center supports every major platform out there. As a result, you should check out the guidance for integrating other platform combinations with the Mobile Center events guidance at [https://docs.microsoft.com/en-us/mobile-center/analytics/understand-events](https://docs.microsoft.com/en-us/mobile-center/analytics/understand-events).
+4. Return to the Mobile Center browser window. Select the **Analytics** tab.
 
  ![](images/013.png)
 
-6. By now, the first user session should have been processed for display. If not, try refreshing the window every few seconds until it appears. Note that you can scroll down the page to get insight about the sessions, devices, geographies, and languages of your users, as well as reporting of the breakdown of devices per version.
+5. By now, the first user session should have been processed for display. If not, try refreshing the window every few seconds until it appears. Note that you can scroll down the page to get insight about the sessions, devices, geographies, and languages of your users, as well as reporting of the breakdown of devices per version.
 
  ![](images/014.png)
 
-7. Select **Analytics | Events**.
+6. Select **Analytics | Events**.
 
  ![](images/015.png)
 
-8. If the events haven't started showing up yet, try refreshing the browser. If you run the application multiple times, then the count should increment each time you do. (Want a free t-shirt? Take a screenshot of this page and follow the instructions at the end of the lab.)
+7. If the events haven't started showing up yet, try refreshing the browser. If you run the application multiple times, then the count should increment each time you do. (Want a free t-shirt? Take a screenshot of this page and follow the instructions at the end of the lab.)
 
  ![](images/016.png)
 
-9. Select **Analytics | Log flow**.
+8. Select **Analytics | Log flow**.
 
  ![](images/017.png)
 
-10. Log Flow will show you in real time what is being received by the backend. While the transmission may be delayed by a few seconds, this is a great place to get immediate notifications about sessions tarts, crashes, and events.
+9. Log Flow will show you in real time what is being received by the backend. While the transmission may be delayed by a few seconds, this is a great place to get immediate notifications about sessions tarts, crashes, and events.
 
  ![](images/018.png)
 
-11. Want a sweet new **Mobile Center t-shirt**? Take a screen shot of your successful events page and tweet it out to **#build2017 @MobileCenter**. Then show the booth staff and they'll hook you up!
+10. Want a sweet new **Mobile Center t-shirt**? Take a screen shot of your successful events page and tweet it out to **#build2017 @MobileCenter**. Then show the booth staff and they'll hook you up!
 
  ![](images/019.png)
 
