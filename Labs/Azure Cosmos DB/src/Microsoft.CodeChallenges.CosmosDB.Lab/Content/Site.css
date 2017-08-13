@@ -714,3 +714,14 @@ img.img-select-all {
     padding: 8px 10px;
     font-family: "Segoe UI Light","Segoe UI",Tahoma,Arial,sans-serif;
 }
+
+.fullareatext {
+    width: 100%;
+    height: 100%;
+    resize: none;
+    max-width: 800px;
+}
+
+.validation-summary-errors {
+    color: red;
+}

@@ -14,12 +14,11 @@ namespace Microsoft.CodeChallenges.CosmosDB.Lab.Controllers
 {
     public class HomeController : Controller
     {
-        private const string WarmupQueryOne = "SELECT * FROM c";
-        private const string WarmupQueryTwo = "SELECT COUNT(1) FROM c";
         private static readonly string[] _availableRegions = {LocationNames.WestUS, LocationNames.CentralUS, LocationNames.NorthEurope, LocationNames.SoutheastAsia};
 
         private static Dictionary<string, DocumentClient> _readonlyClients;
-        private static readonly FeedOptions _feedOptions = new FeedOptions {MaxItemCount = 10, EnableScanInQuery = true};
+
+        private static readonly FeedOptions FeedOptions = new FeedOptions {MaxItemCount = 10, EnableScanInQuery = true};
 
         public async Task<ActionResult> Index()
         {
@@ -46,12 +45,6 @@ namespace Microsoft.CodeChallenges.CosmosDB.Lab.Controllers
                         PreferredLocations = {region}
                     };
                     var client = new DocumentClient(dbEndpoint, dbKey, policy);
-                    tasks.Add(Task.Run(async () =>
-                    {
-                        await client.OpenAsync();
-                        await WarmupConnection(client);
-                    }));
-
                     clients.Add(region, client);
                 }
                 _readonlyClients = clients;
@@ -63,20 +56,6 @@ namespace Microsoft.CodeChallenges.CosmosDB.Lab.Controllers
                 return null;
             }
             return _readonlyClients[locationName];
-        }
-
-        private async Task WarmupConnection(IDocumentClient client)
-        {
-            var collectionUri = GetDocumentCollectionUri();
-            var query = client.CreateDocumentQuery(collectionUri, WarmupQueryOne, _feedOptions).AsDocumentQuery();
-            await query.ExecuteNextAsync();
-            query = client.CreateDocumentQuery(collectionUri, WarmupQueryTwo, _feedOptions).AsDocumentQuery();
-            await query.ExecuteNextAsync();
-        }
-
-        private static Uri GetDocumentCollectionUri()
-        {
-            return UriFactory.CreateDocumentCollectionUri(ConfigurationManager.AppSettings["CosmosDB:DatabaseName"], ConfigurationManager.AppSettings["CosmosDB:CollectionName"]);
         }
 
         public async Task<ActionResult> Query(string query, string locationName)
