@@ -38,7 +38,7 @@ rendered automatically into the JSON response panel. There are arrows to navigat
 
 ## Configure the lab
 
-Open the Microsoft.CodeChallenges.DocumentDB.Lab.sln in /src/Microsoft.CodeChallenges.DocumentDB.Lab and open `web.config`
+Open the Microsoft.CodeChallenges.CosmosDB.Lab.sln in /src/Microsoft.CodeChallenges.CosmosDB.Lab and open `web.config`
 
 Copy and paste all the DocumentDB:: settings from the Seed Project to this web.config
 
