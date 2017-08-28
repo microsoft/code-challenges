@@ -93,8 +93,10 @@ It is also being used to Upsert a document
 
 ```csharp
 // uri = _collectionUri
-await client.UpsertDocumentAsync(uri, document);
+await client.UpsertDocumentAsync(uri, document, GetEtagRequestOptions(document));
 ```
+
+> **Note** The GetEtagRequestionOptions method will be explained further on.
 
 Since Cosmos DB is schema less, you can insert / update any object. You can even insert different objects with different schemas into the same collection!
 
@@ -135,7 +137,26 @@ This will accept any JSON object and insert it into Cosmos DB. Let's give it a g
 
 ![](./images/data-saved.png)
 
-Did you notice how Cosmos DB added some extra fields for you? Such as Id, Etag etc. This is so you have a unique id to refer to your document and the etag is for concurrency.
+Did you notice how Cosmos DB added some extra fields for you? Such as Id, Etag etc. This is so you have a unique id to refer to your document and the etag is for concurrency. Copy this output (with the id and etag) and paste it back into the input box and make a change to any property (apart from id and etag). It has now done an *update* rather than an insert. If you look closely at the output you will notice that Id is the same, however _etag is now changed. (do not copy this output and we can test the concurrency test).
+
+Repaste the json you copied earlier into the input box and click Insert It! It will come back with an error.
+
+![](./images/concurrency.png)
+
+This is becuase the etag is now out of date and Cosmos DB assumes you are working with an old version of the record.
+
+Notice how we pass the concurrency check condition with the upsert request.
+
+```csharp
+return new RequestOptions
+{
+    AccessCondition = new AccessCondition
+    {
+        Type = AccessConditionType.IfMatch,
+        Condition = etag.ToString()
+    }
+};
+```
 
 If you copy the output and were to make some changes and "reinsert" it. It would actually do an update since you passed the id and etag back through with the document object.
 

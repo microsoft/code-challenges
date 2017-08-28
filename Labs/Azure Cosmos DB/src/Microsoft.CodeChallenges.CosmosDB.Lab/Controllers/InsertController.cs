@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Microsoft.CodeChallenges.CosmosDB.Lab.Controllers
 {
@@ -26,10 +27,8 @@ namespace Microsoft.CodeChallenges.CosmosDB.Lab.Controllers
             var file = System.IO.File.ReadAllText(Path.Combine(filePath, @"Seed/Tweets.json"));
             var documents = JsonConvert.DeserializeObject<dynamic[]>(file);
             var (client, uri) = await GetDocumentClient();
-            foreach (var document in documents)
-            {
+            foreach (dynamic document in documents)
                 await client.UpsertDocumentAsync(uri, document);
-            }
             return View();
         }
 
@@ -43,19 +42,22 @@ namespace Microsoft.CodeChallenges.CosmosDB.Lab.Controllers
 
             try
             {
-                object document = JsonConvert.DeserializeObject(insertData);
+                var document = JsonConvert.DeserializeObject<JObject>(insertData);
                 if (document != null)
                     try
                     {
                         var (client, uri) = await GetDocumentClient();
-                        var documentResponse = await client.UpsertDocumentAsync(uri, document);
-                        ViewBag.SavedDocument = JsonConvert.SerializeObject(documentResponse.Resource, Formatting.Indented);
+                        dynamic documentResponse =
+                            await client.UpsertDocumentAsync(uri, document, GetEtagRequestOptions(document));
+                        ViewBag.SavedDocument =
+                            JsonConvert.SerializeObject(documentResponse.Resource, Formatting.Indented);
                         ViewBag.Success = "JSON successfully Saved to Cosmos DB!";
                     }
-                    catch
+                    catch (Exception ex)
                     {
                         ModelState.AddModelError("", "Failed to create document in Cosmos DB");
                         ViewBag.InsertData = insertData;
+                        ViewBag.SavedDocument = ex.Message;
                     }
             }
             catch
@@ -64,6 +66,21 @@ namespace Microsoft.CodeChallenges.CosmosDB.Lab.Controllers
                 ViewBag.InsertData = insertData;
             }
             return View();
+        }
+
+        private static RequestOptions GetEtagRequestOptions(JObject document)
+        {
+            JToken etag;
+            if (document.TryGetValue("_etag", out etag))
+                return new RequestOptions
+                {
+                    AccessCondition = new AccessCondition
+                    {
+                        Type = AccessConditionType.IfMatch,
+                        Condition = etag.ToString()
+                    }
+                };
+            return null;
         }
 
         private async Task<(DocumentClient, Uri)> GetDocumentClient()
@@ -84,7 +101,7 @@ namespace Microsoft.CodeChallenges.CosmosDB.Lab.Controllers
 
                 try
                 {
-                    await _client.CreateUserDefinedFunctionAsync(_collectionUri, new UserDefinedFunction()
+                    await _client.CreateUserDefinedFunctionAsync(_collectionUri, new UserDefinedFunction
                     {
                         Id = "displayDate",
                         Body = @"function displayDate(inputDate) {
