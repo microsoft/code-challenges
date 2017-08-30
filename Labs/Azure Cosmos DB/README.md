@@ -420,13 +420,13 @@ Inspect the results and you will see for each hashtag object in the array of eac
 ![](./images/join2.png)
 
 
-Now that we know how to join to our child array we can use it for filtering. Lets find all other hashtags that have been used along with the build hashtags (#MSBuild, #Azure, #CosmosDB):
+Now that we know how to join to our child array we can use it for filtering. Lets find all other hashtags that have been used along with the known hashtags (#Azure, #CosmosDB):
 
 ```SQL
 SELECT hashtags
 FROM tweets
 JOIN hashtags IN tweets.Hashtags
-WHERE hashtags.text NOT IN ("MSBuild", "MsBuild", "CosmosDB", "Azure")
+WHERE hashtags.text NOT IN ("CosmosDB", "Azure")
 ```
 
 ![](./images/filter2.png)
